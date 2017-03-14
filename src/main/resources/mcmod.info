@@ -1,7 +1,7 @@
 [
 {
-  "modid": "tenergestics",
-  "name": "Tinkers Energestics",
+  "modid": "tenergistics",
+  "name": "Tinkers Energistics",
   "description": "Build machines on your table from your OP materials!",
   "version": "${version}",
   "mcversion": "${mcversion}",

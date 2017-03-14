@@ -1,5 +1,5 @@
 {
     "textures": {
-        "layer0": "tenergistics:items/parts/machine_casing"
+        "all": "tenergistics:items/parts/machine_casing"
     }
 }

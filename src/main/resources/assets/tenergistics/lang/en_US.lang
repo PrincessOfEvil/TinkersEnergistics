@@ -1,11 +1,9 @@
-################
-#    Blocks    #
-################
+# Tools
+tile.machine_furnace.name=Furnace
+item.machine_furnace.name=Furnace
+item.machine_furnace.desc=Smelts ores and food. Requires a power source.
 
-tile.tenergistics.machine_furnace.name=Existential Nothing
-
-################
-#    Items     #
-################
-
-item.tenergistics.machine_furnace.name=Existential Nothing
+# Toolparts
+item.machine_casing.name=Machine Casing
+item.machine_gearbox.name=Gearbox
+item.machine_heater.name=Heat Unit

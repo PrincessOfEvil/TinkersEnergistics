@@ -2,11 +2,15 @@ package princess.tinkersenergistics.library;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import princess.tinkersenergistics.TEnergistics;
+import princess.tinkersenergistics.TinkersEnergistics;
 import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public class MachineCore extends ToolCore
 	{
@@ -14,7 +18,7 @@ public class MachineCore extends ToolCore
 	public MachineCore(PartMaterialType... requiredComponents)
 		{
 		super(requiredComponents);
-	    addCategory(TEnergistics.TIE_MACHINE);
+		addCategory(TinkersEnergistics.TIE_MACHINE);
 		}
 		
 	@Override
@@ -22,17 +26,23 @@ public class MachineCore extends ToolCore
 		{
 		return buildDefaultTag(materials).get();
 		}
-	
+		
 	
 	// Not a weapon
 	@Override
 	public float damagePotential()
 		{
-		return 0.05f;
+		return 0f;
+		}
+	public float damageCutoff()
+		{
+		return 0.0f;
 		}
 	@Override
 	public double attackSpeed()
 		{
-		return 4d;
+		return 4;
 		}
+	  public void reduceDurabilityOnHit(ItemStack stack, EntityPlayer player, float damage)
+		  {}
 	}
