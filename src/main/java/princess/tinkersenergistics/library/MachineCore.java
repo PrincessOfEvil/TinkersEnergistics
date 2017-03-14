@@ -7,10 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import princess.tinkersenergistics.TinkersEnergistics;
 import slimeknights.tconstruct.library.materials.Material;
-import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tools.ToolCore;
-import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public class MachineCore extends ToolCore
 	{
