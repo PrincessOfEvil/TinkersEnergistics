@@ -4,11 +4,13 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.eventbus.Subscribe;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import princess.tinkersenergistics.block.BlockMachine;
 import princess.tinkersenergistics.common.ConfigHandler;
 import princess.tinkersenergistics.library.MachinePart;
 import princess.tinkersenergistics.machines.MachineFurnace;
@@ -23,6 +25,13 @@ import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.tools.ToolPart;
 
+/**For the brave souls who get this far: You are the chosen ones,
+*  the valiant knights of programming who toil away, without rest,
+*  fixing our most awful code. To you, true saviors, kings of men,
+*  I say this: never gonna give you up, never gonna let you down,
+*  never gonna run around and desert you. Never gonna make you cry,
+*  never gonna say goodbye. Never gonna tell a lie and hurt you.
+*/
 @Pulse(id = ModInfo.MODID, description = ModInfo.DESCRIPTION, forced = ModInfo.TRUE, modsRequired = ModInfo.DEPEND)
 public class TinkersEnergistics extends AbstractTinkerPulse
 	{
@@ -31,28 +40,33 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 	
 	public static final Category	TIE_MACHINE	= new Category("tie_machine");
 	
+	@SuppressWarnings("unused")
+	private static final String		One = "CHAOS";
+	
 	public static ToolCore			furnace;
 	/*
-	public static ToolCore				crusher;
+	public static ToolCore			crusher;
 	
-	public static ToolCore				converter;
+	public static ToolCore			converter;
 	*/
 	
 	public static ToolPart			machineCasing;
 	public static ToolPart			machineGearbox;
 	public static ToolPart			machineHeater;
 	/*
-	public static ToolPart				machineMill;
+	public static ToolPart			machineMill;
 	
-	public static ToolPart				machineFirebox;
-	public static ToolPart				machineExchanger;
-	public static ToolPart				machineCoil;
+	public static ToolPart			machineFirebox;
+	public static ToolPart			machineExchanger;
+	public static ToolPart			machineCoil;
 	
-	public static Item					carbonBall;
+	public static Item				carbonBall;
 	*/
+	public static Block				machineBlock;
 	
 	private void registerMachines()
 		{
+		machineBlock = new BlockMachine();
 		furnace = registerTool(new MachineFurnace(), "machine_furnace");
 		}
 		
