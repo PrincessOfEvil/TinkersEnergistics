@@ -2,7 +2,10 @@ package princess.tinkersenergistics.library;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import princess.tinkersenergistics.TinkersEnergistics;
@@ -24,8 +27,14 @@ public class MachineCore extends ToolCore
 		{
 		return buildDefaultTag(materials).get();
 		}
-		
 	
+	@Nonnull
+	@Override
+	public EnumRarity getRarity(ItemStack stack)
+		{
+		return TinkersEnergistics.SKAIAN;
+		}
+		
 	// Not a weapon
 	@Override
 	public float damagePotential()
@@ -41,6 +50,6 @@ public class MachineCore extends ToolCore
 		{
 		return 4;
 		}
-	  public void reduceDurabilityOnHit(ItemStack stack, EntityPlayer player, float damage)
-		  {}
+	public void reduceDurabilityOnHit(ItemStack stack, EntityPlayer player, float damage)
+		{}
 	}

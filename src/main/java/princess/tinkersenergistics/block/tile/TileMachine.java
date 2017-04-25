@@ -1,165 +1,113 @@
 package princess.tinkersenergistics.block.tile;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import princess.tinkersenergistics.capability.MachineItemHandler;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
-public class TileMachine extends TileEntity implements ISidedInventory
+// This class is mostly boilerplate. The resulting tile can be used as a furnace tho.
+public class TileMachine extends TileEntity implements ITickable
 	{
-	private ItemStack	parentItem;
+	private ItemStack			parentItem	= null;
 	
-	private int			absoluteSlotLimit	= 9;
-	private int			inputSlotLimit		= 9;
-	private int			outputSlotLimit		= 9;
-	private String		inputSlots			= "InputSlots";
-	private String		outputSlots			= "OutputSlots";
+	private String[]			tags		= { "InputSlots", "OutputSlots", "CookTime", "FireTicks", "Inventory", "ParentItem" };
 	
-	/**
-	First axis:
-	0 - processing input;
-	1 - processing output;
-	2 - power input;
-	Second axis is the internal slot limit.
-	There is no third axis. Move along.
-	 */
-	private ItemStack[]	inventory[]			= new ItemStack[3][absoluteSlotLimit];
+	private MachineItemHandler	inventory	= new MachineItemHandler();
+	
+	private int					cookTime	= 0;
+	private int					fireTicks	= 0;
 	
 	@Override
-	public int getSizeInventory()
+	public void update()
 		{
-		return inputSlotLimit + outputSlotLimit + 1;
+		if (!this.worldObj.isRemote)
+			{
+			if (canCraft()) craft();
+			
+			}
 		}
 		
-	@Override
-	public ItemStack getStackInSlot(int index)
+	/** THE method to replace.*/
+	private ItemStack craftingResult(ItemStack stack)
 		{
-//		if (index < inputSlotLimit) return inventory[0][index];
-//		if (index < inputSlotLimit + outputSlotLimit) return inventory[1][index-inputSlotLimit];
-//		return inventory[2][0];
-		// TODO Auto-generated method stub
-		return null;
+		return FurnaceRecipes.instance().getSmeltingResult(stack);
 		}
 		
-	@Override
-	public ItemStack decrStackSize(int index, int count)
+	private boolean canCraft()
 		{
-		// TODO Auto-generated method stub
-		return null;
-		}
+		ItemStack item = inventory.extractItemProcessing(1, true);
 		
-	@Override
-	public ItemStack removeStackFromSlot(int index)
-		{
-		// TODO Auto-generated method stub
-		return null;
-		}
+		if (item == null) return false;
 		
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack)
-		{
-		// TODO Auto-generated method stub
+		ItemStack stack = craftingResult(item);
 		
-		}
+		if (stack == null) return false;
+		if (inventory.insertItemProcessing(stack, true) == null) return true;
 		
-	@Override
-	public int getInventoryStackLimit()
-		{
-		return 64;
-		}
-		
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-		{
-		// TODO Auto-generated method stub
 		return false;
 		}
 		
-	@Override
-	public void openInventory(EntityPlayer player)
+	private void craft()
 		{
-		// TODO Auto-generated method stub
+		fireTicks = 0;
+		ItemStack item = inventory.extractItemProcessing(1, false);
+		inventory.insertItemProcessing(craftingResult(item), false);
 		
+		markDirty();
 		}
 		
-	@Override
-	public void closeInventory(EntityPlayer player)
+	/* here come dat boi!! */
+	
+	public void readFromNBT(NBTTagCompound compound)
 		{
-		// TODO Auto-generated method stub
+		super.readFromNBT(compound);
 		
+		cookTime = compound.getInteger(tags[2]);
+		fireTicks = compound.getInteger(tags[3]);
+		
+		inventory.deserializeNBT(compound.getCompoundTag(tags[4]));
+		
+		if (compound.hasKey(tags[5])) setParentItem(ItemStack.loadItemStackFromNBT(compound.getCompoundTag(tags[5])));
 		}
 		
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack stack)
+	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 		{
-		// TODO Auto-generated method stub
-		return false;
+		super.writeToNBT(compound);
+		
+		compound.setInteger(tags[2], cookTime);
+		compound.setInteger(tags[3], fireTicks);
+		
+		compound.setTag(tags[4], inventory.serializeNBT());
+		
+		if (parentItem != null) compound.setTag(tags[5], parentItem.writeToNBT(new NBTTagCompound()));
+		
+		return compound;
 		}
 		
-	@Override
-	public int getField(int id)
-		{
-		// TODO Auto-generated method stub
-		return 0;
-		}
-		
-	@Override
-	public void setField(int id, int value)
-		{
-		// TODO Auto-generated method stub
-		
-		}
-		
-	@Override
-	public int getFieldCount()
-		{
-		// TODO Auto-generated method stub
-		return 0;
-		}
-		
-	@Override
-	public void clear()
-		{
-		// TODO Auto-generated method stub
-		
-		}
-		
-	@Override
 	public String getName()
 		{
-		// TODO Auto-generated method stub
-		return null;
+		return parentItem == null ? parentItem.getDisplayName() : "container.furnace";
 		}
 		
 	@Override
-	public boolean hasCustomName()
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
 		{
-		// TODO Auto-generated method stub
-		return false;
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) { return true; }
+		return super.hasCapability(capability, facing);
 		}
 		
+	@SuppressWarnings("unchecked")
 	@Override
-	public int[] getSlotsForFace(EnumFacing side)
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 		{
-		// TODO Auto-generated method stub
-		return null;
-		}
-		
-	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
-		{
-		// TODO Auto-generated method stub
-		return false;
-		}
-		
-	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
-		{
-		// TODO Auto-generated method stub
-		return false;
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) { return (T) inventory; }
+		return super.getCapability(capability, facing);
 		}
 		
 	public ItemStack getParentItem()
@@ -171,7 +119,8 @@ public class TileMachine extends TileEntity implements ISidedInventory
 		{
 		this.parentItem = parentItem;
 		NBTTagCompound tag = TagUtil.getTagSafe(parentItem);
-		if (tag.getInteger(inputSlots) > 0) inputSlotLimit = tag.getInteger(inputSlots);
-		if (tag.getInteger(outputSlots) > 0) outputSlotLimit = tag.getInteger(outputSlots);
+		if (tag.getInteger(tags[0]) > 0) inventory.setInputSlotLimit(tag.getInteger(tags[0]));
+		if (tag.getInteger(tags[1]) > 0) inventory.setOutputSlotLimit(tag.getInteger(tags[1]));
+		if (tag.getInteger(tags[2]) > 0) cookTime = tag.getInteger(tags[2]);
 		}
 	}

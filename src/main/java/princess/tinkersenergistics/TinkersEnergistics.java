@@ -5,12 +5,16 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.eventbus.Subscribe;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import princess.tinkersenergistics.block.BlockMachine;
+import princess.tinkersenergistics.block.tile.TileMachine;
 import princess.tinkersenergistics.common.ConfigHandler;
 import princess.tinkersenergistics.library.MachinePart;
 import princess.tinkersenergistics.machines.MachineFurnace;
@@ -41,7 +45,7 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 	public static final Category	TIE_MACHINE	= new Category("tie_machine");
 	
 	@SuppressWarnings("unused")
-	private static final String		One = "CHAOS";
+	private static final String		One			= "CHAOS";
 	
 	public static ToolCore			furnace;
 	/*
@@ -66,7 +70,9 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 	
 	private void registerMachines()
 		{
-		machineBlock = new BlockMachine();
+		machineBlock = registerBlock(new BlockMachine(), "machine_block");
+		registerTE(TileMachine.class, "machine_tile");
+		
 		furnace = registerTool(new MachineFurnace(), "machine_furnace");
 		}
 		
@@ -121,6 +127,12 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 	@Subscribe
 	public void postInit(FMLPostInitializationEvent event)
 		{
+		/*
+		if (Loader.isModLoaded("tconstruct"))
+			{
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.getByNameOrId("tconstruct:book"),1,0),"ingotIron","ingotIron"));
+			}
+		*/
 		proxy.postInit(event);
 		}
 		
@@ -161,4 +173,7 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 			return false;
 			}
 		}
+		
+	public static final EnumRarity	SKAIAN	= EnumHelper.addRarity("tie_skaian", TextFormatting.GREEN, "Skaian");
+	public static final EnumRarity	DIAMOND	= EnumHelper.addRarity("tie_diamond", TextFormatting.AQUA, "Diamond");
 	}
