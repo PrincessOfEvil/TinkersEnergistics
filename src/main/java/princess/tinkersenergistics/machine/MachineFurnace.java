@@ -1,4 +1,4 @@
-package princess.tinkersenergistics.machines;
+package princess.tinkersenergistics.machine;
 
 import princess.tinkersenergistics.TinkersEnergistics;
 import princess.tinkersenergistics.library.MachineCore;

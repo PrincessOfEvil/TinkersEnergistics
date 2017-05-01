@@ -1,6 +1,6 @@
 {
     "textures": {
-        "layer0": "tenergistics:items/tools/null",
+        "layer0": "tenergistics:items/tools/machine_gearbox",
         "layer1": "tenergistics:items/tools/machine_casing",
         "layer2": "tenergistics:items/tools/machine_heater"
     }

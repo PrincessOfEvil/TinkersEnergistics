@@ -13,11 +13,13 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import princess.tinkersenergistics.block.BlockMachine;
 import princess.tinkersenergistics.block.tile.TileMachine;
 import princess.tinkersenergistics.common.ConfigHandler;
+import princess.tinkersenergistics.container.GuiHandler;
 import princess.tinkersenergistics.library.MachinePart;
-import princess.tinkersenergistics.machines.MachineFurnace;
+import princess.tinkersenergistics.machine.MachineFurnace;
 import princess.tinkersenergistics.proxy.CommonProxy;
 import slimeknights.mantle.pulsar.pulse.Pulse;
 import slimeknights.tconstruct.common.ModelRegisterUtil;
@@ -111,7 +113,7 @@ public class TinkersEnergistics extends AbstractTinkerPulse
 			registerStencil(toolPartPattern.getLeft(), toolPartPattern.getRight());
 			}
 			
-		// NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(ModRegistryHelper.INSTANCE, new GuiHandler());
 		
 		proxy.preInit(event);
 		}

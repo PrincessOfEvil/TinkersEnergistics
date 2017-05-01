@@ -9,16 +9,19 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import princess.tinkersenergistics.ModInfo;
+import princess.tinkersenergistics.ModRegistryHelper;
 import princess.tinkersenergistics.block.tile.TileMachine;
 import slimeknights.tconstruct.library.TinkerRegistry;
 
 public class BlockMachine extends BlockContainer
 	{
+	private static int GUI_ID = 1;
+	
 	public BlockMachine()
 		{
 		super(Material.IRON);
@@ -31,6 +34,19 @@ public class BlockMachine extends BlockContainer
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 		{
 		return new TileMachine();
+		}
+		
+	@Override
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+		{
+		if (world.isRemote) return true;
+		
+		TileEntity te = world.getTileEntity(pos);
+		if (!(te instanceof TileMachine)) return false;
+		
+		player.openGui(ModRegistryHelper.INSTANCE, GUI_ID, world, pos.getX(), pos.getY(), pos.getZ());
+		
+		return true;
 		}
 		
 	@Override

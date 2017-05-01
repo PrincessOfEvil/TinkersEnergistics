@@ -3,27 +3,36 @@ package princess.tinkersenergistics.capability;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import princess.tinkersenergistics.block.tile.TileMachine;
 
-public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTagCompound>
+public class MachineItemHandler implements IItemHandler, IItemHandlerModifiable, INBTSerializable<NBTTagCompound>
 	{
-	private static final int	absoluteSlotLimit	= 9;
-	private static final int	eternalSlotLimit	= 18;
-	private static final int	ultimateSlotLimit	= 19;
+	public static final int	absoluteSlotLimit	= 9;
+	public static final int	eternalSlotLimit	= 18;
+	public static final int	ultimateSlotLimit	= 19;
 	
-	private int					inputSlotLimit		= 2;
-	private int					outputSlotLimit		= 2;
+	public int				inputSlotLimit		= 7;
+	public int				outputSlotLimit		= 7;
 	
 	/**
 	0-8 - processing input;
 	9-17 - processing output;
 	18 - power input.
 	 */
-	private ItemStack			inventory[]			= new ItemStack[ultimateSlotLimit];
+	private ItemStack		inventory[]			= new ItemStack[ultimateSlotLimit];
+	private TileMachine		parentTile;
 	
+	public MachineItemHandler(TileMachine tileMachine)
+		{
+		parentTile = tileMachine;
+		}
+		
 	@Override
 	public NBTTagCompound serializeNBT()
 		{
@@ -72,16 +81,16 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				insertItem(storage[i], false);
 				}
 			}
-		
+			
 		int j = 0;
 		for (int i = 0; i < absoluteSlotLimit; i++)
 			{
-			if (extractItemProcessing(i, amount, true) != null) j = i; 
+			if (extractItemProcessing(i, amount, true) != null) j = i;
 			}
-		
+			
 		return extractItemProcessing(j, amount, simulate);
 		}
-	
+		
 	public ItemStack extractItemProcessing(int slot, int amount, boolean simulate)
 		{
 		if (amount == 0) return null;
@@ -100,6 +109,7 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				{
 				this.inventory[slot] = null;
 				}
+			onContentsChanged();
 			return existing;
 			}
 		else
@@ -108,7 +118,7 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				{
 				this.inventory[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
 				}
-				
+			onContentsChanged();
 			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
 			}
 		}
@@ -158,8 +168,72 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				existing.stackSize += reachedLimit ? limit : stack.stackSize;
 				}
 			}
-			
+		onContentsChanged();
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
+		}
+		
+	public ItemStack insertItemFuel(ItemStack stack, boolean simulate)
+		{
+		if (TileEntityFurnace.getItemBurnTime(stack) == 0) return stack;
+		int slot = 18;
+		ItemStack existing = this.inventory[slot];
+		int limit = stack.getMaxStackSize();
+		
+		if (existing != null)
+			{
+			if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) return stack;
+			
+			limit -= existing.stackSize;
+			}
+			
+		if (limit <= 0) return stack;
+		
+		boolean reachedLimit = stack.stackSize > limit;
+		
+		if (!simulate)
+			{
+			if (existing == null)
+				{
+				this.inventory[slot] = reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack;
+				}
+			else
+				{
+				existing.stackSize += reachedLimit ? limit : stack.stackSize;
+				}
+			}
+		onContentsChanged();
+		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
+		}
+		
+	public ItemStack extractItemFuel(int amount, boolean simulate)
+		{
+		int slot = 18;
+		if (amount == 0) return null;
+		
+		ItemStack existing = this.inventory[slot];
+		
+		if (existing == null) return null;
+		
+		int toExtract = Math.min(amount, existing.getMaxStackSize());
+		
+		if (existing.stackSize <= toExtract)
+			{
+			if (!simulate)
+				{
+				this.inventory[slot] = null;
+				}
+			onContentsChanged();
+			return existing;
+			}
+		else
+			{
+			if (!simulate)
+				{
+				this.inventory[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
+				}
+			onContentsChanged();
+			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
+			}
 		}
 		
 	/** Inserts item somewhere */
@@ -191,11 +265,23 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 		}
 		
 	@Override
+	public void setStackInSlot(int slot, ItemStack stack)
+		{
+		if (ItemStack.areItemStacksEqual(inventory[slot], stack)) return;
+		this.inventory[slot] = stack;
+		onContentsChanged();
+		}
+		
+	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
 		{
 		if (stack == null || stack.stackSize == 0) return null;
 		
+		if (slot == 18) return insertItemFuel(stack, simulate);
+		
 		if (slot < 0 || slot >= inputSlotLimit) return stack;
+		
+		if (parentTile.craftingResult(stack) == null) return stack;
 		
 		ItemStack existing = this.inventory[slot];
 		int limit = stack.getMaxStackSize();
@@ -223,6 +309,7 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				}
 			}
 			
+		onContentsChanged();
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.stackSize - limit) : null;
 		}
 		
@@ -245,6 +332,7 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				{
 				this.inventory[slot] = null;
 				}
+			onContentsChanged();
 			return existing;
 			}
 		else
@@ -253,7 +341,7 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 				{
 				this.inventory[slot] = ItemHandlerHelper.copyStackWithSize(existing, existing.stackSize - toExtract);
 				}
-				
+			onContentsChanged();
 			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
 			}
 		}
@@ -266,5 +354,10 @@ public class MachineItemHandler implements IItemHandler, INBTSerializable<NBTTag
 	public void setOutputSlotLimit(int limit)
 		{
 		outputSlotLimit = limit;
+		}
+		
+	protected void onContentsChanged()
+		{
+		parentTile.markDirty();
 		}
 	}
