@@ -1,9 +1,12 @@
 package princess.tinkersenergistics.block.tile;
 
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
@@ -13,34 +16,56 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import princess.tinkersenergistics.ConfigHandler;
+import princess.tinkersenergistics.TinkersEnergistics;
 import princess.tinkersenergistics.capability.MachineEnergyStorage;
 import princess.tinkersenergistics.capability.MachineFluidTank;
 import princess.tinkersenergistics.capability.MachineItemHandler;
-import princess.tinkersenergistics.common.ConfigHandler;
+import princess.tinkersenergistics.library.MachineRecipeHandler;
+import princess.tinkersenergistics.library.Tags;
 import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
-// This class is mostly boilerplate. The resulting tile can be used as a furnace tho.
+//i_am_a_god.mp3
 public class TileMachine extends TileEntity implements ITickable
 	{
-	private ItemStack				parentItem		= null;
+	private ItemStack				parentItem			= null;
 	
-	public int						cookTime		= 100;									 // How much time it takes to cook
-	public int						fireTicks		= 0;									 // Current progress, counts up
-	public int						fuelTicks		= 0;									 // Consumed fuel, in fireticks
+	/**How much time it takes to cook*/
+	public int						cookTime			= 1000;
+	/**Current progress, counts up*/
+	public int						fireTicks			= 0;
+	/**Consumed fuel, in fireticks*/
+	public int						fuelTicks			= 0;
+	/**Consumed fuel, in fireticks, for rendering*/
+	public int						fuelTicksMax		= 1;
+	/**fireTicks generated per tick*/
+	public int						speedMultiplier		= 1;
+	/**fuelTicks eaten per tick*/
+	public int						fuelMultiplier		= 5;
+	/**fuelTicks generated per fuel fueltick*/
+	public int						fuelMultInternal	= 25;
 	
-	public boolean					fluidPowered	= false;
-	public boolean					energyPowered	= false;
+	public int						craftMultiplier		= 0;
+	
+	public boolean					fluidPowered		= false;
+	public boolean					energyPowered		= false;
 	
 	private MachineItemHandler		inventory;
 	private MachineFluidTank		fuelTank;
 	private MachineEnergyStorage	energyStorage;
 	
+	/**Type 0 is furnace, 1 is crusher and 2 is converter, right now.*/
+	public int						type				= 0;
+	
+	private Random					random				= new Random(TinkersEnergistics.One.hashCode() * System.nanoTime());
+	
 	public TileMachine()
 		{
 		inventory = new MachineItemHandler(this);
-		fuelTank = new MachineFluidTank(0);
-		energyStorage = new MachineEnergyStorage(0);
+		fuelTank = new MachineFluidTank(fluidPowered ? 4 : 0);
+		energyStorage = new MachineEnergyStorage(energyPowered ? 4000 : 0);
 		}
 		
 	@Override
@@ -50,15 +75,16 @@ public class TileMachine extends TileEntity implements ITickable
 			{
 			if (canStartCrafting())
 				{
-				if (fuelTicks == 0)
+				if (fuelTicks <= 0)
 					{
 					consumeFuel();
 					}
 				if (fuelTicks > 0)
 					{
-					fireTicks++;
-					fuelTicks--;
+					fireTicks += speedMultiplier;
+					fuelTicks -= fuelMultiplier;
 					}
+				markDirty();
 				}
 			if (canCraft()) craft();
 			}
@@ -67,7 +93,15 @@ public class TileMachine extends TileEntity implements ITickable
 	/** THE method to replace.*/
 	public ItemStack craftingResult(ItemStack stack)
 		{
-		return FurnaceRecipes.instance().getSmeltingResult(stack);
+		switch (type)
+			{
+			case 1:
+				return MachineRecipeHandler.getCrushingResult(stack);
+			case 2:
+				return null;
+			default:
+				return FurnaceRecipes.instance().getSmeltingResult(stack);
+			}
 		}
 		
 	// Method to balance
@@ -84,7 +118,9 @@ public class TileMachine extends TileEntity implements ITickable
 				if (drained != null && drained.amount == amount)
 					{
 					fuelTank.drain(amount, true);
-					fuelTicks += TinkerRegistry.consumeSmelteryFuel(in) * ConfigHandler.fluidFuelMultiplier;
+					int addition = TinkerRegistry.consumeSmelteryFuel(in) * ConfigHandler.fluidFuelMultiplier;
+					fuelTicks += addition * fuelMultInternal;
+					fuelTicksMax = addition * fuelMultInternal;
 					return true;
 					}
 				}
@@ -96,25 +132,29 @@ public class TileMachine extends TileEntity implements ITickable
 				if (energyStorage.getEnergyStored() >= ConfigHandler.energyPerCraft)
 					{
 					energyStorage.extractEnergyProcessing(ConfigHandler.energyPerCraft, false);
-					fuelTicks += ConfigHandler.fireTicksInTwoSticks;
+					fuelTicks += ConfigHandler.fireTicksInTwoSticks * fuelMultInternal;
+					fuelTicksMax = ConfigHandler.fireTicksInTwoSticks * fuelMultInternal;
 					return true;
 					}
 				else
 					if (energyStorage.getEnergyStored() >= ConfigHandler.energyPerNanoCraft)
 						{
 						energyStorage.extractEnergyProcessing(ConfigHandler.energyPerNanoCraft, false);
-						fuelTicks++;
+						fuelTicks += fuelMultInternal;
+						fuelTicksMax = fuelMultInternal;
 						return true;
 						}
+				return false;
 				}
 			else
 				{
 				ItemStack stack = inventory.extractItemFuel(1, false);
 				if (stack == null) return false;
-				fuelTicks += TileEntityFurnace.getItemBurnTime(stack);
+				int addition = TileEntityFurnace.getItemBurnTime(stack);
+				fuelTicks += addition * fuelMultInternal;
+				fuelTicksMax = addition * fuelMultInternal;
 				return true;
 				}
-		return false;
 		}
 		
 	private boolean canStartCrafting()
@@ -142,6 +182,7 @@ public class TileMachine extends TileEntity implements ITickable
 		fireTicks = 0;
 		ItemStack item = inventory.extractItemProcessing(1, false);
 		inventory.insertItemProcessing(craftingResult(item), false);
+		if (random.nextInt(100) < craftMultiplier) inventory.insertItemProcessing(craftingResult(item), false);
 		
 		markDirty();
 		}
@@ -155,10 +196,17 @@ public class TileMachine extends TileEntity implements ITickable
 		cookTime = compound.getInteger("CookTime");
 		fireTicks = compound.getInteger("FireTicks");
 		fuelTicks = compound.getInteger("FuelTicks");
+		fuelTicksMax = compound.getInteger("FuelTicksMax");
+		
+		speedMultiplier = compound.getInteger("SpeedMultiplier");
+		fuelMultiplier = compound.getInteger("FuelMultiplier");
 		
 		inventory.deserializeNBT(compound.getCompoundTag("Inventory"));
 		
-		if (compound.hasKey("ParentItem")) setParentItem(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("ParentItem")));
+		type = compound.getInteger("Type");
+		
+		setParentItem(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("ParentItem")));
+		
 		if (fluidPowered) fuelTank.readFromNBT((NBTTagCompound) compound.getTag("Tank"));
 		if (energyPowered) energyStorage.receiveEnergy(compound.getInteger("Energy"), false);
 		}
@@ -170,14 +218,25 @@ public class TileMachine extends TileEntity implements ITickable
 		compound.setInteger("CookTime", cookTime);
 		compound.setInteger("FireTicks", fireTicks);
 		compound.setInteger("FuelTicks", fuelTicks);
+		compound.setInteger("FuelTicksMax", fuelTicksMax);
+		
+		compound.setInteger("SpeedMultiplier", speedMultiplier);
+		compound.setInteger("FuelMultiplier", fuelMultiplier);
 		
 		compound.setTag("Inventory", inventory.serializeNBT());
 		if (fluidPowered) compound.setTag("Tank", fuelTank.writeToNBT(new NBTTagCompound()));
 		if (energyPowered) compound.setInteger("Energy", energyStorage.getEnergyStored());
 		
+		compound.setInteger("Type", type);
+		
 		if (parentItem != null) compound.setTag("ParentItem", parentItem.writeToNBT(new NBTTagCompound()));
 		
 		return compound;
+		}
+		
+	public NBTTagCompound getUpdateTag()
+		{
+		return writeToNBT(new NBTTagCompound());
 		}
 		
 	public String getName()
@@ -206,32 +265,59 @@ public class TileMachine extends TileEntity implements ITickable
 		
 	public ItemStack getParentItem()
 		{
-		return parentItem;
+		if (parentItem != null) return parentItem.copy();
+		return null;
 		}
 		
 	public void setParentItem(ItemStack parentItem)
 		{
+		if (parentItem == null) return;
 		this.parentItem = parentItem;
-		NBTTagCompound tag = TagUtil.getTagSafe(parentItem);
 		
-		if (tag.getInteger("InputSlots") > 0) inventory.setInputSlotLimit(tag.getInteger("InputSlots"));
-		if (tag.getInteger("OutputSlots") > 0) inventory.setOutputSlotLimit(tag.getInteger("OutputSlots"));
-		if (tag.getInteger("CookTime") > 0) cookTime = tag.getInteger("CookTime");
+		NBTTagCompound tag = TagUtil.getTagSafe(parentItem).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA);
 		
-		if (tag.getInteger("Tank") > 0)
+		inventory.setInputSlotLimit(tag.getInteger(Tags.INPUT_SLOTS));
+		inventory.setOutputSlotLimit(tag.getInteger(Tags.OUTPUT_SLOTS));
+		cookTime = tag.getInteger(Tags.COOK_TIME);
+		type = tag.getInteger(Tags.TYPE);
+		speedMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.SPEED_MULTIPLIER)));
+		fuelMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.FUEL_MULTIPLIER)));
+		
+		if (tag.getInteger(Tags.TANK) > 0)
 			{
-			fuelTank = new MachineFluidTank(tag.getInteger("Tank"));
+			fuelTank = new MachineFluidTank(tag.getInteger(Tags.TANK));
 			fluidPowered = true;
 			}
-		if (tag.getInteger("EnergyStorage") > 0)
+		if (tag.getInteger(Tags.ENERGY_STORAGE) > 0)
 			{
-			energyStorage = new MachineEnergyStorage(tag.getInteger("EnergyStorage"));
+			energyStorage = new MachineEnergyStorage(tag.getInteger(Tags.ENERGY_STORAGE));
 			energyPowered = true;
 			}
+			
+		NBTTagList tags = TagUtil.getModifiersTagList(parentItem);
+		
+		for (int i = 0; i < tags.tagCount(); i++)
+			{
+			NBTTagCompound tagged = tags.getCompoundTagAt(i);
+			ModifierNBT data = ModifierNBT.readTag(tagged);
+			
+			if (data.identifier == "double")
+				{
+				ModifierNBT.IntegerNBT modData = ModifierNBT.readInteger(tagged);
+				craftMultiplier = modData.current * 2;
+				break;
+				}
+			}
+		markDirty();
 		}
-
+		
 	public boolean canInteractWith(EntityPlayer playerIn)
 		{
 		return !isInvalid() && playerIn.getDistanceSq(pos.add(0.5D, 0.5D, 0.5D)) <= 64D;
+		}
+		
+	public MachineItemHandler getInventory()
+		{
+		return inventory;
 		}
 	}

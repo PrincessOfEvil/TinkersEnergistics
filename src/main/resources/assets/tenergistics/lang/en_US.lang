@@ -1,9 +1,62 @@
+﻿material._internal_render_1.name=The
+material._internal_render_2.name=The
+material._internal_render_3.name=The
+
+# Modifiers
+modifier.machinetrait.name=Technological
+modifier.machinetrait.desc=§oBeep beep boop!§r\nA bit too mechanical to accept normal modifiers or carry most traits.
+
+modifier.overclock.name=Overclock
+modifier.overclock.name2=Overclocked
+modifier.overclock.name3=Overheating
+modifier.overclock.name4=Liquid-Cooled
+modifier.overclock.name5=Nitrogen-Cooled
+modifier.overclock.desc=§oExplosive overclocking!§r\nIncreases machine speed and fuel consumption.
+
+modifier.double.name=Profit
+modifier.double.desc=§oResources Recovered!§r\nChance to double the output.
+
+
+# Items
+item.dusts.name=Dust
+item.dusts.gold.name=Gold Dust
+
 # Tools
 tile.machine_furnace.name=Furnace
 item.machine_furnace.name=Furnace
 item.machine_furnace.desc=Smelts ores and food. Requires a power source.
+tile.machine_crusher.name=Crusher
+item.machine_crusher.name=Crusher
+item.machine_crusher.desc=Crushes ores into fine powder. Requires a power source.
 
 # Toolparts
 item.machine_casing.name=Machine Casing
 item.machine_gearbox.name=Gearbox
-item.machine_heater.name=Heat Unit
+item.machine_heater.name=Heat Chamber
+item.machine_mill.name=Crushing Chamber
+
+# burner
+
+# Tool Stats
+
+stat.head.machine.name=Casing
+
+stat.cooktime.furnace.name=Heat Dissipation
+stat.cooktime.crusher.name=Shock Absorption
+
+stat.handle.machine.name=Chamber
+
+stat.speedmult.furnace.name=Maximum Heat
+stat.fuelmulti.furnace.name=Heat Loss
+
+stat.speedmult.crusher.name=Maximum Force
+stat.fuelmulti.crusher.name=Friction
+
+stat.extra.machine.name=Gearbox
+
+stat.speedmult.gearbox.name=Maximum Speed
+stat.fuelmulti.gearbox.name=Power Loss
+
+stat.cooktime.desc=How many steps it takes to finish working.
+stat.speedmult.desc=How many steps the machine can do at once.
+stat.fuelmulti.desc=How much fuel the machine consumes per step.

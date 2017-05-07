@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -50,19 +49,6 @@ public class BlockMachine extends BlockContainer
 		}
 		
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-		{
-		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-		
-		if (stack.getTagCompound() != null)
-			{
-			TileMachine tile = (TileMachine) worldIn.getTileEntity(pos);
-			
-			tile.setParentItem(stack);
-			}
-		}
-		
-	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 		{
 		return ((TileMachine) world.getTileEntity(pos)).getParentItem();
@@ -72,5 +58,23 @@ public class BlockMachine extends BlockContainer
 	public int quantityDropped(Random random)
 		{
 		return 0;
+		}
+		
+	@Override
+	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+		{
+		if (!world.isRemote && !world.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
+			{
+			TileMachine tile = (TileMachine) world.getTileEntity(pos);
+			ItemStack item = tile.getParentItem();
+			
+			spawnAsEntity(world, pos, item);
+			
+			ItemStack[] inv = tile.getInventory().getInventory();
+			for (int i = 0; i < inv.length; i++)
+				{
+				if (inv[i] != null) spawnAsEntity(world, pos, inv[i]);
+				}
+			}
 		}
 	}

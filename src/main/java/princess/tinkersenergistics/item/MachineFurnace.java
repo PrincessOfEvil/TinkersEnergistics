@@ -1,15 +1,15 @@
-package princess.tinkersenergistics.machine;
+package princess.tinkersenergistics.item;
 
 import princess.tinkersenergistics.TinkersEnergistics;
-import princess.tinkersenergistics.library.MachineCore;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 
 public class MachineFurnace extends MachineCore
 	{
 	public MachineFurnace()
 		{
-		super(	PartMaterialType.handle(TinkersEnergistics.machineGearbox),
+		super(0,
+				PartMaterialType.handle(TinkersEnergistics.machineHeater),
 				PartMaterialType.head(TinkersEnergistics.machineCasing),
-				PartMaterialType.extra(TinkersEnergistics.machineHeater));
+				PartMaterialType.extra(TinkersEnergistics.machineGearbox));
 		}
 	}

@@ -1,4 +1,4 @@
-package princess.tinkersenergistics;
+package princess.tinkersenergistics.library;
 
 public class ModInfo
 	{

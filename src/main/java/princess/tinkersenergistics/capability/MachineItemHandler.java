@@ -17,8 +17,8 @@ public class MachineItemHandler implements IItemHandler, IItemHandlerModifiable,
 	public static final int	eternalSlotLimit	= 18;
 	public static final int	ultimateSlotLimit	= 19;
 	
-	public int				inputSlotLimit		= 7;
-	public int				outputSlotLimit		= 7;
+	public int				inputSlotLimit		= 2;
+	public int				outputSlotLimit		= 2;
 	
 	/**
 	0-8 - processing input;
@@ -359,5 +359,10 @@ public class MachineItemHandler implements IItemHandler, IItemHandlerModifiable,
 	protected void onContentsChanged()
 		{
 		parentTile.markDirty();
+		}
+		
+	public ItemStack[] getInventory()
+		{
+		return inventory;
 		}
 	}

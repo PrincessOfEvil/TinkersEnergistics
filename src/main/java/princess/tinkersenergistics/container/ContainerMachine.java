@@ -22,22 +22,25 @@ public class ContainerMachine extends Container
 	private int			cookTime		= 100;
 	private int			fireTicks		= 0;
 	private int			fuelTicks		= 0;
+	private int			fuelTicksMax	= 0;
 	
 	private boolean		fluidPowered	= false;
 	private boolean		energyPowered	= false;
 	
+	private int			type			= 0;
+	
 	public ContainerMachine(IInventory playerInventory, TileMachine tile)
 		{
 		this.tile = tile;
-		addOwnSlots();
 		addPlayerSlots(playerInventory);
+		addOwnSlots();
 		}
 		
 	@Override
 	public void detectAndSendChanges()
 		{
 		super.detectAndSendChanges();
-		for (int i = 0; i < this.listeners.size(); ++i)
+		for (int i = 0; i < this.listeners.size(); i++)
 			{
 			IContainerListener icontainerlistener = (IContainerListener) this.listeners.get(i);
 			
@@ -56,22 +59,35 @@ public class ContainerMachine extends Container
 				icontainerlistener.sendProgressBarUpdate(this, 2, tile.fuelTicks);
 				}
 				
+			if (fuelTicksMax != tile.fuelTicksMax)
+				{
+				icontainerlistener.sendProgressBarUpdate(this, 3, tile.fuelTicksMax);
+				}
+				
 			if (fluidPowered != tile.fluidPowered)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 3, tile.fluidPowered ? 1 : 0);
+				icontainerlistener.sendProgressBarUpdate(this, 4, tile.fluidPowered ? 1 : 0);
 				}
 				
 			if (energyPowered != tile.energyPowered)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 4, tile.fluidPowered ? 1 : 0);
+				icontainerlistener.sendProgressBarUpdate(this, 5, tile.energyPowered ? 1 : 0);
+				}
+			if (type != tile.type)
+				{
+				icontainerlistener.sendProgressBarUpdate(this, 6, tile.type);
 				}
 			}
 			
 		cookTime = tile.cookTime;
 		fireTicks = tile.fireTicks;
 		fuelTicks = tile.fuelTicks;
+		fuelTicksMax = tile.fuelTicksMax;
+		
 		fluidPowered = tile.fluidPowered;
 		energyPowered = tile.energyPowered;
+		
+		type = tile.type;
 		}
 		
 	@SideOnly(Side.CLIENT)
@@ -89,11 +105,39 @@ public class ContainerMachine extends Container
 				tile.fuelTicks = data;
 				break;
 			case 3:
-				tile.fluidPowered = data == 1;
+				tile.fuelTicksMax = data;
 				break;
 			case 4:
+				tile.fluidPowered = data == 1;
+				break;
+			case 5:
 				tile.energyPowered = data == 1;
 				break;
+			case 6:
+				tile.type = data;
+				break;
+			}
+		}
+		
+	public void addListener(IContainerListener listener)
+		{
+		super.addListener(listener);
+		detectAndSendChangesAnyway();
+		}
+		
+	private void detectAndSendChangesAnyway()
+		{
+		for (int i = 0; i < this.listeners.size(); i++)
+			{
+			IContainerListener icontainerlistener = (IContainerListener) this.listeners.get(i);
+			
+			icontainerlistener.sendProgressBarUpdate(this, 0, tile.cookTime);
+			icontainerlistener.sendProgressBarUpdate(this, 1, tile.fireTicks);
+			icontainerlistener.sendProgressBarUpdate(this, 2, tile.fuelTicks);
+			icontainerlistener.sendProgressBarUpdate(this, 3, tile.fuelTicksMax);
+			icontainerlistener.sendProgressBarUpdate(this, 4, tile.fluidPowered ? 1 : 0);
+			icontainerlistener.sendProgressBarUpdate(this, 5, tile.energyPowered ? 1 : 0);
+			icontainerlistener.sendProgressBarUpdate(this, 6, tile.type);
 			}
 		}
 		
@@ -107,7 +151,7 @@ public class ContainerMachine extends Container
 				{
 				int x = 8 + col * 18;
 				int y = row * 18 + shift;
-				this.addSlotToContainer(new Slot(playerInventory, col + row * 9 + 10, x, y));
+				this.addSlotToContainer(new Slot(playerInventory, col + row * 9 + 9, x, y));
 				}
 			}
 			

@@ -2,6 +2,7 @@ package princess.tinkersenergistics;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import princess.tinkersenergistics.library.ModInfo;
 import slimeknights.mantle.pulsar.config.ForgeCFG;
 import slimeknights.mantle.pulsar.control.PulseManager;
 

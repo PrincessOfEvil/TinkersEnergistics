@@ -1,10 +1,11 @@
-package princess.tinkersenergistics;
+package princess.tinkersenergistics.library;
 
 import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.common.TinkerPulse;
 import slimeknights.tconstruct.library.TinkerRegistry;
