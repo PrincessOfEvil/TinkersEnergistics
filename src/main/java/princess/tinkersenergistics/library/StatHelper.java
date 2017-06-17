@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.text.TextFormatting;
+import princess.tinkersenergistics.ConfigHandler;
 import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.client.CustomFontColor;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
@@ -15,19 +16,27 @@ import slimeknights.tconstruct.library.materials.MaterialTypes;
 
 public class StatHelper
 	{
-	private static final float FURNACE_COOKTIME = 10F;
-	private static final float CRUSHER_COOKTIME = 800F;
-
-	private static final float FURNACE_HANDLEMULT = 146F;
-	private static final float CRUSHER_HANDLEMULT = 1.75F;
-
-	private static final double HANDLE_FUELPOWER = 1.2D;
+	private static final float	FURNACE_COOKTIME		= 10F;
+	private static final float	CRUSHER_COOKTIME		= 800F;
 	
-	private static final float EXTRAMULT = 100F;
-
+	private static final float	FURNACE_HANDLEMULT		= 146F;
+	private static final float	CRUSHER_HANDLEMULT		= 1.75F;
+	
+	private static final double	HANDLE_FUELPOWER		= 1.2D;
+	
+	private static final float	EXTRAMULT				= 100F;
+	
+	public static final double	SOLIDBOOST				= 1.005;
+	
 	public final static String	LOC_Furnace				= ".furnace.name";
 	public final static String	LOC_Crusher				= ".crusher.name";
 	public final static String	LOC_Gearbox				= ".gearbox.name";
+	
+	public final static String	LOC_Firebox				= ".firebox.name";
+	public final static String	LOC_Exchanger			= ".exchanger.name";
+	public final static String	LOC_Coil				= ".coil.name";
+	
+	public final static String	LOC_Attack				= "stat.attack";
 	
 	public final static String	LOC_ÑookTime			= "stat.cooktime";
 	public final static String	LOC_SpeedMultiplier		= "stat.speedmult";
@@ -42,6 +51,7 @@ public class StatHelper
 	public final static String	COLOR_ÑookTime			= CustomFontColor.encodeColor(24, 128, 192);
 	public final static String	COLOR_SpeedMultiplier	= CustomFontColor.encodeColor(96, 212, 0);
 	public final static String	COLOR_FuelMultiplier	= CustomFontColor.encodeColor(255, 128, 0);
+	public final static String	COLOR_Attack			= CustomFontColor.encodeColor(255, 72, 72);
 	
 	public static String formatCookTime(int cooktime, int type)
 		{
@@ -58,6 +68,11 @@ public class StatHelper
 		return formatNumber(LOC_FuelMultiplier + postfix(type), COLOR_FuelMultiplier, fuelmult);
 		}
 		
+	public static String formatAttack(int attack, int type)
+		{
+		return formatNumber(LOC_Attack + postfixMod(type), COLOR_Attack, attack);
+		}
+		
 	public static String postfix(int type)
 		{
 		switch (type)
@@ -69,6 +84,20 @@ public class StatHelper
 			default:
 				return LOC_Gearbox;
 			}
+		}
+		
+	public static String postfixMod(int type)
+		{
+		switch (type)
+			{
+			case 0:
+				return LOC_Firebox;
+			case 1:
+				return LOC_Exchanger;
+			case 2:
+				return LOC_Coil;
+			}
+		return "UNKNOWN";
 		}
 		
 	public static List<String> getLocalizedDesc()
@@ -85,6 +114,11 @@ public class StatHelper
 	public static String getLocalizedName(IMaterialStats stat)
 		{
 		return Util.translate(String.format(LOC_StatName, stat.getIdentifier()));
+		}
+		
+	public static String getLocalizedName(String stat)
+		{
+		return Util.translate(String.format(LOC_StatName, stat));
 		}
 		
 	public static List<String> getLocalizedInfo(IMaterialStats stat, int type)
@@ -133,6 +167,34 @@ public class StatHelper
 		return info;
 		}
 		
+	public static List<String> getLocalizedInfoMod(HeadMaterialStats stat, int type)
+		{
+		List<String> info = Lists.newArrayList();
+		
+		switch (type)
+			{
+			case 0:
+				float speedMultiplier = 2F;
+				float fuelMultiplier = 10F;
+				
+				speedMultiplier = speedMultiplier(speedMultiplier, (HeadMaterialStats) stat, false);
+				fuelMultiplier = fuelMultiplier(fuelMultiplier, (HeadMaterialStats) stat, false);
+				
+				info.add(formatSpeedMultiplier(speedMultiplier, type));
+				info.add(formatFuelMultiplier(fuelMultiplier, type));
+				break;
+			case 1:
+				info.add(formatAttack(Math.round(stat.attack * ConfigHandler.tankCapacityPerAttack), type));
+				break;
+			
+			case 2:
+				info.add(formatAttack(Math.round(stat.attack * ConfigHandler.energyCapacityPerAttack), type));
+				break;
+			}
+			
+		return info;
+		}
+		
 	public static int cookTime(int cookTime, int type, HeadMaterialStats head)
 		{
 		switch (type)
@@ -145,6 +207,22 @@ public class StatHelper
 				break;
 			}
 		return cookTime;
+		}
+		
+	public static float speedMultiplier(float speedMultiplier, HeadMaterialStats head, boolean reverse)
+		{
+		if (reverse)
+			return (float) Math.pow(speedMultiplier, 1D / Math.pow(SOLIDBOOST, head.attack));
+		else
+			return (float) Math.pow(speedMultiplier, Math.pow(SOLIDBOOST, head.attack));
+		}
+		
+	public static float fuelMultiplier(float fuelMultiplier, HeadMaterialStats head, boolean reverse)
+		{
+		if (reverse)
+			return (float) Math.pow(fuelMultiplier, 1D / Math.pow(SOLIDBOOST, head.attack));
+		else
+			return (float) Math.pow(fuelMultiplier, Math.pow(SOLIDBOOST, head.attack));
 		}
 		
 	public static float speedMultiplier(float speedMultiplier, int type, HandleMaterialStats handle)

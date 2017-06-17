@@ -22,7 +22,7 @@ import princess.tinkersenergistics.capability.MachineEnergyStorage;
 import princess.tinkersenergistics.capability.MachineFluidTank;
 import princess.tinkersenergistics.capability.MachineItemHandler;
 import princess.tinkersenergistics.library.MachineRecipeHandler;
-import princess.tinkersenergistics.library.Tags;
+import princess.tinkersenergistics.library.MachineTags;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
@@ -276,21 +276,21 @@ public class TileMachine extends TileEntity implements ITickable
 		
 		NBTTagCompound tag = TagUtil.getTagSafe(parentItem).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA);
 		
-		inventory.setInputSlotLimit(tag.getInteger(Tags.INPUT_SLOTS));
-		inventory.setOutputSlotLimit(tag.getInteger(Tags.OUTPUT_SLOTS));
-		cookTime = tag.getInteger(Tags.COOK_TIME);
-		type = tag.getInteger(Tags.TYPE);
-		speedMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.SPEED_MULTIPLIER)));
-		fuelMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.FUEL_MULTIPLIER)));
+		inventory.setInputSlotLimit(tag.getInteger(MachineTags.INPUT_SLOTS));
+		inventory.setOutputSlotLimit(tag.getInteger(MachineTags.OUTPUT_SLOTS));
+		cookTime = tag.getInteger(MachineTags.COOK_TIME);
+		type = tag.getInteger(MachineTags.TYPE);
+		speedMultiplier = (int) Math.round(Math.ceil(tag.getFloat(MachineTags.SPEED_MULTIPLIER)));
+		fuelMultiplier = (int) Math.round(Math.ceil(tag.getFloat(MachineTags.FUEL_MULTIPLIER)));
 		
-		if (tag.getInteger(Tags.TANK) > 0)
+		if (tag.getInteger(MachineTags.TANK) > 0)
 			{
-			fuelTank = new MachineFluidTank(tag.getInteger(Tags.TANK));
+			fuelTank = new MachineFluidTank(tag.getInteger(MachineTags.TANK));
 			fluidPowered = true;
 			}
-		if (tag.getInteger(Tags.ENERGY_STORAGE) > 0)
+		if (tag.getInteger(MachineTags.ENERGY_STORAGE) > 0)
 			{
-			energyStorage = new MachineEnergyStorage(tag.getInteger(Tags.ENERGY_STORAGE));
+			energyStorage = new MachineEnergyStorage(tag.getInteger(MachineTags.ENERGY_STORAGE));
 			energyPowered = true;
 			}
 			

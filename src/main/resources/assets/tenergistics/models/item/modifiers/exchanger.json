@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "machine_furnace": "tenergistics:items/tools/machine_exchanger",
+        "machine_crusher": "tenergistics:items/tools/machine_exchanger"
+    }
+}

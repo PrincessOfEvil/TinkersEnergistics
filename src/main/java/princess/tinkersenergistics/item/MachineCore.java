@@ -28,8 +28,8 @@ import net.minecraft.world.World;
 import princess.tinkersenergistics.TinkersEnergistics;
 import princess.tinkersenergistics.block.tile.TileMachine;
 import princess.tinkersenergistics.library.MachineNBT;
+import princess.tinkersenergistics.library.MachineTags;
 import princess.tinkersenergistics.library.StatHelper;
-import princess.tinkersenergistics.library.Tags;
 import princess.tinkersenergistics.modifiers.MachineTrait;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -99,7 +99,9 @@ public abstract class MachineCore extends ToolCore
 		boolean ctrl = Util.isCtrlKeyDown();
 		if (!shift && !ctrl)
 			{
-			getTooltip(stack, tooltip);
+			if (!TagUtil.getTagSafe(stack).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA).getBoolean(MachineTags.POWERED)) tooltip.add("" + TextFormatting.DARK_RED + TextFormatting.BOLD + Util.translate("tooltip.machine.unpowered"));
+			
+			TooltipBuilder.addModifierTooltips(stack, tooltip);
 			
 			tooltip.add("");
 			tooltip.add(Util.translate("tooltip.tool.holdShift"));
@@ -128,9 +130,9 @@ public abstract class MachineCore extends ToolCore
 		int speedMultiplier = 1;
 		int fuelMultiplier = 5;
 		
-		cookTime = tag.getInteger(Tags.COOK_TIME);
-		speedMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.SPEED_MULTIPLIER)));
-		fuelMultiplier = (int) Math.round(Math.ceil(tag.getFloat(Tags.FUEL_MULTIPLIER)));
+		cookTime = tag.getInteger(MachineTags.COOK_TIME);
+		speedMultiplier = (int) Math.round(Math.ceil(tag.getFloat(MachineTags.SPEED_MULTIPLIER)));
+		fuelMultiplier = (int) Math.round(Math.ceil(tag.getFloat(MachineTags.FUEL_MULTIPLIER)));
 		
 		info.add(StatHelper.formatCookTime(cookTime, type));
 		info.add(StatHelper.formatSpeedMultiplier(speedMultiplier, type));
@@ -263,7 +265,7 @@ public abstract class MachineCore extends ToolCore
 		{
 		NBTTagCompound tag = TagUtil.getTagSafe(stack).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA);
 		
-		//TODO: if (!tag.getBoolean("Powered")) return EnumActionResult.FAIL;
+		if (!tag.getBoolean("Powered")) return EnumActionResult.FAIL;
 		
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();

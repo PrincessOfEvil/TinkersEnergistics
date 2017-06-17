@@ -108,40 +108,40 @@ public class MachineNBT
 		
 	public void read(NBTTagCompound tag)
 		{
-		cookTime = tag.getInteger(Tags.COOK_TIME);
-		speedMultiplier = tag.getFloat(Tags.SPEED_MULTIPLIER);
-		fuelMultiplier = tag.getFloat(Tags.FUEL_MULTIPLIER);
+		cookTime = tag.getInteger(MachineTags.COOK_TIME);
+		speedMultiplier = tag.getFloat(MachineTags.SPEED_MULTIPLIER);
+		fuelMultiplier = tag.getFloat(MachineTags.FUEL_MULTIPLIER);
 		
-		type = tag.getInteger(Tags.TYPE);
+		type = tag.getInteger(MachineTags.TYPE);
 		
-		inputSlots = tag.getInteger(Tags.INPUT_SLOTS);
-		outputSlots = tag.getInteger(Tags.OUTPUT_SLOTS);
+		inputSlots = tag.getInteger(MachineTags.INPUT_SLOTS);
+		outputSlots = tag.getInteger(MachineTags.OUTPUT_SLOTS);
 		
-		tank = tag.getInteger(Tags.TANK);
-		energyStorage = tag.getInteger(Tags.ENERGY_STORAGE);
+		tank = tag.getInteger(MachineTags.TANK);
+		energyStorage = tag.getInteger(MachineTags.ENERGY_STORAGE);
 		
-		powered = tag.getBoolean(Tags.POWERED);
+		powered = tag.getBoolean(MachineTags.POWERED);
 		
-		modifiers = tag.getInteger(Tags.FREE_MODIFIERS);
+		modifiers = tag.getInteger(MachineTags.FREE_MODIFIERS);
 		}
 		
 	public void write(NBTTagCompound tag)
 		{
-		tag.setInteger(Tags.COOK_TIME, cookTime);
-		tag.setFloat(Tags.SPEED_MULTIPLIER, speedMultiplier);
-		tag.setFloat(Tags.FUEL_MULTIPLIER, fuelMultiplier);
+		tag.setInteger(MachineTags.COOK_TIME, cookTime);
+		tag.setFloat(MachineTags.SPEED_MULTIPLIER, speedMultiplier);
+		tag.setFloat(MachineTags.FUEL_MULTIPLIER, fuelMultiplier);
 		
-		tag.setInteger(Tags.TYPE, type);
+		tag.setInteger(MachineTags.TYPE, type);
 		
-		tag.setInteger(Tags.INPUT_SLOTS, inputSlots);
-		tag.setInteger(Tags.OUTPUT_SLOTS, outputSlots);
+		tag.setInteger(MachineTags.INPUT_SLOTS, inputSlots);
+		tag.setInteger(MachineTags.OUTPUT_SLOTS, outputSlots);
 		
-		tag.setInteger(Tags.TANK, tank);
-		tag.setInteger(Tags.ENERGY_STORAGE, energyStorage);
+		tag.setInteger(MachineTags.TANK, tank);
+		tag.setInteger(MachineTags.ENERGY_STORAGE, energyStorage);
 		
-		tag.setBoolean(Tags.POWERED, powered);
+		tag.setBoolean(MachineTags.POWERED, powered);
 		
-		tag.setInteger(Tags.FREE_MODIFIERS, modifiers);
+		tag.setInteger(MachineTags.FREE_MODIFIERS, modifiers);
 		}
 		
 	public NBTTagCompound get()

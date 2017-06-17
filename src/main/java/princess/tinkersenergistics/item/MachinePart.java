@@ -22,12 +22,13 @@ import slimeknights.tconstruct.library.tools.ToolPart;
 
 public class MachinePart extends ToolPart
 	{
-	private int type;
-
-	public MachinePart(int cost,int type)
+	protected int	type;
+	private boolean	canBurn;
+	
+	public MachinePart(int cost, int type)
 		{
 		super(cost);
-	    this.type = type;
+		this.type = type;
 		}
 		
 	@SuppressWarnings("deprecation")
@@ -39,7 +40,7 @@ public class MachinePart extends ToolPart
 		
 		// Material traits/info
 		boolean shift = Util.isShiftKeyDown();
-			
+		
 		// Stats
 		if (Config.extraTooltips)
 			{
@@ -69,7 +70,7 @@ public class MachinePart extends ToolPart
 		tooltip.add("");
 		tooltip.add(materialInfo);
 		}
-	
+
 	@Nonnull
 	@Override
 	public EnumRarity getRarity(ItemStack stack)

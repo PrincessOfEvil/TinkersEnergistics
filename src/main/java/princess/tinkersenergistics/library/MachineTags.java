@@ -1,6 +1,6 @@
 package princess.tinkersenergistics.library;
 
-public final class Tags
+public final class MachineTags
 	{
 	public static final String	COOK_TIME = "CookTime";
 	public static final String	SPEED_MULTIPLIER = "SpeedMultiplier";

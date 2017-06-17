@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "machine_furnace": "tenergistics:items/tools/machine_firebox",
+        "machine_crusher": "tenergistics:items/tools/machine_firebox"
+    }
+}

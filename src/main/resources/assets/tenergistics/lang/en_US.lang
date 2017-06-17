@@ -2,6 +2,8 @@
 material._internal_render_2.name=The
 material._internal_render_3.name=The
 
+tooltip.machine.unpowered=NO POWER SOURCE
+
 # Modifiers
 modifier.machinetrait.name=Technological
 modifier.machinetrait.desc=§oBeep beep boop!§r\nA bit too mechanical to accept normal modifiers or carry most traits.
@@ -15,6 +17,14 @@ modifier.overclock.desc=§oExplosive overclocking!§r\nIncreases machine speed a
 
 modifier.double.name=Profit
 modifier.double.desc=§oResources Recovered!§r\nChance to double the output.
+
+modifier.firebox.name=Firebox
+modifier.firebox.desc=§oI don't want to set the world on fire...§r\nBurns solid fuels. Slightly boosts machine stats.
+modifier.exchanger.name=Heat Exchanger
+modifier.exchanger.desc=§oCentral heating!§r\nUses Smeltery fuels.
+modifier.coil.name=Energy Coil
+modifier.coil.desc=§oExtra Power!§r\nUses Forge Energy.
+
 
 
 # Items
@@ -35,7 +45,9 @@ item.machine_gearbox.name=Gearbox
 item.machine_heater.name=Heat Chamber
 item.machine_mill.name=Crushing Chamber
 
-# burner
+item.machine_firebox.name=Firebox
+item.machine_exchanger.name=Heat Exchanger
+item.machine_coil.name=Heating Coil
 
 # Tool Stats
 
@@ -56,6 +68,12 @@ stat.extra.machine.name=Gearbox
 
 stat.speedmult.gearbox.name=Maximum Speed
 stat.fuelmulti.gearbox.name=Power Loss
+
+stat.ps.machine.name=Power Source
+
+stat.attack.firebox.name=Fuel Slot
+stat.attack.exchanger.name=Fluid Storage
+stat.attack.coil.name=Energy Storage
 
 stat.cooktime.desc=How many steps it takes to finish working.
 stat.speedmult.desc=How many steps the machine can do at once.

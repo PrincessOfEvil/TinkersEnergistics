@@ -15,7 +15,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import princess.tinkersenergistics.ModRegistryHelper;
 import princess.tinkersenergistics.block.tile.TileMachine;
-import slimeknights.tconstruct.library.TinkerRegistry;
 
 public class BlockMachine extends BlockContainer
 	{
@@ -26,7 +25,6 @@ public class BlockMachine extends BlockContainer
 		super(Material.IRON);
 		setHardness(4);
 		setHarvestLevel("pickaxe", 1);
-		setCreativeTab(TinkerRegistry.tabWorld);
 		}
 		
 	@Override
