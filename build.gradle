@@ -16,7 +16,7 @@ buildscript {
 	}
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 repositories {
@@ -24,13 +24,25 @@ repositories {
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
-    maven {
-        name "ProfMobius Maven FS"
-        url "http://mobiusstrip.eu/maven"
+    maven { // TOP
+        name 'tterrag maven'
+        url "http://maven.tterrag.com/"
+    }
+    maven { // compatlayer
+        name 'K-4u maven'
+        url "http://maven.k-4u.nl/"
     }
     maven {
         name 'forge'
         url 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+         name "Tehnut Maven FS"
+         url "http://tehnut.info/maven"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -50,23 +62,28 @@ configurations {
     deployerJars
 }
 
-sourceCompatibility = targetCompatibility = "1.7" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.7"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
-    version = "1.10.2-12.18.2.2115"
+    version = config.minecraft_version_short + "-" + config.forge_version
+    mappings = config.mappings
     runDir = "run"
-    mappings = "snapshot_20160518"
     useDepAts = true
 }
 
 dependencies {
     deobfCompile "slimeknights:TConstruct:${config.minecraft_version}-${config.tcon_version}"
     deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version}-${config.mantle_version}"
-    deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}"
-    deobfCompile "mcp.mobius.waila:Waila:${config.waila_version}_1.9.4"
+
+    deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}:api"
+    runtime "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}"
+
+    deobfCompile "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${config.probe_version}"
+    deobfCompile "cofh:RedstoneFlux:${config.redstoneflux_version}:universal"
     deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
 }
 
