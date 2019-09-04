@@ -1,0 +1,15 @@
+{
+  "modifier": "double",
+  "text": [
+    {
+      "text": "Purple slime is lucky. Ender pearl is warpy. Adding them both is good."
+    }
+  ],
+  "effects": [
+    "Adds a chance to double outputs",
+    "Only works on ores"
+  ],
+  "demoTool": [
+    "tenergistics:machine_crusher"
+  ]
+}

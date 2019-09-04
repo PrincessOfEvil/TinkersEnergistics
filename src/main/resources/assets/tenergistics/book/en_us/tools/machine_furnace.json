@@ -1,0 +1,13 @@
+{
+  "tool": "machine_furnace",
+  "text": [
+    {
+      "text": "The Furnace is a standard-issue configurable furnace, completely compatible with vanilla recipes."
+    }
+  ],
+  "properties": [
+    "Basic machine",
+    "Smelts stuff",
+    "It's a furnace, aight"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+	"pack": {
+		"modid": "tenergistics",
+		"name": "Tinkers Energistics",
+		"description": "Build machines on your table from your OP materials!",
+		"pack_format": 3,
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"url": "",
+		"updateUrl": "",
+		"authorList": ["laz2727"],
+		"credits": "Slimeknights, for being",
+		"logoFile": "",
+		"screenshots": [],
+		"dependencies": []
+	}
+}

@@ -1,7 +1,5 @@
 package princess.tinkersenergistics.container;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
@@ -46,36 +44,36 @@ public class ContainerMachine extends Container
 			
 			if (cookTime != tile.cookTime)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 0, tile.cookTime);
+				icontainerlistener.sendWindowProperty(this, 0, tile.cookTime);
 				}
 				
 			if (fireTicks != tile.fireTicks)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 1, tile.fireTicks);
+				icontainerlistener.sendWindowProperty(this, 1, tile.fireTicks);
 				}
 				
 			if (fuelTicks != tile.fuelTicks)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 2, tile.fuelTicks);
+				icontainerlistener.sendWindowProperty(this, 2, tile.fuelTicks);
 				}
 				
 			if (fuelTicksMax != tile.fuelTicksMax)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 3, tile.fuelTicksMax);
+				icontainerlistener.sendWindowProperty(this, 3, tile.fuelTicksMax);
 				}
 				
 			if (fluidPowered != tile.fluidPowered)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 4, tile.fluidPowered ? 1 : 0);
+				icontainerlistener.sendWindowProperty(this, 4, tile.fluidPowered ? 1 : 0);
 				}
 				
 			if (energyPowered != tile.energyPowered)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 5, tile.energyPowered ? 1 : 0);
+				icontainerlistener.sendWindowProperty(this, 5, tile.energyPowered ? 1 : 0);
 				}
 			if (type != tile.type)
 				{
-				icontainerlistener.sendProgressBarUpdate(this, 6, tile.type);
+				icontainerlistener.sendWindowProperty(this, 6, tile.type);
 				}
 			}
 			
@@ -131,13 +129,13 @@ public class ContainerMachine extends Container
 			{
 			IContainerListener icontainerlistener = (IContainerListener) this.listeners.get(i);
 			
-			icontainerlistener.sendProgressBarUpdate(this, 0, tile.cookTime);
-			icontainerlistener.sendProgressBarUpdate(this, 1, tile.fireTicks);
-			icontainerlistener.sendProgressBarUpdate(this, 2, tile.fuelTicks);
-			icontainerlistener.sendProgressBarUpdate(this, 3, tile.fuelTicksMax);
-			icontainerlistener.sendProgressBarUpdate(this, 4, tile.fluidPowered ? 1 : 0);
-			icontainerlistener.sendProgressBarUpdate(this, 5, tile.energyPowered ? 1 : 0);
-			icontainerlistener.sendProgressBarUpdate(this, 6, tile.type);
+			icontainerlistener.sendWindowProperty(this, 0, tile.cookTime);
+			icontainerlistener.sendWindowProperty(this, 1, tile.fireTicks);
+			icontainerlistener.sendWindowProperty(this, 2, tile.fuelTicks);
+			icontainerlistener.sendWindowProperty(this, 3, tile.fuelTicksMax);
+			icontainerlistener.sendWindowProperty(this, 4, tile.fluidPowered ? 1 : 0);
+			icontainerlistener.sendWindowProperty(this, 5, tile.energyPowered ? 1 : 0);
+			icontainerlistener.sendWindowProperty(this, 6, tile.type);
 			}
 		}
 		
@@ -212,11 +210,10 @@ public class ContainerMachine extends Container
 		addSlotToContainer(new SlotMachine(itemHandler, 18, x, y));
 		}
 		
-	@Nullable
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
 		{
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 		
 		if (slot != null && slot.getHasStack())
@@ -228,14 +225,14 @@ public class ContainerMachine extends Container
 			
 			if (index < itemHandler.getSlots())
 				{
-				if (!this.mergeItemStack(itemstack1, itemHandler.getSlots(), this.inventorySlots.size(), true)) return null;
+				if (!this.mergeItemStack(itemstack1, itemHandler.getSlots(), this.inventorySlots.size(), true)) return ItemStack.EMPTY;
 				}
 			else
-				if (!this.mergeItemStack(itemstack1, 0, itemHandler.getSlots(), false)) return null;
+				if (!this.mergeItemStack(itemstack1, 0, itemHandler.getSlots(), false)) return ItemStack.EMPTY;
 			
-			if (itemstack1.stackSize == 0)
+			if (itemstack1.getCount() == 0)
 				{
-				slot.putStack(null);
+				slot.putStack(ItemStack.EMPTY);
 				}
 			else
 				{

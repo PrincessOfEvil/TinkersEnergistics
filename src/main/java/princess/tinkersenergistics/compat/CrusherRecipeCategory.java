@@ -22,7 +22,7 @@ public class CrusherRecipeCategory implements IRecipeCategory<CrusherRecipeWrapp
 	{
 	public static String		CATEGORY		= Util.prefix("crusher");
 	
-	private ResourceLocation	background_loc	= new ResourceLocation(ModInfo.MODID, "textures/gui/crusherjei.png");;
+	private ResourceLocation	background_loc	= new ResourceLocation(ModInfo.MODID, "textures/gui/crusherjei.png");
 	private IDrawableAnimated	arrow;
 	private final IDrawable		background;
 	
@@ -42,7 +42,7 @@ public class CrusherRecipeCategory implements IRecipeCategory<CrusherRecipeWrapp
 	@Override
 	public String getTitle()
 		{
-		return Util.translate("tile.machine_crusher.name");
+		return Util.translate("tile.tenergistics.machine_crusher.name");
 		}
 		
 	@Override
@@ -59,18 +59,9 @@ public class CrusherRecipeCategory implements IRecipeCategory<CrusherRecipeWrapp
 		
 	@Override
 	public void drawExtras(Minecraft minecraft)
-		{}
-		
-	@Override
-	public void drawAnimations(Minecraft minecraft)
 		{
 		arrow.draw(minecraft, 70, 20);
 		}
-		
-	@Override
-	@Deprecated
-	public void setRecipe(IRecipeLayout recipeLayout, CrusherRecipeWrapper recipeWrapper)
-		{}
 		
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, CrusherRecipeWrapper recipeWrapper, IIngredients ingredients)
@@ -88,6 +79,12 @@ public class CrusherRecipeCategory implements IRecipeCategory<CrusherRecipeWrapp
 	public List<String> getTooltipStrings(int mouseX, int mouseY)
 		{
 		return Lists.newLinkedList();
+		}
+
+	@Override
+	public String getModName()
+		{
+		return ModInfo.MODID;
 		}
 		
 	}

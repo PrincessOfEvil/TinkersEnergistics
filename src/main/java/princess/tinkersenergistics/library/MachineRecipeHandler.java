@@ -32,7 +32,7 @@ public class MachineRecipeHandler
 			{
 			if (r.matches(input)) return r.getResult();
 			}
-		return null;
+		return ItemStack.EMPTY;
 		}
 	
 	public static List<CrusherRecipe> getCrusherOreList()

@@ -1,0 +1,16 @@
+{
+  "modifier": "firebox",
+  "text": [
+    {
+      "text": "A firebox for your machine. Generates power from solid fuels."
+    }
+  ],
+  "effects": [
+    "Burns solid fuels",
+    "Slightly boosts machine stats",
+    "Requires no modifier"
+  ],
+  "demoTool": [
+    "tenergistics:machine_furnace"
+  ]
+}

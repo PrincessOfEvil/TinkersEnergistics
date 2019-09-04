@@ -1,0 +1,12 @@
+[
+  {
+    "name": "machine_furnace",
+    "type": "tool",
+    "data": "tools/machine_furnace.json"
+  },
+  {
+    "name": "machine_crusher",
+    "type": "tool",
+    "data": "tools/machine_crusher.json"
+  }
+]

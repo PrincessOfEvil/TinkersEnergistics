@@ -2,14 +2,15 @@ package princess.tinkersenergistics.item;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import princess.tinkersenergistics.library.StatHelper;
@@ -42,21 +43,24 @@ public class MachineModPart extends MachinePart
 		}
 		
 	@Override
-	public void getSubItems(@Nonnull Item itemIn, CreativeTabs tab, List<ItemStack> subItems)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems)
 		{
-		for (Material mat : TinkerRegistry.getAllMaterialsWithStats(MaterialTypes.HEAD))
+		if (this.isInCreativeTab(tab))
 			{
-			subItems.add(getItemstackWithMaterial(mat));
-			if (!Config.listAllMaterials)
+			for (Material mat : TinkerRegistry.getAllMaterialsWithStats(MaterialTypes.HEAD))
 				{
-				break;
+				subItems.add(getItemstackWithMaterial(mat));
+				if (!Config.listAllMaterials)
+					{
+					break;
+					}
 				}
 			}
 		}
 		
-	@SideOnly(Side.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 		{
 		Material material = getMaterial(stack);
 		

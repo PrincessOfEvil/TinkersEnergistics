@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
 import princess.tinkersenergistics.library.CrusherRecipe;
 
-public class CrusherRecipeWrapper extends BlankRecipeWrapper
+public class CrusherRecipeWrapper implements IRecipeWrapper
 	{
 	private final List<ItemStack>	input;
 	private final List<ItemStack>	output;
@@ -31,11 +31,5 @@ public class CrusherRecipeWrapper extends BlankRecipeWrapper
 	public List<List<ItemStack>> getInputs()
 		{
 		return Collections.singletonList(input);
-		}
-		
-	@Override
-	public List<ItemStack> getOutputs()
-		{
-		return output;
 		}
 	}

@@ -5,14 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +29,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import princess.tinkersenergistics.TinkersEnergistics;
 import princess.tinkersenergistics.block.tile.TileMachine;
 import princess.tinkersenergistics.library.MachineNBT;
@@ -93,7 +99,8 @@ public abstract class MachineCore extends ToolCore
 		}
 		
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 		{
 		boolean shift = Util.isShiftKeyDown();
 		boolean ctrl = Util.isCtrlKeyDown();
@@ -119,6 +126,7 @@ public abstract class MachineCore extends ToolCore
 					}
 		}
 		
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<String> getInformation(ItemStack stack, boolean detailed)
 		{
@@ -216,7 +224,8 @@ public abstract class MachineCore extends ToolCore
 		{
 		return 0f;
 		}
-		
+
+	@Override
 	public float damageCutoff()
 		{
 		return 0.0f;
@@ -227,7 +236,8 @@ public abstract class MachineCore extends ToolCore
 		{
 		return 4;
 		}
-		
+
+	@Override
 	public void reduceDurabilityOnHit(ItemStack stack, EntityPlayer player, float damage)
 		{}
 		
@@ -260,13 +270,10 @@ public abstract class MachineCore extends ToolCore
 		}
 		
 	//ok, time to copy ItemBlock, guys.
-	
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 		{
-		NBTTagCompound tag = TagUtil.getTagSafe(stack).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA);
-		
-		if (!tag.getBoolean("Powered")) return EnumActionResult.FAIL;
-		
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 		
@@ -275,16 +282,19 @@ public abstract class MachineCore extends ToolCore
 			pos = pos.offset(facing);
 			}
 			
-		if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity) null, stack))
+		ItemStack itemstack = player.getHeldItem(hand);
+		
+		if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, (Entity) null))
 			{
-			int i = getMetadata(stack.getMetadata());
-			IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn, stack);
+			int i = this.getMetadata(itemstack.getMetadata());
+			IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
 			
-			if (placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1))
+			if (placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1))
 				{
-				SoundType soundtype = worldIn.getBlockState(pos).getBlock().getSoundType(worldIn.getBlockState(pos), worldIn, pos, playerIn);
-				worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-				--stack.stackSize;
+				iblockstate1 = worldIn.getBlockState(pos);
+				SoundType soundtype = iblockstate1.getBlock().getSoundType(iblockstate1, worldIn, pos, player);
+				worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+				itemstack.shrink(1);
 				}
 				
 			return EnumActionResult.SUCCESS;
@@ -295,24 +305,29 @@ public abstract class MachineCore extends ToolCore
 			}
 		}
 		
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
-		{
-		if (!world.setBlockState(pos, newState, 3)) return false;
-		
-		IBlockState state = world.getBlockState(pos);
-		if (state.getBlock() == block)
-			{
-			setTileEntityNBT(world, player, pos, stack.copy());
-			block.onBlockPlacedBy(world, pos, state, player, stack);
-			}
-			
-		return true;
-		}
+
+    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState)
+    {
+        if (!world.setBlockState(pos, newState, 11)) return false;
+
+        IBlockState state = world.getBlockState(pos);
+        if (state.getBlock() == this.block)
+        {
+            setTileEntityNBT(world, player, pos, stack);
+            this.block.onBlockPlacedBy(world, pos, state, player, stack);
+
+            if (player instanceof EntityPlayerMP)
+                CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, pos, stack);
+        }
+
+        return true;
+    }
 		
 	private void setTileEntityNBT(World world, EntityPlayer player, BlockPos pos, ItemStack stack)
 		{
 		TileMachine tile = (TileMachine) world.getTileEntity(pos);
 		
+		tile.setFacing(player.getHorizontalFacing().getOpposite());
 		tile.setParentItem(stack);
 		}
 	}

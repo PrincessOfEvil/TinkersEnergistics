@@ -1,14 +1,18 @@
 package princess.tinkersenergistics.library;
 
 import com.google.common.collect.Lists;
+
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import org.apache.commons.lang3.tuple.Pair;
 import slimeknights.tconstruct.common.TinkerPulse;
 import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.library.materials.MaterialGUI;
 import slimeknights.tconstruct.library.modifiers.IModifier;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tools.IPattern;
@@ -24,35 +28,11 @@ public abstract class AbstractTinkerPulse extends TinkerPulse
 	{
 	
 	protected static List<ToolCore>				tools				= Lists.newLinkedList();
-	protected static List<ToolPart>				toolParts			= Lists.newLinkedList();
+	protected static List<ToolPart>				toolparts			= Lists.newLinkedList();
 	protected static List<IModifier>			modifiers			= Lists.newLinkedList();
 	protected static List<Pair<Item, ToolPart>>	toolPartPatterns	= Lists.newLinkedList();
+	public static final List<Material>			materials			= Lists.newArrayList();
 	
-	protected static <T extends ToolCore> T registerTool(T item, String name)
-		{
-		tools.add(item);
-		return registerItem(item, name);
-		}
-		
-	protected ToolPart registerToolPart(ToolPart part, String name)
-		{
-		return registerToolPart(part, name, TinkerTools.pattern);
-		}
-		
-	protected <T extends Item & IPattern> ToolPart registerToolPart(ToolPart part, String name, T pattern)
-		{
-		ToolPart ret = registerItem(part, name);
-		
-		if (pattern != null)
-			{
-			toolPartPatterns.add(Pair.<Item, ToolPart> of(pattern, ret));
-			}
-			
-		toolParts.add(ret);
-		
-		return ret;
-		}
-		
 	protected void registerStencil(Item pattern, ToolPart toolPart)
 		{
 		for (ToolCore toolCore : TinkerRegistry.getTools())
@@ -70,20 +50,72 @@ public abstract class AbstractTinkerPulse extends TinkerPulse
 			}
 		}
 		
-	protected static <T extends Item> T registerItem(T item, String name)
+	protected static <T extends ToolCore> T registerTool(IForgeRegistry<Item> registry, T item, String unlocName)
 		{
-		if (!name.equals(name.toLowerCase(Locale.US))) { throw new IllegalArgumentException(String.format("Unlocalized names need to be all lowercase! Item: %s", name)); }
+		tools.add(item);
+		return registerItem(registry, item, unlocName);
+		}
 		
-		item.setUnlocalizedName(name);
-		item.setRegistryName(new ResourceLocation(ModInfo.MODID, name));
-		GameRegistry.register(item);
-		return item;
+	protected ToolPart registerToolPart(IForgeRegistry<Item> registry, ToolPart part, String name)
+		{
+		return registerToolPart(registry, part, name, TinkerTools.pattern);
+		}
+		
+	protected <T extends Item & IPattern> ToolPart registerToolPart(IForgeRegistry<Item> registry, ToolPart part, String name, T pattern)
+		{
+		ToolPart ret = registerItem(registry, part, name);
+		
+		if (pattern != null)
+			{
+			toolPartPatterns.add(Pair.of(pattern, ret));
+			}
+			
+		toolparts.add(ret);
+		
+		return ret;
 		}
 		
 	protected <T extends IModifier> T registerModifier(T modifier)
 		{
-		TinkerRegistry.registerModifier(modifier);
 		modifiers.add(modifier);
 		return modifier;
+		}
+		
+	protected static <T extends Item> T registerItem(IForgeRegistry<Item> registry, T item, String name)
+		{
+		if (!name.equals(name.toLowerCase(Locale.US))) { throw new IllegalArgumentException(String.format("Unlocalized names need to be all lowercase! Item: %s", name)); }
+		
+		item.setUnlocalizedName(String.format("%s.%s", ModInfo.MODID, name.toLowerCase(Locale.US)));
+		item.setRegistryName(new ResourceLocation(ModInfo.MODID, name));
+		registry.register(item);
+		return item;
+		}
+	
+	  protected static <T extends Block> T registerBlock(IForgeRegistry<Block> registry, T block, String name) {
+	    if(!name.equals(name.toLowerCase(Locale.US))) {
+	      throw new IllegalArgumentException(String.format("Unlocalized names need to be all lowercase! Block: %s", name));
+	    }
+
+	    String prefixedName = String.format("%s.%s", ModInfo.MODID, name.toLowerCase(Locale.US));
+	    block.setUnlocalizedName(prefixedName);
+
+	    register(registry, block, name);
+	    return block;
+	  }
+
+		
+	protected static Material mat(String name, int color, boolean hidden)
+		{
+		Material mat = new Material(name, color, hidden);
+		materials.add(mat);
+		return mat;
+		}
+	
+	protected static MaterialGUI mat(String name, int color)
+		{
+		MaterialGUI mat = new MaterialGUI(name);
+		mat.materialTextColor = color;
+		materials.add(mat);
+		return mat;
 		}
 	}

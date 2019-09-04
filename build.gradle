@@ -26,26 +26,35 @@ repositories {
     }
     maven { // TOP
         name 'tterrag maven'
-        url "http://maven.tterrag.com/"
+        url "https://maven.tterrag.com/"
     }
     maven { // compatlayer
         name 'K-4u maven'
-        url "http://maven.k-4u.nl/"
+        url "https://maven.k-4u.nl/"
     }
     maven {
         name 'forge'
-        url 'http://files.minecraftforge.net/maven'
+        url 'https://files.minecraftforge.net/maven'
     }
     maven {
          name "Tehnut Maven FS"
-         url "http://tehnut.info/maven"
+         url "https://tehnut.info/maven"
     }
     maven {
         name = "CoFH Maven"
-        url = "http://maven.covers1624.net"
+        url = "https://maven.covers1624.net"
+    }
+    maven { // Quark and ARL
+        name = "BlameJared"
+        url = "https://maven.blamejared.com"
+    }
+    flatDir {
+        dirs 'localstore'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 version = "1.0"
 group= "princess"
@@ -68,7 +77,7 @@ compileJava {
 }
 
 minecraft {
-    version = config.minecraft_version_short + "-" + config.forge_version
+    version = config.minecraft_version + "-" + config.forge_version
     mappings = config.mappings
     runDir = "run"
     useDepAts = true
@@ -76,7 +85,7 @@ minecraft {
 
 dependencies {
     deobfCompile "slimeknights:TConstruct:${config.minecraft_version}-${config.tcon_version}"
-    deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version}-${config.mantle_version}"
+    deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version_short}-${config.mantle_version}"
 
     deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}:api"
     runtime "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}"
@@ -85,6 +94,8 @@ dependencies {
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${config.probe_version}"
     deobfCompile "cofh:RedstoneFlux:${config.redstoneflux_version}:universal"
     deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
+
+    deobfCompile "vazkii.quark:Quark:${config.quark_version}:api"
 }
 
 sourceSets {

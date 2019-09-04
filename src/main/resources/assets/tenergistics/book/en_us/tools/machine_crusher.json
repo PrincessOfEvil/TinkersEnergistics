@@ -1,0 +1,13 @@
+{
+  "tool": "machine_crusher",
+  "text": [
+    {
+      "text": "The Crusher crushes basic ores into dust."
+    }
+  ],
+  "properties": [
+    "Basic machine",
+    "Crushes stuff",
+    "Another one bites the dust"
+  ]
+}

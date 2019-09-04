@@ -1,0 +1,9 @@
+{
+	"variants": 
+	{
+		"normal": 
+		{
+			"model": "tenergistics:machine_block"
+		}
+	}
+}

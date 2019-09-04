@@ -30,7 +30,7 @@ public class SlotMachine extends SlotItemHandler
 		if (index == 18) return ((MachineItemHandler)getItemHandler()).extractItemFuel(amount, false);
 		
 		ItemStack stack = getItemHandler().extractItem(index, amount, false);
-		if (stack == null) stack = ((MachineItemHandler)getItemHandler()).extractItemProcessing(index, amount, false);		
+		if (stack.isEmpty()) stack = ((MachineItemHandler)getItemHandler()).extractItemProcessing(index, amount, false);		
 		return stack;
 		}
 	}

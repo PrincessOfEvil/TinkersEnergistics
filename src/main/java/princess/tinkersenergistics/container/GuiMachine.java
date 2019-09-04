@@ -1,12 +1,15 @@
 package princess.tinkersenergistics.container;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.CapabilityItemHandler;
 import princess.tinkersenergistics.block.tile.TileMachine;
 import princess.tinkersenergistics.capability.MachineItemHandler;
 import princess.tinkersenergistics.library.ModInfo;
+import slimeknights.tconstruct.library.Util;
 
 public class GuiMachine extends GuiContainer
 	{
@@ -23,11 +26,23 @@ public class GuiMachine extends GuiContainer
 		
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-		{}
+		{
+		this.fontRenderer.drawString(this.tile.getName(), 8, 6, 4210752);
+		this.fontRenderer.drawString(Util.translate(Minecraft.getMinecraft().player.inventory.getName()), 8, this.ySize - 96 + 2, 4210752);
+		}
+		
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+		{
+		this.drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
+		}
 		
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 		{
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(background);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		drawSlots();

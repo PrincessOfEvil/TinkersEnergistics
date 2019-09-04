@@ -32,7 +32,6 @@ public class ItemDust extends ItemMetaDynamicTinkers implements IMaterialItem
 	@Override
 	public String getItemStackDisplayName(@Nonnull ItemStack stack)
 		{
-		
 		Material material = getMaterial(stack);
 		if (material != Material.UNKNOWN)
 			{
@@ -45,7 +44,7 @@ public class ItemDust extends ItemMetaDynamicTinkers implements IMaterialItem
 			return material.getLocalizedItemName(Util.translate(getUnlocalizedName() + ".name"));
 			}
 		else
-			return Util.translate("item.dusts.gold.name");
+			return Util.translate("item.tenergistics.dusts.warp.name");
 		}
 		
 	@Override
@@ -80,13 +79,13 @@ public class ItemDust extends ItemMetaDynamicTinkers implements IMaterialItem
 		int i = 0;
 		for (Material material : TinkerRegistry.getAllMaterials())
 			{
-			if (material.isCastable())
+			if (material.isCastable() && !material.isHidden())
 				{
 				TinkersEnergistics.dusts[i] = TinkersEnergistics.metalDust.addMeta(i, material.getIdentifier());
 				i++;
 				}
-			}
-		TinkersEnergistics.dusts[i] = TinkersEnergistics.metalDust.addMeta(i, "gold");
+			}/*
+		TinkersEnergistics.dusts[i] = TinkersEnergistics.metalDust.addMeta(i, TinkersEnergistics.gold.getIdentifier());*/
 		}
 		
 	public static void initializeDustRecipes()
@@ -107,15 +106,26 @@ public class ItemDust extends ItemMetaDynamicTinkers implements IMaterialItem
 			
 			FurnaceRecipes.instance().addSmeltingRecipe(dust, ingots.get(0), 0);
 			
-			MachineRecipeHandler.addCrushingRecipe(ingots.get(0), dust);
+			for (int j = 0; j < ingots.size(); j++)
+				MachineRecipeHandler.addCrushingRecipe(ingots.get(j), dust);
 			
+			try
+				{
+				TinkerRegistry.registerMelting(dust, TinkerRegistry.getMelting(ingots.get(0)).output.getFluid(), 144);
+				}
+			catch (Exception e)
+				{
+				System.out.println(name);
+				}
+				
 			ItemStack dust2 = dust.copy(); // No, i cannot stop doing this. Java is weird like that.
-			dust2.stackSize = ConfigHandler.dustsPerOre == -1 ? (int) (Config.oreToIngotRatio) : ConfigHandler.dustsPerOre;
+			dust2.setCount(ConfigHandler.dustsPerOre == -1 ? (int) (Config.oreToIngotRatio) : ConfigHandler.dustsPerOre);
 			
 			List<ItemStack> ores = OreDictionary.getOres("ore" + name, true);
 			if (ores.isEmpty()) continue;
 			
-			MachineRecipeHandler.addCrushingRecipe(ores.get(0), dust2);
+			for (int j = 0; j < ores.size(); j++)
+				MachineRecipeHandler.addCrushingRecipe(ores.get(j), dust2);
 			}
 		}
 		

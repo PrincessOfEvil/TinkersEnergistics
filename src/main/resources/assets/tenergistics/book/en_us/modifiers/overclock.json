@@ -1,0 +1,17 @@
+{
+  "modifier": "overclock",
+  "text": [
+    {
+      "text": "Adding redstone to the machine makes it work faster! And gunpowder adds extra punch! That's how it works, right?"
+    }
+  ],
+  "effects": [
+    "Each dust increases speed by a small amount",
+    "Increases machine speed and lowers efficiency",
+    "Multiple levels"
+  ],
+  "demoTool": [
+    "tenergistics:machine_furnace",
+    "tenergistics:machine_crusher"
+  ]
+}

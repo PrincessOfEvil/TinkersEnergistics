@@ -16,7 +16,7 @@ modifier.overclock.name5=Nitrogen-Cooled
 modifier.overclock.desc=§oExplosive overclocking!§r\nIncreases machine speed and fuel consumption.
 
 modifier.double.name=Profit
-modifier.double.desc=§oResources Recovered!§r\nChance to double the output.
+modifier.double.desc=§oResources Recovered!§r\nChance to double the output. Only works on ores.
 
 modifier.firebox.name=Firebox
 modifier.firebox.desc=§oI don't want to set the world on fire...§r\nBurns solid fuels. Slightly boosts machine stats.
@@ -26,28 +26,30 @@ modifier.coil.name=Energy Coil
 modifier.coil.desc=§oExtra Power!§r\nUses Forge Energy.
 
 
+# Materials
+material.gold.name=Gold
 
 # Items
-item.dusts.name=Dust
-item.dusts.gold.name=Gold Dust
+item.tenergistics.dusts.name=Dust
+item.tenergistics.dusts.warp.name=Warp Dust
 
 # Tools
-tile.machine_furnace.name=Furnace
-item.machine_furnace.name=Furnace
-item.machine_furnace.desc=Smelts ores and food. Requires a power source.
-tile.machine_crusher.name=Crusher
-item.machine_crusher.name=Crusher
-item.machine_crusher.desc=Crushes ores into fine powder. Requires a power source.
+tile.tenergistics.machine_furnace.name=Furnace
+item.tenergistics.machine_furnace.name=Furnace
+item.tenergistics.machine_furnace.desc=Smelts ores and food. Requires a power source.
+tile.tenergistics.machine_crusher.name=Crusher
+item.tenergistics.machine_crusher.name=Crusher
+item.tenergistics.machine_crusher.desc=Crushes ores into fine powder. Requires a power source.
 
 # Toolparts
-item.machine_casing.name=Machine Casing
-item.machine_gearbox.name=Gearbox
-item.machine_heater.name=Heat Chamber
-item.machine_mill.name=Crushing Chamber
+item.tenergistics.machine_casing.name=Machine Casing
+item.tenergistics.machine_gearbox.name=Gearbox
+item.tenergistics.machine_heater.name=Heat Chamber
+item.tenergistics.machine_mill.name=Crushing Chamber
 
-item.machine_firebox.name=Firebox
-item.machine_exchanger.name=Heat Exchanger
-item.machine_coil.name=Heating Coil
+item.tenergistics.machine_firebox.name=Firebox
+item.tenergistics.machine_exchanger.name=Heat Exchanger
+item.tenergistics.machine_coil.name=Heating Coil
 
 # Tool Stats
 

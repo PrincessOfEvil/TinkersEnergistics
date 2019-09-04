@@ -28,7 +28,7 @@ public class ModDouble extends ToolModifier implements IMachineMod
 		{
 		ModifierNBT data = ModifierNBT.readInteger(modifierTag);
 		int level = data.level;
-		data.extraInfo = " / ";
+		data.extraInfo = "" + level + " / " + max;
 		}
 		
 	@Override

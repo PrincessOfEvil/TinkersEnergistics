@@ -28,4 +28,10 @@ public class CommonProxy
 		{
 		return true;
 		}
+
+	public void registerModels()
+		{
+		// TODO Auto-generated method stub
+		
+		}
 	}

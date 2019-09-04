@@ -11,10 +11,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import princess.tinkersenergistics.ConfigHandler;
 import princess.tinkersenergistics.TinkersEnergistics;
@@ -23,14 +26,17 @@ import princess.tinkersenergistics.capability.MachineFluidTank;
 import princess.tinkersenergistics.capability.MachineItemHandler;
 import princess.tinkersenergistics.library.MachineRecipeHandler;
 import princess.tinkersenergistics.library.MachineTags;
+import princess.tinkersenergistics.library.OreDicHelper;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
 //i_am_a_god.mp3
+//holy duck this class needs some splitting up
+//like i'm not even kidding if i make another machine i'm making a machine registry
 public class TileMachine extends TileEntity implements ITickable
 	{
-	private ItemStack				parentItem			= null;
+	private ItemStack				parentItem			= ItemStack.EMPTY;
 	
 	/**How much time it takes to cook*/
 	public int						cookTime			= 1000;
@@ -71,7 +77,7 @@ public class TileMachine extends TileEntity implements ITickable
 	@Override
 	public void update()
 		{
-		if (!this.worldObj.isRemote)
+		if (!this.world.isRemote)
 			{
 			if (canStartCrafting())
 				{
@@ -98,7 +104,7 @@ public class TileMachine extends TileEntity implements ITickable
 			case 1:
 				return MachineRecipeHandler.getCrushingResult(stack);
 			case 2:
-				return null;
+				return ItemStack.EMPTY;
 			default:
 				return FurnaceRecipes.instance().getSmeltingResult(stack);
 			}
@@ -149,7 +155,7 @@ public class TileMachine extends TileEntity implements ITickable
 			else
 				{
 				ItemStack stack = inventory.extractItemFuel(1, false);
-				if (stack == null) return false;
+				if (stack.isEmpty()) return false;
 				int addition = TileEntityFurnace.getItemBurnTime(stack);
 				fuelTicks += addition * fuelMultInternal;
 				fuelTicksMax = addition * fuelMultInternal;
@@ -161,12 +167,12 @@ public class TileMachine extends TileEntity implements ITickable
 		{
 		ItemStack item = inventory.extractItemProcessing(1, true);
 		
-		if (item == null) return false;
+		if (item.isEmpty()) return false;
 		
 		ItemStack stack = craftingResult(item);
 		
-		if (stack == null) return false;
-		if (inventory.insertItemProcessing(stack, true) == null) return true;
+		if (stack.isEmpty()) return false;
+		if (inventory.insertItemProcessing(stack, true).isEmpty()) return true;
 		
 		return false;
 		}
@@ -182,7 +188,8 @@ public class TileMachine extends TileEntity implements ITickable
 		fireTicks = 0;
 		ItemStack item = inventory.extractItemProcessing(1, false);
 		inventory.insertItemProcessing(craftingResult(item), false);
-		if (random.nextInt(100) < craftMultiplier) inventory.insertItemProcessing(craftingResult(item), false);
+		
+		if (random.nextInt(100) < craftMultiplier && OreDicHelper.isOre("ore", item)) inventory.insertItemProcessing(craftingResult(item), false);
 		
 		markDirty();
 		}
@@ -205,7 +212,7 @@ public class TileMachine extends TileEntity implements ITickable
 		
 		type = compound.getInteger("Type");
 		
-		setParentItem(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("ParentItem")));
+		setParentItem(new ItemStack(compound.getCompoundTag("ParentItem")));
 		
 		if (fluidPowered) fuelTank.readFromNBT((NBTTagCompound) compound.getTag("Tank"));
 		if (energyPowered) energyStorage.receiveEnergy(compound.getInteger("Energy"), false);
@@ -229,7 +236,7 @@ public class TileMachine extends TileEntity implements ITickable
 		
 		compound.setInteger("Type", type);
 		
-		if (parentItem != null) compound.setTag("ParentItem", parentItem.writeToNBT(new NBTTagCompound()));
+		if (!parentItem.isEmpty()) compound.setTag("ParentItem", parentItem.writeToNBT(new NBTTagCompound()));
 		
 		return compound;
 		}
@@ -241,7 +248,7 @@ public class TileMachine extends TileEntity implements ITickable
 		
 	public String getName()
 		{
-		return parentItem != null ? parentItem.getDisplayName() : "container.furnace";
+		return !parentItem.isEmpty() ? parentItem.getDisplayName() : "container.furnace";
 		}
 		
 	@Override
@@ -265,13 +272,13 @@ public class TileMachine extends TileEntity implements ITickable
 		
 	public ItemStack getParentItem()
 		{
-		if (parentItem != null) return parentItem.copy();
-		return null;
+		if (!parentItem.isEmpty()) return parentItem.copy();
+		return ItemStack.EMPTY;
 		}
 		
 	public void setParentItem(ItemStack parentItem)
 		{
-		if (parentItem == null) return;
+		if (parentItem.isEmpty()) return;
 		this.parentItem = parentItem;
 		
 		NBTTagCompound tag = TagUtil.getTagSafe(parentItem).getCompoundTag(slimeknights.tconstruct.library.utils.Tags.TOOL_DATA);
@@ -301,7 +308,7 @@ public class TileMachine extends TileEntity implements ITickable
 			NBTTagCompound tagged = tags.getCompoundTagAt(i);
 			ModifierNBT data = ModifierNBT.readTag(tagged);
 			
-			if (data.identifier == "double")
+			if (data.identifier.equals("double"))
 				{
 				ModifierNBT.IntegerNBT modData = ModifierNBT.readInteger(tagged);
 				craftMultiplier = modData.current * 2;
@@ -319,5 +326,22 @@ public class TileMachine extends TileEntity implements ITickable
 	public MachineItemHandler getInventory()
 		{
 		return inventory;
+		}
+		
+	//Guess where i got THAT from.
+	public void setFacing(EnumFacing face)
+		{
+		getTileData().setInteger("Facing", face.getIndex());
+		}
+		
+	public EnumFacing getFacing()
+		{
+		return EnumFacing.getFront(getTileData().getInteger("Facing"));
+		}
+
+    @SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox()
+		{
+		return INFINITE_EXTENT_AABB;
 		}
 	}

@@ -3,12 +3,14 @@ package princess.tinkersenergistics.item;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import princess.tinkersenergistics.TinkersEnergistics;
@@ -32,9 +34,9 @@ public class MachinePart extends ToolPart
 		}
 		
 	@SuppressWarnings("deprecation")
-	@SideOnly(Side.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
 		{
 		Material material = getMaterial(stack);
 		
