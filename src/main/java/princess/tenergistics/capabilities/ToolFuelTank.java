@@ -8,16 +8,21 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 
-public class ToolFuelTank implements IFluidHandlerItem, ICapabilityProvider
+public class ToolFuelTank implements IFluidHandlerItem, ICapabilityProvider, IEnergyStorage
 	{
 	
-	private final LazyOptional<IFluidHandlerItem>	holder	= LazyOptional.of(() -> this);
+	private final LazyOptional<IFluidHandlerItem>	fluidHolder			= LazyOptional.of(() -> this);
+	private final LazyOptional<IEnergyStorage>		energyHolder		= LazyOptional.of(() -> this);
+	
+	private static final int						MAX_ENERGY_TRANSFER	= 500;
 	
 	@Nonnull
 	private final ItemStack							container;
@@ -25,12 +30,60 @@ public class ToolFuelTank implements IFluidHandlerItem, ICapabilityProvider
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
 		{
-		return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, holder);
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+			{ return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, fluidHolder); }
+		if (cap == CapabilityEnergy.ENERGY)
+			{ return CapabilityEnergy.ENERGY.orEmpty(cap, energyHolder); }
+		return LazyOptional.empty();
 		}
 		
 	public ToolFuelTank(ItemStack container)
 		{
 		this.container = container;
+		}
+		
+	@Override
+	public int receiveEnergy(int maxReceive, boolean simulate)
+		{
+		int energyReceived = Math
+				.min(getMaxEnergyStored() - getEnergyStored(), Math.min(MAX_ENERGY_TRANSFER, maxReceive));
+		if (!simulate)
+			{
+			PoweredTool.setEnergy(container, getEnergyStored() + energyReceived);
+			}
+		return energyReceived;
+		}
+		
+	@Override
+	public int extractEnergy(int maxExtract, boolean simulate)
+		{
+		// fuck off with your nonsense
+		return 0;
+		}
+		
+	@Override
+	public int getEnergyStored()
+		{
+		return PoweredTool.getEnergy(container);
+		}
+		
+	@Override
+	public int getMaxEnergyStored()
+		{
+		return PoweredTool.getMaxEnergy(container);
+		}
+		
+	@Override
+	public boolean canExtract()
+		{
+		//This ain't a battery.
+		return false;
+		}
+		
+	@Override
+	public boolean canReceive()
+		{
+		return true;
 		}
 		
 	@Override
@@ -152,5 +205,4 @@ public class ToolFuelTank implements IFluidHandlerItem, ICapabilityProvider
 			
 		return drained;
 		}
-		
 	}

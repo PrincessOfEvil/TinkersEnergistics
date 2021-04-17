@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "tenergistics:tools/modifiers/energy_coil"
+    ]
+  },
+  "criteria": {
+    "has_center": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/iron"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "tenergistics:tools/modifiers/energy_coil"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_center",
+      "has_the_recipe"
+    ]
+  ]
+}

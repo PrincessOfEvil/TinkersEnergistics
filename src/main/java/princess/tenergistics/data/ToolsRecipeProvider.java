@@ -115,7 +115,6 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.exchanger, upgradeFolder));
 		
-		/*
 		ShapedRecipeBuilder.shapedRecipe(TEnergistics.energyCoil)
 				.key('-', TinkerSmeltery.searedBrick)
 				.key('I', Items.IRON_INGOT)
@@ -126,14 +125,13 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setGroup(powerGroup)
 				.addCriterion("has_center", hasItem(Tags.Items.INGOTS_IRON))
 				.build(consumer, prefix(TEnergistics.energyCoil, modifierFolder));
-				
+		
 		ModifierRecipeBuilder.modifier(TEnergistics.energyCoilModifier.get())
 				.addInput(TEnergistics.energyCoil)
 				.setMaxLevel(1)
 				.setTools(TagProvider.POWERED)
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.energyCoil, upgradeFolder));
-		*/
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.capacityModifier.get())
 				.addInput(TinkerMaterials.copper.getIngotTag())
@@ -146,10 +144,25 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setTools(TagProvider.POWERED)
 				.setRequirements(ModifierMatch
 						.list(1, ModifierMatch.entry(TEnergistics.fireboxModifier.get()), ModifierMatch
-								.entry(TEnergistics.exchangerModifier.get())))
+								.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
+										.entry(TEnergistics.energyCoilModifier.get())))
 				.setRequirementsError("recipe.tenergistics.modifier.capacity_requirements")
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.capacityModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.rtgModifier.get())
+				.addInput(TinkerMaterials.roseGold.getIngotTag())
+				.addInput(TinkerFluids.moltenBlaze.asItem())
+				.addInput(TinkerFluids.moltenBlaze.asItem())
+				.addInput(Items.BLUE_ICE)
+				.addInput(Items.BLUE_ICE)
+				.setUpgradeSlots(1)
+				.setMaxLevel(1)
+				.setTools(TagProvider.POWERED)
+				.setRequirements(ModifierMatch.entry(TEnergistics.energyCoilModifier.get()))
+				.setRequirementsError("recipe.tenergistics.modifier.coil_only")
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.rtgModifier, upgradeFolder));
 		
 		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
 				.build(consumer, location(modifierFolder + "tinker_station_firebox_refuel").toString());

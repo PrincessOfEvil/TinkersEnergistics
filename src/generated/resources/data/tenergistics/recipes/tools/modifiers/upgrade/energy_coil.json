@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "item": "tenergistics:energy_coil"
+    }
+  ],
+  "tools": {
+    "tag": "tenergistics:modifiable/powered"
+  },
+  "result": {
+    "name": "tenergistics:energy_coil",
+    "level": 1
+  },
+  "max_level": 1
+}

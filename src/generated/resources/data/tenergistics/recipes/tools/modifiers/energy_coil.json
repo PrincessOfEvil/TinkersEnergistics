@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tenergistics:power_modifiers",
+  "pattern": [
+    "---",
+    "III",
+    "n-I"
+  ],
+  "key": {
+    "-": {
+      "item": "tconstruct:seared_brick"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "n": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "result": {
+    "item": "tenergistics:energy_coil"
+  }
+}

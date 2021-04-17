@@ -1,0 +1,34 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "tag": "forge:ingots/rose_gold"
+    },
+    {
+      "item": "tconstruct:molten_blaze_bucket"
+    },
+    {
+      "item": "tconstruct:molten_blaze_bucket"
+    },
+    {
+      "item": "minecraft:blue_ice"
+    },
+    {
+      "item": "minecraft:blue_ice"
+    }
+  ],
+  "tools": {
+    "tag": "tenergistics:modifiable/powered"
+  },
+  "requirements": {
+    "name": "tenergistics:energy_coil",
+    "level": 1,
+    "error": "recipe.tenergistics.modifier.coil_only"
+  },
+  "result": {
+    "name": "tenergistics:rtg",
+    "level": 1
+  },
+  "max_level": 1,
+  "upgrade_slots": 1
+}

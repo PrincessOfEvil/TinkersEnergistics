@@ -121,6 +121,6 @@ public class FireboxModifier extends PowerSourceModifier
 		
 	private int maxFuel(IModifierToolStack tool, ItemStack stack)
 		{
-		return Math.min(tool.getVolatileData().getInt(PoweredTool.ITEM_LOCATION), stack.getMaxStackSize());
+		return Math.min(PoweredTool.getItemCapacity(tool), stack.getMaxStackSize());
 		}
 	}

@@ -58,6 +58,7 @@ public class PoweredTool extends ToolCore
 	public static final ResourceLocation	POWERED			= new ResourceLocation(TEnergistics.modID, "powered");
 	
 	// Tiem Handling
+	
 	private static final String				TAG_ITEM		= "item";
 	public static final ResourceLocation	ITEM_LOCATION	= new ResourceLocation(TEnergistics.modID, TAG_ITEM);
 	
@@ -141,5 +142,40 @@ public class PoweredTool extends ToolCore
 		fluid.writeToNBT(fluidTag);
 		ModDataNBT data = stack.getPersistentData();
 		data.put(FLUID_LOCATION, fluidTag);
+		}
+		
+	// Energy Handling
+	
+	private static final String				TAG_ENERGY		= "energy";
+	public static final ResourceLocation	ENERGY_LOCATION	= new ResourceLocation(TEnergistics.modID, TAG_ENERGY);
+	
+	public static void setEnergy(ItemStack stack, int energy)
+		{
+		setEnergy(ToolStack.from(stack), energy);
+		}
+		
+	public static void setEnergy(IModifierToolStack tool, int energy)
+		{
+		tool.getPersistentData().putInt(PoweredTool.ENERGY_LOCATION, energy);
+		}
+		
+	public static int getEnergy(ItemStack stack)
+		{
+		return getEnergy(ToolStack.from(stack));
+		}
+		
+	public static int getEnergy(IModifierToolStack tool)
+		{
+		return tool.getPersistentData().getInt(PoweredTool.ENERGY_LOCATION);
+		}
+		
+	public static int getMaxEnergy(ItemStack stack)
+		{
+		return getMaxEnergy(ToolStack.from(stack));
+		}
+		
+	public static int getMaxEnergy(IModifierToolStack tool)
+		{
+		return tool.getVolatileData().getInt(PoweredTool.ENERGY_LOCATION);
 		}
 	}

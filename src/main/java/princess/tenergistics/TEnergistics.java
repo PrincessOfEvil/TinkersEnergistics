@@ -37,8 +37,10 @@ import princess.tenergistics.data.ToolsRecipeProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
 import princess.tenergistics.items.EnergisticsBookItem.EnergisticsBookType;
 import princess.tenergistics.modifiers.CapacityModifier;
+import princess.tenergistics.modifiers.EnergyCoilModifier;
 import princess.tenergistics.modifiers.ExchangerModifier;
 import princess.tenergistics.modifiers.FireboxModifier;
+import princess.tenergistics.modifiers.RTGModifier;
 import princess.tenergistics.recipes.RefuelFireboxRecipe;
 import princess.tenergistics.tools.BuzzsawTool;
 import princess.tenergistics.tools.JackhammerTool;
@@ -137,9 +139,13 @@ public class TEnergistics
 			.register("firebox", FireboxModifier::new);
 	public static final RegistryObject<ExchangerModifier>								exchangerModifier						= MODIFIERS
 			.register("exchanger", ExchangerModifier::new);
+	public static final RegistryObject<EnergyCoilModifier>								energyCoilModifier						= MODIFIERS
+			.register("energy_coil", EnergyCoilModifier::new);
 	
 	public static final RegistryObject<CapacityModifier>								capacityModifier						= MODIFIERS
 			.register("capacity", CapacityModifier::new);
+	public static final RegistryObject<RTGModifier>										rtgModifier								= MODIFIERS
+			.register("rtg", RTGModifier::new);
 	
 	public static final RegistryObject<Attribute>										FAKE_HARVEST_SPEED						= ATTRIBUTES
 			.register("generic.fake_harvest_speed", () -> new RangedAttribute(modID + ".attribute.name.generic.fake_harvest_speed", 1.0D, 0.0D, 2048.0D));

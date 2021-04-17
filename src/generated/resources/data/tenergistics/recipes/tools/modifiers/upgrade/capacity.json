@@ -29,6 +29,10 @@
       {
         "name": "tenergistics:exchanger",
         "level": 1
+      },
+      {
+        "name": "tenergistics:energy_coil",
+        "level": 1
       }
     ],
     "matches_needed": 1,

@@ -33,11 +33,22 @@
     "modifier.tenergistics.exchanger.flavor": "Power of the Smeltery!",
     "modifier.tenergistics.exchanger.description": "Allows you to power your machinery with smeltery fuels.\nLava not included.",
     
+    "item.tenergistics.energy_coil": "Energy Coil",
+    "modifier.tenergistics.energy_coil": "Energy Coil",
+    "modifier.tenergistics.energy_coil.flavor": "The most boring modifier in existence.",
+    "modifier.tenergistics.energy_coil.description": "Allows you to power your machinery with Forge Units.\nZzzzz~t!",
+    
     
     "modifier.tenergistics.capacity": "Fuel Capacity",
     "modifier.tenergistics.capacity.flavor": "Infinite Power!",
     "modifier.tenergistics.capacity.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
     "recipe.tenergistics.modifier.capacity_requirements": "Fuel Capacity requires a power source modifier",
+
+    "modifier.tenergistics.rtg": "Retroinfernal Thermopile Generator",
+    "modifier.tenergistics.rtg.flavor": "Truly Infinite Power!",
+    "modifier.tenergistics.rtg.description": "Slowly refuels the Energy Coil. Forever. Until the end of time.",
+    "recipe.tenergistics.modifier.coil_only": "RTG requires an Energy Coil!",
+
 
     "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",
     "item.tenergistics.tool_casing_sand_cast": "Tool Casing Sand Cast",

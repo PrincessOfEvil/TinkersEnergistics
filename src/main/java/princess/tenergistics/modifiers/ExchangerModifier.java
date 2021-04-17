@@ -98,8 +98,7 @@ public class ExchangerModifier extends PowerSourceModifier
 		return getDisplayName().deepCopy()
 				.appendString(": ")
 				.append(fluid.getDisplayName())
-				.appendString(String.format(" (%s / %s)", fluid.getAmount(), tool.getVolatileData()
-						.getInt(PoweredTool.FLUID_LOCATION)));
+				.appendString(String.format(" (%s / %s)", fluid.getAmount(), PoweredTool.getFluidCapacity(tool)));
 		}
 		
 	@Override

@@ -9,6 +9,14 @@
   },
   {
     "type": "modifier",
+    "data": "modifiers/energy_coil.json"
+  },
+  {
+    "type": "modifier",
     "data": "modifiers/capacity.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/rtg.json"
   }
 ]
