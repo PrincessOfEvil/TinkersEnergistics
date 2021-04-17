@@ -1,0 +1,8 @@
+{
+  "loader": "tconstruct:material",
+  "parent": "forge:item/default",
+  "textures": {
+    "texture": "tenergistics:item/tool/jackhammer_rod"
+  },
+  "offset": [3, 2]
+}

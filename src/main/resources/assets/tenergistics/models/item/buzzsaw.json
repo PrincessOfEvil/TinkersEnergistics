@@ -1,0 +1,24 @@
+{
+  "loader": "tconstruct:tool",
+  "parent": "forge:item/default-tool",
+  "textures": {
+    "head":        "tenergistics:item/tool/buzzsaw_disc",
+    "broken_head": "tenergistics:item/tool/buzzsaw_disc_broken",
+    "handle":      "tenergistics:item/tool/multipart/handle",
+    "casing":      "tenergistics:item/tool/tool_casing",
+    "gearbox":     "tenergistics:item/tool/multipart/gearbox_buzzsaw",
+
+    "large_head":        "tenergistics:item/tool/buzzsaw_disc",
+    "large_broken_head": "tenergistics:item/tool/buzzsaw_disc_broken",
+    "large_handle":      "tenergistics:item/tool/multipart/handle",
+    "large_casing":      "tenergistics:item/tool/tool_casing",
+    "large_gearbox":     "tenergistics:item/tool/multipart/gearbox_buzzsaw"
+  },
+  "large": false,
+  "parts": [
+    { "name": "handle",  "index": 1 },
+    { "name": "head",    "index": 0, "broken": "broken_head" },
+    { "name": "casing",  "index": 2 },
+    { "name": "gearbox", "index": 3 }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "tconstruct:table_casting_material",
+  "cast": {
+    "item": "tenergistics:tool_casing_cast"
+  },
+  "item_cost": 8,
+  "result": "tenergistics:tool_casing"
+}

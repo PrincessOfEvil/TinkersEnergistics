@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:molding_table",
+  "material": {
+    "item": "tconstruct:blank_sand_cast"
+  },
+  "pattern": {
+    "item": "tenergistics:tool_casing",
+    "type": "tconstruct:material"
+  },
+  "result": "tenergistics:tool_casing_sand_cast"
+}

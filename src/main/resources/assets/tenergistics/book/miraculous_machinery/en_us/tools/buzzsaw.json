@@ -1,0 +1,18 @@
+{
+  "tool": "tenergistics:buzzsaw",
+  "text": [
+    {
+      "text": "Elegant in its simplicity, the Buzzsaw is pure in its purpose: to cut soft things in half. Wood, undead, it matters not."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "Arcane energies within allow it to cut down entire trees in a single swing, as long as its heart is hot with unquenchable passion of the stars."
+    }
+  ],
+  "properties": [
+    "Incredible damage",
+    "Requires power"
+  ]
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "type": "blank"
+  },
+  {
+    "name": "intro",
+    "type": "text",
+    "data": "intro/intro.json"
+  },
+  {
+    "name": "intro2",
+    "type": "text",
+    "data": "intro/intro2.json"
+  },
+  {
+    "name": "intro3",
+    "type": "text",
+    "data": "intro/intro3.json"
+  },
+  {
+    "name": "lost_pages",
+    "type": "text",
+    "data": "intro/lost_pages.json"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "type": "tconstruct:part_builder",
+  "pattern": "tenergistics:tool_casing",
+  "cost": 8,
+  "result": {
+    "item": "tenergistics:tool_casing"
+  }
+}

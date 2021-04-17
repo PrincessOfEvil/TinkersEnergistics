@@ -1,0 +1,8 @@
+{
+  "loader": "tconstruct:material",
+  "parent": "forge:item/default",
+  "textures": {
+    "texture": "tenergistics:item/tool/tool_casing"
+  },
+  "offset": [-3, -3]
+}

@@ -1,0 +1,58 @@
+{
+    "item.tenergistics.miraculous_machinery": "Miraculous Machinery",
+    "item.tenergistics.miraculous_machinery.tooltip": "Arcane Machinery Grimoire\nby Malama Na'ghftpadgh, the princess of darkness",
+    
+    "tenergistics.tool.unpowered": "No Power Source",
+    
+    "tenergistics.tool.already_powered": "This machine is already powered!",
+    "recipe.tconstruct.tool_repair.fully_fueled": "This machine is already full!",
+    "recipe.tconstruct.tool_repair.fuel_left": "There's different fuel in the tank!",
+    
+    "tenergistics.attribute.name.generic.fake_harvest_speed": "Mining Speed",
+    
+    "item.tenergistics.jackhammer": "Jackhammer",
+    "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
+    "item.tenergistics.buzzsaw": "Buzzsaw",
+    "item.tenergistics.buzzsaw.description":"The Buzzsaw is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a 1x9x1 column, centered.\nBzzz!",
+
+
+    "item.tenergistics.tool_casing": "Tool Casing",
+    "item.tenergistics.gearbox": "Gearbox",
+
+    "item.tenergistics.jackhammer_rod": "Jackhammer Head",
+    "item.tenergistics.buzzsaw_disc": "Buzzsaw Blade",
+
+
+    "item.tenergistics.firebox": "Firebox",
+    "modifier.tenergistics.firebox": "Firebox",
+    "modifier.tenergistics.firebox.flavor": "Winners don't use coal!",
+    "modifier.tenergistics.firebox.description": "Allows you to power your machinery with furnace fuels.\nOnce lit, cannot be extinguished.",
+
+    "item.tenergistics.exchanger": "Heat Exchanger",
+    "modifier.tenergistics.exchanger": "Heat Exchanger",
+    "modifier.tenergistics.exchanger.flavor": "Power of the Smeltery!",
+    "modifier.tenergistics.exchanger.description": "Allows you to power your machinery with smeltery fuels.\nLava not included.",
+    
+    
+    "modifier.tenergistics.capacity": "Fuel Capacity",
+    "modifier.tenergistics.capacity.flavor": "Infinite Power!",
+    "modifier.tenergistics.capacity.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
+    "recipe.tenergistics.modifier.capacity_requirements": "Fuel Capacity requires a power source modifier",
+
+    "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",
+    "item.tenergistics.tool_casing_sand_cast": "Tool Casing Sand Cast",
+    "item.tenergistics.tool_casing_red_sand_cast": "Tool Casing Red Sand Cast",
+
+    "item.tenergistics.gearbox_cast": "Gearbox Gold Cast",
+    "item.tenergistics.gearbox_sand_cast": "Gearbox Sand Cast",
+    "item.tenergistics.gearbox_red_sand_cast": "Gearbox Red Sand Cast",
+
+    "item.tenergistics.jackhammer_rod_cast": "Jackhammer Head Gold Cast",
+    "item.tenergistics.jackhammer_rod_sand_cast": "Jackhammer Head Sand Cast",
+    "item.tenergistics.jackhammer_rod_red_sand_cast": "Jackhammer Head Red Sand Cast",
+
+    "item.tenergistics.buzzsaw_disc_cast": "Buzzsaw Blade Gold Cast",
+    "item.tenergistics.buzzsaw_disc_sand_cast": "Buzzsaw Blade Sand Cast",
+    "item.tenergistics.buzzsaw_disc_red_sand_cast": "Buzzsaw Blade Red Sand Cast"
+
+}

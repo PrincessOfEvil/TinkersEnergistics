@@ -1,0 +1,8 @@
+{
+  "loader": "tconstruct:material",
+  "parent": "forge:item/default",
+  "textures": {
+    "texture": "tenergistics:item/tool/buzzsaw_disc"
+  },
+  "offset": [4, 3]
+}

@@ -1,0 +1,10 @@
+{
+    "slots": [
+        { "position": [ 10, 25 ] },
+        { "position": [ 51, 42 ] },
+        { "position": [ 51, 63 ] },
+        { "position": [ 29, 44 ] }
+    ],
+    "item": "tenergistics:buzzsaw",
+    "sortIndex": 666
+}

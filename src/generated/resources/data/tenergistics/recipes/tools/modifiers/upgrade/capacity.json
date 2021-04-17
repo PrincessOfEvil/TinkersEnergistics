@@ -1,0 +1,43 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "tag": "minecraft:logs"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    }
+  ],
+  "tools": {
+    "tag": "tenergistics:modifiable/powered"
+  },
+  "requirements": {
+    "options": [
+      {
+        "name": "tenergistics:firebox",
+        "level": 1
+      },
+      {
+        "name": "tenergistics:exchanger",
+        "level": 1
+      }
+    ],
+    "matches_needed": 1,
+    "error": "recipe.tenergistics.modifier.capacity_requirements"
+  },
+  "result": {
+    "name": "tenergistics:capacity",
+    "level": 1
+  },
+  "max_level": 3,
+  "upgrade_slots": 1
+}

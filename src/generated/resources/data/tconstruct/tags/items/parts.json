@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "tenergistics:tool_casing",
+    "tenergistics:gearbox",
+    "tenergistics:jackhammer_rod",
+    "tenergistics:buzzsaw_disc"
+  ]
+}

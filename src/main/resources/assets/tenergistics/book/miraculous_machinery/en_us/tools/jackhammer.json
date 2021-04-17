@@ -1,0 +1,18 @@
+{
+  "tool": "tenergistics:jackhammer",
+  "text": [
+    {
+      "text": "A marvel of arcane engineering, the Jackhammer is a versatile implement, capable of crushing solid rock and your foes alike."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "While it is incredibly fast, it's not any broader than your usual pickaxe, and it requires fuel to work at optimal efficiency."
+    }
+  ],
+  "properties": [
+    "Spectacular rate of attack",
+    "Requires power"
+  ]
+}

@@ -1,0 +1,11 @@
+// Sections
+intro=Introduction
+lost_pages=Eternal Knowledge
+tools=Mystical Apparatus
+modifiers=Vigorous Hearts
+
+modifier.effect=Attendum:
+tool.properties=Conclusion:
+
+material.craft_partbuilder=Can be crafted in the Part Builder
+material.craft_casting=Can be cast from %s

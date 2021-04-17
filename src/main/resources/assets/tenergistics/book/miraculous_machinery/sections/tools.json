@@ -1,0 +1,12 @@
+[
+  {
+    "name": "jackhammer",
+    "type": "tool",
+    "data": "tools/jackhammer.json"
+  },
+  {
+    "name": "buzzsaw",
+    "type": "tool",
+    "data": "tools/buzzsaw.json"
+  }
+]

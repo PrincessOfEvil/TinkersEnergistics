@@ -1,0 +1,46 @@
+modLoader="javafml" #mandatory
+loaderVersion="${loader_range}" #mandatory 
+license="LGPL3"
+issueTrackerURL="https://github.com/PrincessOfEvil/TinkersEnergistics/issues" #optional
+[[mods]] #mandatory
+modId="tenergistics" #mandatory
+version="${version}" #mandatory
+displayName="Tinkers Energistics" #mandatory
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+displayURL="https://github.com/PrincessOfEvil/TinkersEnergistics" #optional
+#logoFile="tenergistics.png" #optional
+#credits="Thanks for this example mod goes to Java" #optional
+authors="Princess of Evil" #optional
+description='''
+Machinery you can tinker with!
+'''
+[[dependencies.tenergistics]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="${forge_range}" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.tenergistics]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.tenergistics]]
+    modId="mantle"
+    mandatory=true
+    versionRange="${mantle_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.tenergistics]]
+    modId="tconstruct"
+    mandatory=true
+    versionRange="${tconstruct_range}"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,8 @@
+{
+  "loader": "tconstruct:material",
+  "parent": "forge:item/default",
+  "textures": {
+    "texture": "tenergistics:item/tool/gearbox"
+  },
+  "offset": [0, 0]
+}
