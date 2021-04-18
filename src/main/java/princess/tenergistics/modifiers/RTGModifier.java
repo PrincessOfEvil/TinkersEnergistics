@@ -4,10 +4,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import princess.tenergistics.tools.PoweredTool;
-import slimeknights.tconstruct.library.modifiers.SingleUseModifier;
+import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 
-public class RTGModifier extends SingleUseModifier
+public class RTGModifier extends Modifier
 	{
 	private static final int ENERGY_PER_SECOND = 10;
 	

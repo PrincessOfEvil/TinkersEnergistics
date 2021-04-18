@@ -1,4 +1,7 @@
 {
+    "block.tenergistics.charger": "Forged Charger",
+    "gui.tenergistics.charger": "Forged Charger",
+    
     "item.tenergistics.miraculous_machinery": "Miraculous Machinery",
     "item.tenergistics.miraculous_machinery.tooltip": "Arcane Machinery Grimoire\nby Malama Na'ghftpadgh, the princess of darkness",
     
@@ -12,42 +15,42 @@
     
     "item.tenergistics.jackhammer": "Jackhammer",
     "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
-    "item.tenergistics.buzzsaw": "Buzzsaw",
-    "item.tenergistics.buzzsaw.description":"The Buzzsaw is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a 1x9x1 column, centered.\nBzzz!",
+    "item.tenergistics.buzzsaw": "Buzzaxe",
+    "item.tenergistics.buzzsaw.description":"The Buzzaxe is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a 1x9x1 column, centered.\nBzzz!",
 
 
     "item.tenergistics.tool_casing": "Tool Casing",
     "item.tenergistics.gearbox": "Gearbox",
 
     "item.tenergistics.jackhammer_rod": "Jackhammer Head",
-    "item.tenergistics.buzzsaw_disc": "Buzzsaw Blade",
+    "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
 
 
-    "item.tenergistics.firebox": "Firebox",
-    "modifier.tenergistics.firebox": "Firebox",
+    "item.tenergistics.firebox": "Flogiston Extractor",
+    "modifier.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox.flavor": "Winners don't use coal!",
     "modifier.tenergistics.firebox.description": "Allows you to power your machinery with furnace fuels.\nOnce lit, cannot be extinguished.",
 
-    "item.tenergistics.exchanger": "Heat Exchanger",
-    "modifier.tenergistics.exchanger": "Heat Exchanger",
+    "item.tenergistics.exchanger": "Calefacient Exchanger",
+    "modifier.tenergistics.exchanger": "Calefacient Exchanger",
     "modifier.tenergistics.exchanger.flavor": "Power of the Smeltery!",
     "modifier.tenergistics.exchanger.description": "Allows you to power your machinery with smeltery fuels.\nLava not included.",
     
-    "item.tenergistics.energy_coil": "Energy Coil",
-    "modifier.tenergistics.energy_coil": "Energy Coil",
+    "item.tenergistics.energy_coil": "Effervescent Coil",
+    "modifier.tenergistics.energy_coil": "Effervescent Coil",
     "modifier.tenergistics.energy_coil.flavor": "The most boring modifier in existence.",
     "modifier.tenergistics.energy_coil.description": "Allows you to power your machinery with Forge Units.\nZzzzz~t!",
     
     
-    "modifier.tenergistics.capacity": "Fuel Capacity",
-    "modifier.tenergistics.capacity.flavor": "Infinite Power!",
+    "modifier.tenergistics.capacity": "Augmented Receptacle",
+    "modifier.tenergistics.capacity.flavor": "Almost spatially stable!",
     "modifier.tenergistics.capacity.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
-    "recipe.tenergistics.modifier.capacity_requirements": "Fuel Capacity requires a power source modifier",
+    "recipe.tenergistics.modifier.capacity_requirements": "Augmented Receptacle requires a power source modifier",
 
     "modifier.tenergistics.rtg": "Retroinfernal Thermopile Generator",
-    "modifier.tenergistics.rtg.flavor": "Truly Infinite Power!",
-    "modifier.tenergistics.rtg.description": "Slowly refuels the Energy Coil. Forever. Until the end of time.",
-    "recipe.tenergistics.modifier.coil_only": "RTG requires an Energy Coil!",
+    "modifier.tenergistics.rtg.flavor": "Infinite Power!",
+    "modifier.tenergistics.rtg.description": "Slowly refuels the Effervescent Coil. Forever. Until the end of time.",
+    "recipe.tenergistics.modifier.coil_only": "Retroinfernal Thermopile Generator requires an Effervescent Coil!",
 
 
     "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",
@@ -62,8 +65,8 @@
     "item.tenergistics.jackhammer_rod_sand_cast": "Jackhammer Head Sand Cast",
     "item.tenergistics.jackhammer_rod_red_sand_cast": "Jackhammer Head Red Sand Cast",
 
-    "item.tenergistics.buzzsaw_disc_cast": "Buzzsaw Blade Gold Cast",
-    "item.tenergistics.buzzsaw_disc_sand_cast": "Buzzsaw Blade Sand Cast",
-    "item.tenergistics.buzzsaw_disc_red_sand_cast": "Buzzsaw Blade Red Sand Cast"
+    "item.tenergistics.buzzsaw_disc_cast": "Buzzaxe Blade Gold Cast",
+    "item.tenergistics.buzzsaw_disc_sand_cast": "Buzzaxe Blade Sand Cast",
+    "item.tenergistics.buzzsaw_disc_red_sand_cast": "Buzzaxe Blade Red Sand Cast"
 
 }

@@ -1,20 +1,30 @@
 package princess.tenergistics;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
+
+import javax.annotation.Nullable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +42,10 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import princess.tenergistics.blocks.ChargerBlock;
+import princess.tenergistics.blocks.tileentity.ChargerTileEntity;
+import princess.tenergistics.container.ChargerContainer;
+import princess.tenergistics.container.ChargerScreen;
 import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.data.ToolsRecipeProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
@@ -45,10 +59,14 @@ import princess.tenergistics.recipes.RefuelFireboxRecipe;
 import princess.tenergistics.tools.BuzzsawTool;
 import princess.tenergistics.tools.JackhammerTool;
 import princess.tenergistics.tools.ToolDefinitions;
+import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
+import slimeknights.mantle.registration.deferred.TileEntityTypeDeferredRegister;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.common.TinkerModule;
+import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
+import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.materials.IMaterial;
@@ -71,6 +89,7 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TEnergistics
 	{
+	
 	public static final String															modID									= "tenergistics";
 	
 	public static TEnergistics															instance;
@@ -78,7 +97,10 @@ public class TEnergistics
 	public static final Logger															log										= LogManager
 			.getLogger(modID);
 	
+	protected static final BlockDeferredRegisterExtension								BLOCKS									= new BlockDeferredRegisterExtension(TEnergistics.modID);
 	protected static final ItemDeferredRegisterExtension								ITEMS									= new ItemDeferredRegisterExtension(TEnergistics.modID);
+	protected static final TileEntityTypeDeferredRegister								TILE_ENTITIES							= new TileEntityTypeDeferredRegister(TEnergistics.modID);
+	protected static final ContainerTypeDeferredRegister								CONTAINERS								= new ContainerTypeDeferredRegister(TEnergistics.modID);
 	protected static final DeferredRegister<Modifier>									MODIFIERS								= DeferredRegister
 			.create(Modifier.class, TEnergistics.modID);
 	protected static final DeferredRegister<Attribute>									ATTRIBUTES								= DeferredRegister
@@ -86,6 +108,9 @@ public class TEnergistics
 	protected static final DeferredRegister<IRecipeSerializer<?>>						RECIPE_SERIALIZERS						= DeferredRegister
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, TEnergistics.modID);
 	
+	private static final Block.Properties												STONE									= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
+			.setRequiresTool()
+			.hardnessAndResistance(3.0F, 9.0F);
 	private static final Supplier<Item.Properties>										TOOL									= () -> new Item.Properties()
 			.group(TinkerTools.TAB_TOOLS);
 	private static final Item.Properties												GENERAL_PROPS							= new Item.Properties()
@@ -94,9 +119,22 @@ public class TEnergistics
 			.group(TinkerToolParts.TAB_TOOL_PARTS);
 	private static final Item.Properties												SMELTERY_PROPS							= new Item.Properties()
 			.group(TinkerSmeltery.TAB_SMELTERY);
+	private static final Item.Properties												GADGET_PROPS							= new Item.Properties()
+			.group(TinkerGadgets.TAB_GADGETS);
 	private static final Item.Properties												BOOK									= new Item.Properties()
 			.group(TinkerModule.TAB_GENERAL)
 			.maxStackSize(1);
+	
+	protected static final Function<Block, ? extends BlockItem>							GADGET_BLOCK_ITEM						= (b) -> new BlockItem(b, GADGET_PROPS);
+	
+	public static final ItemObject<ChargerBlock>										charger									= BLOCKS
+			.register("charger", () -> new ChargerBlock(STONE), GADGET_BLOCK_ITEM);
+	
+	public static final RegistryObject<TileEntityType<ChargerTileEntity>>				chargerTile								= TILE_ENTITIES
+			.register("charger", ChargerTileEntity::new, charger);
+	
+	public static final RegistryObject<ContainerType<ChargerContainer>>					chargerContainer						= CONTAINERS
+			.register("charger", ChargerContainer::new);
 	
 	public static final ItemObject<EnergisticsBookItem>									miraculousMachinery						= ITEMS
 			.register("miraculous_machinery", () -> new EnergisticsBookItem(BOOK, EnergisticsBookType.MIRACULOUS_MACHINERY));
@@ -167,7 +205,10 @@ public class TEnergistics
 	public static void initRegisters()
 		{
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		BLOCKS.register(bus);
 		ITEMS.register(bus);
+		TILE_ENTITIES.register(bus);
+		CONTAINERS.register(bus);
 		MODIFIERS.register(bus);
 		ATTRIBUTES.register(bus);
 		RECIPE_SERIALIZERS.register(bus);
@@ -190,6 +231,12 @@ public class TEnergistics
 			}
 		}
 		
+	protected static Block.Properties builder(Material material, @Nullable ToolType toolType, SoundType soundType)
+		{
+		//noinspection ConstantConditions
+		return Block.Properties.create(material).harvestTool(toolType).sound(soundType);
+		}
+		
 	@EventBusSubscriber(modid = modID, value = Dist.CLIENT, bus = Bus.MOD)
 	public static class EnergisticsClient
 		{
@@ -198,6 +245,8 @@ public class TEnergistics
 			{
 			FontRenderer unicode = CommonsClientEvents.unicodeFontRender();
 			EnergisticsBookItem.EnergisticsBook.MIRACULOUS_MACHINERY.fontRenderer = unicode;
+			
+			ScreenManager.registerFactory(TEnergistics.chargerContainer.get(), ChargerScreen::new);
 			}
 			
 		public static void onConstruct()

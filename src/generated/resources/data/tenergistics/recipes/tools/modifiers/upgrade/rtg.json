@@ -29,6 +29,6 @@
     "name": "tenergistics:rtg",
     "level": 1
   },
-  "max_level": 1,
+  "max_level": 5,
   "upgrade_slots": 1
 }

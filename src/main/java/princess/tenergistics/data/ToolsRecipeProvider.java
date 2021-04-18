@@ -157,7 +157,7 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.addInput(Items.BLUE_ICE)
 				.addInput(Items.BLUE_ICE)
 				.setUpgradeSlots(1)
-				.setMaxLevel(1)
+				.setMaxLevel(5)
 				.setTools(TagProvider.POWERED)
 				.setRequirements(ModifierMatch.entry(TEnergistics.energyCoilModifier.get()))
 				.setRequirementsError("recipe.tenergistics.modifier.coil_only")
@@ -184,6 +184,16 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.addIngredient(Items.REDSTONE_BLOCK)
 				.addCriterion("has_center", hasItem(TinkerCommons.mightySmelting))
 				.build(consumer, prefix(TEnergistics.miraculousMachinery, folder));
+		
+		ShapedRecipeBuilder.shapedRecipe(TEnergistics.charger)
+				.key('-', Items.REDSTONE)
+				.key('C', Items.COBBLESTONE)
+				.key('o', TinkerSmeltery.blankCast.getMultiUseTag())
+				.patternLine("-C-")
+				.patternLine("CoC")
+				.patternLine("-C-")
+				.addCriterion("has_center", hasItem(TinkerSmeltery.blankCast.getMultiUseTag()))
+				.build(consumer, prefix(TEnergistics.charger, folder));
 		}
 		
 	private void addPartRecipe(Consumer<IFinishedRecipe> consumer, Supplier<? extends IMaterialItem> sup, int cost, CastItemObject cast)

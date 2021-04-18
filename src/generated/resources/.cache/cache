@@ -3,13 +3,16 @@ a6809d97807f848436ee406bffd940aff5ba3836 data/tconstruct/tags/items/casts/gold.j
 d8332e0d5aaa7d93a76a5930c2f11a91a843d109 data/tconstruct/tags/items/casts/sand.json
 2cbc0574bbe511ce404307708c8ae609066a915d data/tconstruct/tags/items/modifiable/aoe.json
 2cbc0574bbe511ce404307708c8ae609066a915d data/tconstruct/tags/items/modifiable/harvest.json
+5b73cb981607d00b636519e61088095cfd8a4783 data/tconstruct/tags/items/modifiable/harvest/stone.json
 2cbc0574bbe511ce404307708c8ae609066a915d data/tconstruct/tags/items/modifiable/melee.json
 2cbc0574bbe511ce404307708c8ae609066a915d data/tconstruct/tags/items/modifiable/multipart.json
 b6af78a3754dc71f32b1cbbc7a33e2a100da16b1 data/tconstruct/tags/items/parts.json
+e96525047dd677775bc69a6964f6408b72494a3e data/tenergistics/advancements/recipes/tconstruct/gadgets/misc/charger.json
 ac06c169a002a5e53e23bf052723b98b4280ad04 data/tenergistics/advancements/recipes/tconstruct/general/misc/miraculous_machinery.json
 d69977bdef0bd365f17ac804e3451276b79f104b data/tenergistics/advancements/recipes/tconstruct/general/tools/modifiers/energy_coil.json
 4bc23e2d6f03b5bd4aa0a23751150b27c5d2046b data/tenergistics/advancements/recipes/tconstruct/general/tools/modifiers/exchanger.json
 50488e3431965acf2a44bcfc6cea4a79715d4776 data/tenergistics/advancements/recipes/tconstruct/general/tools/modifiers/firebox.json
+0e9ba8142cc24151cdeff1873cb6ac9e81530c79 data/tenergistics/recipes/misc/charger.json
 e62a04167992d3c8a16649653083216a4a758b27 data/tenergistics/recipes/misc/miraculous_machinery.json
 41af11bae59293457131d7de9c0735c45b2cf4b0 data/tenergistics/recipes/smeltery/casting/casts/buzzsaw_disc.json
 171c3e24c3b02b3e44b07592e0ee3e5985400a6a data/tenergistics/recipes/smeltery/casting/casts/gearbox.json
@@ -33,7 +36,7 @@ b2b6a014769b99beff15c6db64f7e9e8a81ecd1e data/tenergistics/recipes/tools/modifie
 925fb37c4e4e28b7560086baaa735c66026ff8ee data/tenergistics/recipes/tools/modifiers/upgrade/energy_coil.json
 7ca84a1a6c6ba0a2187a9210d96e4a7dddcf9ae0 data/tenergistics/recipes/tools/modifiers/upgrade/exchanger.json
 4c3375ed12dda93dd4cea08cec0f52b5e2b8da5c data/tenergistics/recipes/tools/modifiers/upgrade/firebox.json
-92a82889e857deccae59963c204ffd9b351ebda0 data/tenergistics/recipes/tools/modifiers/upgrade/rtg.json
+a8a5565e5f761eb5fcbe78a5984d4f829a3cfbad data/tenergistics/recipes/tools/modifiers/upgrade/rtg.json
 be5512ae1753d68a9fc6820eef6353948988188a data/tenergistics/recipes/tools/parts/builder/buzzsaw_disc.json
 4c780b0666b79c3cf7e298a7b4c9e84a40bb9f95 data/tenergistics/recipes/tools/parts/builder/gearbox.json
 11af03e39702ba04e75cc9d472569cfb79e9269f data/tenergistics/recipes/tools/parts/builder/jackhammer_rod.json

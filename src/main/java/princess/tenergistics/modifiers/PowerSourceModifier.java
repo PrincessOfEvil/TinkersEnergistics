@@ -47,7 +47,7 @@ public class PowerSourceModifier extends SingleUseModifier
 	@Override
 	public int getPriority()
 		{
-		return 66;
+		return 666;
 		}
 		
 	@Override

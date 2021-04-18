@@ -62,7 +62,8 @@ public class TagProvider extends BlockTagsProvider
 		private void addParts()
 			{
 			this.getOrCreateBuilder(TinkerTags.Items.TOOL_PARTS)
-					.add(TEnergistics.toolCasing.get(), TEnergistics.gearbox.get(), TEnergistics.jackhammerRod.get(), TEnergistics.buzzsawDisc.get());
+					.add(TEnergistics.toolCasing.get(), TEnergistics.gearbox.get(), TEnergistics.jackhammerRod
+							.get(), TEnergistics.buzzsawDisc.get());
 			}
 			
 		private void addTools()
@@ -75,6 +76,9 @@ public class TagProvider extends BlockTagsProvider
 					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
 			this.getOrCreateBuilder(TinkerTags.Items.MELEE)
 					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+			
+			this.getOrCreateBuilder(TinkerTags.Items.STONE_HARVEST).add(TEnergistics.jackhammer.get());
+			
 			this.getOrCreateBuilder(POWERED).add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
 			}
 			

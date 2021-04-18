@@ -3,22 +3,23 @@
   "parent": "forge:item/default-tool",
   "textures": {
     "head":        "tenergistics:item/tool/jackhammer_rod",
-    "broken_head": "tenergistics:item/tool/jackhammer_rod_broken",
+    "broken_head": "tenergistics:item/tool/multipart/jackhammer_rod_broken",
     "handle":      "tenergistics:item/tool/multipart/handle",
     "casing":      "tenergistics:item/tool/tool_casing",
-    "gearbox":     "tenergistics:item/tool/multipart/gearbox",
+    "gearbox":     "tenergistics:item/tool/multipart/gearbox_jackhammer",
 
-    "large_head":        "tenergistics:item/tool/jackhammer_rod",
-    "large_broken_head": "tenergistics:item/tool/jackhammer_rod_broken",
-    "large_handle":      "tenergistics:item/tool/multipart/handle",
-    "large_casing":      "tenergistics:item/tool/tool_casing",
-    "large_gearbox":     "tenergistics:item/tool/multipart/gearbox"
+    "large_head":        "tenergistics:item/tool/multipart/large/jackhammer_rod",
+    "large_broken_head": "tenergistics:item/tool/multipart/large/jackhammer_rod_broken",
+    "large_handle":      "tenergistics:item/tool/multipart/large/handle",
+    "large_casing":      "tenergistics:item/tool/multipart/large/tool_casing",
+    "large_gearbox":     "tenergistics:item/tool/multipart/large/gearbox_jackhammer"
   },
-  "large": false,
+  "large": true,
   "parts": [
     { "name": "handle",  "index": 1 },
     { "name": "head",    "index": 0, "broken": "broken_head" },
     { "name": "casing",  "index": 2 },
     { "name": "gearbox", "index": 3 }
-  ]
+  ],
+  "offset": [0, -8]
 }

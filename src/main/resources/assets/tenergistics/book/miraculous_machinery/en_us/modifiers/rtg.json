@@ -2,10 +2,11 @@
   "modifier_id": "tenergistics:rtg",
   "text": [
     {
-      "text": "A complicated set of runes and technomagical mechanisms that attaches to the Energy Coil §cHeart§r and replenishes it with stygian energies."
+      "text": "A complicated set of runes and technomagical mechanisms that attaches to the Effervescent Coil §cHeart§r and replenishes it with stygian energies."
     }
   ],
   "effects": [
-    "Slowly refuels the Energy Coil"
+    "Slowly refuels the Effervescent Coil",
+    "Multiple levels"
   ]
 }

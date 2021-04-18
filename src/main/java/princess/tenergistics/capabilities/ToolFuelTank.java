@@ -30,9 +30,9 @@ public class ToolFuelTank implements IFluidHandlerItem, ICapabilityProvider, IEn
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side)
 		{
-		if (cap == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY && getTankCapacity() > 0)
 			{ return CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY.orEmpty(cap, fluidHolder); }
-		if (cap == CapabilityEnergy.ENERGY)
+		if (cap == CapabilityEnergy.ENERGY && getMaxEnergyStored() > 0)
 			{ return CapabilityEnergy.ENERGY.orEmpty(cap, energyHolder); }
 		return LazyOptional.empty();
 		}
