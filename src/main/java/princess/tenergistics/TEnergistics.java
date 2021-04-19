@@ -46,6 +46,7 @@ import princess.tenergistics.blocks.ChargerBlock;
 import princess.tenergistics.blocks.tileentity.ChargerTileEntity;
 import princess.tenergistics.container.ChargerContainer;
 import princess.tenergistics.container.ChargerScreen;
+import princess.tenergistics.data.EnergisticsLootTableProvider;
 import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.data.ToolsRecipeProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
@@ -54,6 +55,10 @@ import princess.tenergistics.modifiers.CapacityModifier;
 import princess.tenergistics.modifiers.EnergyCoilModifier;
 import princess.tenergistics.modifiers.ExchangerModifier;
 import princess.tenergistics.modifiers.FireboxModifier;
+import princess.tenergistics.modifiers.ForceFieldModifier;
+import princess.tenergistics.modifiers.ForceFieldModifier.ForceEnergyCoilModifier;
+import princess.tenergistics.modifiers.ForceFieldModifier.ForceExchangerModifier;
+import princess.tenergistics.modifiers.ForceFieldModifier.ForceFireboxModifier;
 import princess.tenergistics.modifiers.RTGModifier;
 import princess.tenergistics.recipes.RefuelFireboxRecipe;
 import princess.tenergistics.tools.BuzzsawTool;
@@ -185,6 +190,15 @@ public class TEnergistics
 	public static final RegistryObject<RTGModifier>										rtgModifier								= MODIFIERS
 			.register("rtg", RTGModifier::new);
 	
+	public static final RegistryObject<ForceFieldModifier>								forceFieldModifier						= MODIFIERS
+			.register("force_field", ForceFieldModifier::new);
+	public static final RegistryObject<ForceFireboxModifier>							forceFireboxModifier					= MODIFIERS
+			.register("force_firebox", ForceFireboxModifier::new);
+	public static final RegistryObject<ForceExchangerModifier>							forceExchangerModifier					= MODIFIERS
+			.register("force_exchanger", ForceExchangerModifier::new);
+	public static final RegistryObject<ForceEnergyCoilModifier>							forceEnergyCoilModifier					= MODIFIERS
+			.register("force_energy_coil", ForceEnergyCoilModifier::new);
+	
 	public static final RegistryObject<Attribute>										FAKE_HARVEST_SPEED						= ATTRIBUTES
 			.register("generic.fake_harvest_speed", () -> new RangedAttribute(modID + ".attribute.name.generic.fake_harvest_speed", 1.0D, 0.0D, 2048.0D));
 	
@@ -228,6 +242,7 @@ public class TEnergistics
 					.addProvider(new TagProvider.ItemTag(datagenerator, blockTagProvider, modID, existingFileHelper));
 //			datagenerator.addProvider(new TagProvider.FluidTag(datagenerator, modID, existingFileHelper));
 			datagenerator.addProvider(new ToolsRecipeProvider(datagenerator));
+			datagenerator.addProvider(new EnergisticsLootTableProvider(datagenerator));
 			}
 		}
 		

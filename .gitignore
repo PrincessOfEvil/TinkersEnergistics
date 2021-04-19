@@ -21,9 +21,14 @@ build
 eclipse
 run
 
+TinkersEnergistics-1.16
+
 # Files from Forge MDK
 forge*changelog.txt
 
 localstore
 
-src/generated/resources/.cache
+.factorypath
+.apt_generated_tests
+
+/src/generated/resources/.cache/

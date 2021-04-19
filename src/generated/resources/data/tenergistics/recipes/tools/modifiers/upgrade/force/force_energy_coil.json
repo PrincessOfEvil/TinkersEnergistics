@@ -1,0 +1,27 @@
+{
+  "type": "tconstruct:modifier",
+  "inputs": [
+    {
+      "item": "tenergistics:energy_coil"
+    }
+  ],
+  "tools": {
+    "type": "mantle:without",
+    "base": {
+      "tag": "tconstruct:modifiable"
+    },
+    "without": {
+      "tag": "tenergistics:modifiable/powered"
+    }
+  },
+  "requirements": {
+    "name": "tenergistics:force_field",
+    "level": 1,
+    "error": "recipe.tenergistics.modifier.not_a_machine"
+  },
+  "result": {
+    "name": "tenergistics:force_energy_coil",
+    "level": 1
+  },
+  "max_level": 1
+}

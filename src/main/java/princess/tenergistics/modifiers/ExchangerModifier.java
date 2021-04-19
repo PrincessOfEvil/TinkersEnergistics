@@ -1,9 +1,15 @@
 package princess.tenergistics.modifiers;
 
+import java.util.HashMap;
+
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fluids.FluidStack;
+import princess.tenergistics.TEnergistics;
 import princess.tenergistics.tools.PoweredTool;
 import princess.tenergistics.tools.ToolDefinitions;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
@@ -16,11 +22,14 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 
 public class ExchangerModifier extends PowerSourceModifier
 	{
-	public static final int		CAPACITY				= 1000;
-	private static final int	COLOR					= 0xffc12d;
+	public static final int												CAPACITY				= 1000;
+	private static final int											COLOR					= 0xffc12d;
 	//Very non-descriptive name. When calculated, lava has a duration multiplier of 2, so the value becomes 10 (the actual amount is 5, or one stick).
-	private static final int	LAVATICKS_PER_OPERATION	= 10;
-	private static final float	LAVA_TEMPERATURE		= 1000;
+	protected static final int											LAVATICKS_PER_OPERATION	= 10;
+	protected static final float										LAVA_TEMPERATURE		= 1000;
+	
+	protected static final HashMap<ResourceLocation, AttributeModifier>	MINING_MODIFIER_MAP		= new HashMap<ResourceLocation, AttributeModifier>();
+	protected static final HashMap<ResourceLocation, AttributeModifier>	ATTACK_MODIFIER_MAP		= new HashMap<ResourceLocation, AttributeModifier>();
 	
 	public ExchangerModifier()
 		{
@@ -44,6 +53,32 @@ public class ExchangerModifier extends PowerSourceModifier
 		PoweredTool.setFluidStack(tool, stack);
 		}
 		
+	public AttributeModifier getMiningModifier(IModifierToolStack tool)
+		{
+		AttributeModifier out = MINING_MODIFIER_MAP.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
+		if (out == null)
+			{
+			out = new AttributeModifier(TEnergistics.modID + ".powered_mining", ToolDefinitions.SPEED_MULTIPLIER * MeltingFuelLookup
+					.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+					.getTemperature() / LAVA_TEMPERATURE - 1f, Operation.MULTIPLY_BASE);
+			MINING_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
+			}
+		return out;
+		}
+		
+	public AttributeModifier getAttackModifier(IModifierToolStack tool)
+		{
+		AttributeModifier out = ATTACK_MODIFIER_MAP.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
+		if (out == null)
+			{
+			out = new AttributeModifier(TEnergistics.modID + ".powered_attack", (ToolDefinitions.ATTACK_MULTIPLIER - 1f) * MeltingFuelLookup
+					.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+					.getTemperature() / LAVA_TEMPERATURE, Operation.MULTIPLY_BASE);
+			ATTACK_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
+			}
+		return out;
+		}
+		
 	@Override
 	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, boolean isEffective, float miningSpeedModifier)
 		{
@@ -52,7 +87,7 @@ public class ExchangerModifier extends PowerSourceModifier
 			float temperature = MeltingFuelLookup.findFuel(PoweredTool.getFluidStack(tool).getFluid())
 					.getTemperature() / LAVA_TEMPERATURE;
 			
-			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * temperature);
+			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * MINING_BOOST * temperature);
 			}
 		}
 		

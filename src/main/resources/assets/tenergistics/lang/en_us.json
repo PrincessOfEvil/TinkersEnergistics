@@ -6,8 +6,8 @@
     "item.tenergistics.miraculous_machinery.tooltip": "Arcane Machinery Grimoire\nby Malama Na'ghftpadgh, the princess of darkness",
     
     "tenergistics.tool.unpowered": "No Power Source",
-    
     "tenergistics.tool.already_powered": "This machine is already powered!",
+    
     "recipe.tconstruct.tool_repair.fully_fueled": "This machine is already full!",
     "recipe.tconstruct.tool_repair.fuel_left": "There's different fuel in the tank!",
     
@@ -40,6 +40,21 @@
     "modifier.tenergistics.energy_coil": "Effervescent Coil",
     "modifier.tenergistics.energy_coil.flavor": "The most boring modifier in existence.",
     "modifier.tenergistics.energy_coil.description": "Allows you to power your machinery with Forge Units.\nZzzzz~t!",
+    
+    
+    "modifier.tenergistics.force_field": "Sanctuary Substructure",
+    "modifier.tenergistics.force_field.flavor": "Pickaxes are just really small machines!",
+    "modifier.tenergistics.force_field.description": "Allows you to protect your tools with Hearts. At a price.\nDon't bore yourself to death.",
+    "modifier.tenergistics.force_firebox": "Flogiston Extractor",
+    "modifier.tenergistics.force_firebox.flavor": "Winners don't use coal!",
+    "modifier.tenergistics.force_firebox.description": "Allows you to power your machinery with furnace fuels.\nOnce lit, cannot be extinguished.",
+    "modifier.tenergistics.force_exchanger": "Calefacient Exchanger",
+    "modifier.tenergistics.force_exchanger.flavor": "Power of the Smeltery!",
+    "modifier.tenergistics.force_exchanger.description": "Allows you to power your machinery with smeltery fuels.\nLava not included.",
+    "modifier.tenergistics.force_energy_coil": "Effervescent Coil",
+    "modifier.tenergistics.force_energy_coil.flavor": "The most boring modifier in existence.",
+    "modifier.tenergistics.force_energy_coil.description": "Allows you to power your machinery with Forge Units.\nZzzzz~t!",
+    "recipe.tenergistics.modifier.not_a_machine": "Requires a Sanctuary Substructure!",
     
     
     "modifier.tenergistics.capacity": "Augmented Receptacle",

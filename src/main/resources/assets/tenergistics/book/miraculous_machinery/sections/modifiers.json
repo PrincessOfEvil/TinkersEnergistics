@@ -18,5 +18,9 @@
   {
     "type": "modifier",
     "data": "modifiers/rtg.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/force_field.json"
   }
 ]

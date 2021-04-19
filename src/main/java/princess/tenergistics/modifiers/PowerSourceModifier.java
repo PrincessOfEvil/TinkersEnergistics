@@ -22,9 +22,11 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 public class PowerSourceModifier extends SingleUseModifier
 	{
-	//istg, why even is vanilla adding +1 to it?
+	//istg, why even is vanilla adding +1 to it?	
 	protected static final AttributeModifier	MINING_MODIFIER	= new AttributeModifier(TEnergistics.modID + ".powered_mining", ToolDefinitions.SPEED_MULTIPLIER - 1f, Operation.MULTIPLY_BASE);
 	protected static final AttributeModifier	ATTACK_MODIFIER	= new AttributeModifier(TEnergistics.modID + ".powered_attack", ToolDefinitions.ATTACK_MULTIPLIER - 1f, Operation.MULTIPLY_BASE);
+	
+	protected static final float				MINING_BOOST	= 1;
 	
 	protected static final String				KEY_INVALID		= "tenergistics.tool.already_powered";
 	
@@ -84,9 +86,9 @@ public class PowerSourceModifier extends SingleUseModifier
 		{
 		if (isPowered(tool, false))
 			{
-			consumer.accept(TEnergistics.FAKE_HARVEST_SPEED.get(), MINING_MODIFIER);
-			consumer.accept(Attributes.ATTACK_DAMAGE, ATTACK_MODIFIER);
-			consumer.accept(Attributes.ATTACK_SPEED, ATTACK_MODIFIER);
+			consumer.accept(TEnergistics.FAKE_HARVEST_SPEED.get(), getMiningModifier(tool));
+			consumer.accept(Attributes.ATTACK_DAMAGE, getAttackModifier(tool));
+			consumer.accept(Attributes.ATTACK_SPEED, getAttackModifier(tool));
 			}
 		}
 		
@@ -95,7 +97,7 @@ public class PowerSourceModifier extends SingleUseModifier
 		{
 		if (isEffective && isPowered(tool, true))
 			{
-			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER);
+			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * getMiningBoost(tool));
 			}
 		}
 		
@@ -111,5 +113,20 @@ public class PowerSourceModifier extends SingleUseModifier
 		{
 		return tool.getVolatileData().getInt(PoweredTool.POWERED) > 1 ? ValidatedResult.failure(KEY_INVALID)
 				: ValidatedResult.PASS;
+		}
+		
+	public AttributeModifier getMiningModifier(IModifierToolStack tool)
+		{
+		return MINING_MODIFIER;
+		}
+		
+	public AttributeModifier getAttackModifier(IModifierToolStack tool)
+		{
+		return ATTACK_MODIFIER;
+		}
+		
+	public float getMiningBoost(IModifierToolStack tool)
+		{
+		return MINING_BOOST;
 		}
 	}

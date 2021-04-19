@@ -18,7 +18,7 @@
     }
   ],
   "tools": {
-    "tag": "tenergistics:modifiable/powered"
+    "tag": "tconstruct:modifiable"
   },
   "requirements": {
     "options": [
@@ -32,6 +32,18 @@
       },
       {
         "name": "tenergistics:energy_coil",
+        "level": 1
+      },
+      {
+        "name": "tenergistics:force_firebox",
+        "level": 1
+      },
+      {
+        "name": "tenergistics:force_exchanger",
+        "level": 1
+      },
+      {
+        "name": "tenergistics:force_energy_coil",
         "level": 1
       }
     ],

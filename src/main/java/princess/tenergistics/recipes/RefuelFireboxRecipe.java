@@ -104,7 +104,10 @@ public class RefuelFireboxRecipe implements ITinkerStationRecipe
 		ItemStack tinkerable = inv.getTinkerableStack();
 		if (tinkerable.isEmpty()) return false;
 		
-		if (ToolStack.from(tinkerable).getModifiers().getLevel(TEnergistics.fireboxModifier.get()) == 0) return false;
+		if (ToolStack.from(tinkerable).getModifiers().getLevel(TEnergistics.fireboxModifier.get()) == 0
+				|| ToolStack.from(tinkerable)
+						.getModifiers()
+						.getLevel(TEnergistics.forceFireboxModifier.get()) == 0) return false;
 		
 		ItemStack out = ItemStack.EMPTY;
 		for (int i = 0; i < inv.getInputCount(); i++)

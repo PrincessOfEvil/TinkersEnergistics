@@ -24,7 +24,7 @@ import slimeknights.tconstruct.library.utils.TooltipType;
 /**More of a helper class than anything, really.*/
 public class PoweredTool extends ToolCore
 	{
-	private static final String UNPOWERED = TEnergistics.modID + ".tool.unpowered";
+	public static final String UNPOWERED = TEnergistics.modID + ".tool.unpowered";
 	
 	public PoweredTool(Properties properties, ToolDefinition toolDefinition)
 		{

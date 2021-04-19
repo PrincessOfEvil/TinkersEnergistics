@@ -11,6 +11,7 @@ import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +20,8 @@ import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import princess.tenergistics.TEnergistics;
+import slimeknights.mantle.recipe.ingredient.IngredientWithout;
+import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.materials.MaterialValues;
@@ -55,6 +58,7 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 		{
 		addPartRecipes(consumer);
 		addTinkerStationRecipes(consumer);
+		addForceFieldRecipes(consumer);
 		addSmelteryRecipes(consumer);
 		addMiscRecipes(consumer);
 		}
@@ -141,11 +145,14 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.addInput(Tags.Items.INGOTS_IRON)
 				.setUpgradeSlots(1)
 				.setMaxLevel(3)
-				.setTools(TagProvider.POWERED)
+				.setTools(TinkerTags.Items.MODIFIABLE)
 				.setRequirements(ModifierMatch
 						.list(1, ModifierMatch.entry(TEnergistics.fireboxModifier.get()), ModifierMatch
 								.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
-										.entry(TEnergistics.energyCoilModifier.get())))
+										.entry(TEnergistics.energyCoilModifier.get()), ModifierMatch
+												.entry(TEnergistics.forceFireboxModifier.get()), ModifierMatch
+														.entry(TEnergistics.forceExchangerModifier.get()), ModifierMatch
+																.entry(TEnergistics.forceEnergyCoilModifier.get())))
 				.setRequirementsError("recipe.tenergistics.modifier.capacity_requirements")
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.capacityModifier, upgradeFolder));
@@ -158,14 +165,66 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.addInput(Items.BLUE_ICE)
 				.setUpgradeSlots(1)
 				.setMaxLevel(5)
-				.setTools(TagProvider.POWERED)
-				.setRequirements(ModifierMatch.entry(TEnergistics.energyCoilModifier.get()))
+				.setTools(TinkerTags.Items.MODIFIABLE)
+				.setRequirements(ModifierMatch
+						.list(1, ModifierMatch.entry(TEnergistics.energyCoilModifier.get()), ModifierMatch
+								.entry(TEnergistics.forceEnergyCoilModifier.get())))
 				.setRequirementsError("recipe.tenergistics.modifier.coil_only")
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.rtgModifier, upgradeFolder));
 		
 		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
 				.build(consumer, location(modifierFolder + "tinker_station_firebox_refuel").toString());
+		}
+		
+	private void addForceFieldRecipes(Consumer<IFinishedRecipe> consumer)
+		{
+		String upgradeFolder = "tools/modifiers/upgrade/force/";
+		String powerGroup = "tenergistics:force_modifiers";
+		// TODO: replace with durability tag when it arrives.
+		ModifierRecipeBuilder.modifier(TEnergistics.forceFieldModifier.get())
+				.addInput(Items.NETHER_STAR)
+				.addInput(Items.CHORUS_FLOWER)
+				.addInput(Items.CHORUS_FLOWER)
+				.addInput(TinkerMaterials.manyullyn.getBlockItemTag())
+				.addInput(TinkerMaterials.hepatizon.getBlockItemTag())
+				.setMaxLevel(1)
+				.setAbilitySlots(1)
+				.setTools(new IngredientWithout(Ingredient.fromTag(TinkerTags.Items.MODIFIABLE), Ingredient
+						.fromTag(TagProvider.POWERED)))
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.forceFieldModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.forceFireboxModifier.get())
+				.addInput(TEnergistics.firebox)
+				.setMaxLevel(1)
+				.setRequirements(ModifierMatch.entry(TEnergistics.forceFieldModifier.get()))
+				.setRequirementsError("recipe.tenergistics.modifier.not_a_machine")
+				.setTools(new IngredientWithout(Ingredient.fromTag(TinkerTags.Items.MODIFIABLE), Ingredient
+						.fromTag(TagProvider.POWERED)))
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.forceFireboxModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.forceExchangerModifier.get())
+				.addInput(TEnergistics.exchanger)
+				.setMaxLevel(1)
+				.setRequirements(ModifierMatch.entry(TEnergistics.forceFieldModifier.get()))
+				.setRequirementsError("recipe.tenergistics.modifier.not_a_machine")
+				.setTools(new IngredientWithout(Ingredient.fromTag(TinkerTags.Items.MODIFIABLE), Ingredient
+						.fromTag(TagProvider.POWERED)))
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.forceExchangerModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.forceEnergyCoilModifier.get())
+				.addInput(TEnergistics.energyCoil)
+				.setMaxLevel(1)
+				.setRequirements(ModifierMatch.entry(TEnergistics.forceFieldModifier.get()))
+				.setRequirementsError("recipe.tenergistics.modifier.not_a_machine")
+				.setTools(new IngredientWithout(Ingredient.fromTag(TinkerTags.Items.MODIFIABLE), Ingredient
+						.fromTag(TagProvider.POWERED)))
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.forceEnergyCoilModifier, upgradeFolder));
+		
 		}
 		
 	private void addSmelteryRecipes(Consumer<IFinishedRecipe> consumer)

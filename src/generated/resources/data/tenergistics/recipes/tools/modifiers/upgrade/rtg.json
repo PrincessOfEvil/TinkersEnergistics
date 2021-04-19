@@ -18,11 +18,20 @@
     }
   ],
   "tools": {
-    "tag": "tenergistics:modifiable/powered"
+    "tag": "tconstruct:modifiable"
   },
   "requirements": {
-    "name": "tenergistics:energy_coil",
-    "level": 1,
+    "options": [
+      {
+        "name": "tenergistics:energy_coil",
+        "level": 1
+      },
+      {
+        "name": "tenergistics:force_energy_coil",
+        "level": 1
+      }
+    ],
+    "matches_needed": 1,
     "error": "recipe.tenergistics.modifier.coil_only"
   },
   "result": {
