@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:table_casting_composite",
+  "input": "tconstruct:copper",
+  "fluid": {
+    "name": "minecraft:water",
+    "amount": 1000
+  },
+  "result": "tenergistics:malachite",
+  "temperature": 200
+}

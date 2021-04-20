@@ -13,6 +13,8 @@
     
     "tenergistics.attribute.name.generic.fake_harvest_speed": "Mining Speed",
     
+    "material.tenergistics.malachite": "Malachite",
+    
     "item.tenergistics.jackhammer": "Jackhammer",
     "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
     "item.tenergistics.buzzsaw": "Buzzaxe",
@@ -61,6 +63,9 @@
     "modifier.tenergistics.capacity.flavor": "Almost spatially stable!",
     "modifier.tenergistics.capacity.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
     "recipe.tenergistics.modifier.capacity_requirements": "Augmented Receptacle requires a power source modifier",
+    "modifier.tenergistics.capacity_trait": "Capacity",
+    "modifier.tenergistics.capacity_trait.flavor": "Almost spatially stable!",
+    "modifier.tenergistics.capacity_trait.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
 
     "modifier.tenergistics.rtg": "Retroinfernal Thermopile Generator",
     "modifier.tenergistics.rtg.flavor": "Infinite Power!",

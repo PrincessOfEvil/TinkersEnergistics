@@ -9,9 +9,9 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 
 public class CapacityModifier extends Modifier
 	{
-	public CapacityModifier()
+	public CapacityModifier(int color)
 		{
-		super(0x6bdbdb);
+		super(color);
 		}
 		
 	@Override

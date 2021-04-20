@@ -1,0 +1,22 @@
+{
+  "materialId": "tenergistics:malachite",
+  "stats": [
+    {
+      "id": "tconstruct:head",
+      "durability": 150,
+      "miningSpeed": 6.0,
+      "harvestLevel": 2,
+      "attack": 1.5
+    },
+    {
+      "id": "tconstruct:handle",
+      "durability": 0.6,
+      "miningSpeed": 1.1,
+      "attackSpeed": 1.1,
+      "attackDamage": 1.0
+    },
+    {
+      "id": "tconstruct:extra"
+    }
+  ]
+}

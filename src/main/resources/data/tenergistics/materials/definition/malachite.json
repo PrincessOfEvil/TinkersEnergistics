@@ -1,0 +1,13 @@
+{
+  "craftable": false,
+  "tier": 3,
+  "sortOrder": 1,
+  "textColor": "#3ce186",
+  "temperature": 500,
+  "traits": [
+    {
+      "name": "tenergistics:capacity_trait",
+      "level": 1
+    }
+  ]
+}

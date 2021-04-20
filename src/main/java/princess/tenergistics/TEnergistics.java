@@ -186,7 +186,9 @@ public class TEnergistics
 			.register("energy_coil", EnergyCoilModifier::new);
 	
 	public static final RegistryObject<CapacityModifier>								capacityModifier						= MODIFIERS
-			.register("capacity", CapacityModifier::new);
+			.register("capacity", () -> new CapacityModifier(0x6bdbdb));
+	public static final RegistryObject<CapacityModifier>								capacityTrait							= MODIFIERS
+			.register("capacity_trait", () -> new CapacityModifier(0x3ce186));
 	public static final RegistryObject<RTGModifier>										rtgModifier								= MODIFIERS
 			.register("rtg", RTGModifier::new);
 	

@@ -13,7 +13,10 @@
     "data": "sections/tools.json",
     "icon": {
       "item": {
-        "id": "minecraft:lit_blast_furnace"
+        "id": "tenergistics:jackhammer",
+        "nbt": {
+        	"tic_materials" : [ "tconstruct:hepatizon", "tenergistics:malachite", "tconstruct:cobalt", "tenergistics:malachite" ]
+        }
       }
     }
   },
@@ -23,6 +26,16 @@
     "icon": {
       "item": {
         "id": "minecraft:heart_of_the_sea"
+      }
+    }
+  },
+  {
+    "name": "materials",
+    "data": "sections/materials.json",
+    "icon": {
+      "item": {
+        "id": "tconstruct:pickaxe_head",
+        "nbt": {"Material" : "tenergistics:malachite"}
       }
     }
   }
