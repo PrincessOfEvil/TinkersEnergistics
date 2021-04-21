@@ -17,15 +17,16 @@
     
     "item.tenergistics.jackhammer": "Jackhammer",
     "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
+    "item.tenergistics.bucketwheel": "Bucketwheel Dredge",
     "item.tenergistics.buzzsaw": "Buzzaxe",
     "item.tenergistics.buzzsaw.description":"The Buzzaxe is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a 1x9x1 column, centered.\nBzzz!",
-
 
     "item.tenergistics.tool_casing": "Tool Casing",
     "item.tenergistics.gearbox": "Gearbox",
 
     "item.tenergistics.jackhammer_rod": "Jackhammer Head",
     "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
+    "item.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
 
 
     "item.tenergistics.firebox": "Flogiston Extractor",
