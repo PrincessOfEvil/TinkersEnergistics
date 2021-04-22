@@ -61,6 +61,7 @@ import princess.tenergistics.modifiers.ForceFieldModifier.ForceExchangerModifier
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceFireboxModifier;
 import princess.tenergistics.modifiers.RTGModifier;
 import princess.tenergistics.recipes.RefuelFireboxRecipe;
+import princess.tenergistics.tools.BucketwheelTool;
 import princess.tenergistics.tools.BuzzsawTool;
 import princess.tenergistics.tools.JackhammerTool;
 import princess.tenergistics.tools.ToolDefinitions;
@@ -158,6 +159,8 @@ public class TEnergistics
 	
 	public static final ItemObject<ToolPartItem>										jackhammerRod							= ITEMS
 			.register("jackhammer_rod", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
+	public static final ItemObject<ToolPartItem>										bucketwheelWheel						= ITEMS
+			.register("bucketwheel_wheel", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										buzzsawDisc								= ITEMS
 			.register("buzzsaw_disc", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
 	
@@ -167,12 +170,18 @@ public class TEnergistics
 			.registerCast("gearbox", SMELTERY_PROPS);
 	public static final CastItemObject													jackhammerRodCast						= ITEMS
 			.registerCast("jackhammer_rod", SMELTERY_PROPS);
+	public static final CastItemObject													bucketwheelWheelCast					= ITEMS
+			.registerCast("bucketwheel_wheel", SMELTERY_PROPS);
 	public static final CastItemObject													buzzsawDiscCast							= ITEMS
 			.registerCast("buzzsaw_disc", SMELTERY_PROPS);
 	
 	public static final ItemObject<JackhammerTool>										jackhammer								= ITEMS
 			.register("jackhammer", () -> new JackhammerTool(TOOL.get()
 					.addToolType(ToolType.PICKAXE, 0), ToolDefinitions.JACKHAMMER));
+
+	public static final ItemObject<BucketwheelTool>										bucketwheel								= ITEMS
+			.register("bucketwheel", () -> new BucketwheelTool(TOOL.get()
+					.addToolType(ToolType.SHOVEL, 0), ToolDefinitions.BUCKETWHEEL));
 	
 	public static final ItemObject<BuzzsawTool>											buzzsaw									= ITEMS
 			.register("buzzsaw", () -> new BuzzsawTool(TOOL.get()
@@ -279,11 +288,13 @@ public class TEnergistics
 			
 			// tint tool textures for fallback
 			registerToolItemColors(colors, jackhammer);
+			registerToolItemColors(colors, bucketwheel);
 			registerToolItemColors(colors, buzzsaw);
 			
 			registerMaterialItemColors(colors, toolCasing);
 			registerMaterialItemColors(colors, gearbox);
 			registerMaterialItemColors(colors, jackhammerRod);
+			registerMaterialItemColors(colors, bucketwheelWheel);
 			registerMaterialItemColors(colors, buzzsawDisc);
 			}
 			

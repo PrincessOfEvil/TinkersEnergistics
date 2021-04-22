@@ -8,6 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.book.EnergisticsMaterialSectionTransformer;
 import slimeknights.mantle.client.book.BookLoader;
 import slimeknights.mantle.client.book.BookTransformer;
 import slimeknights.mantle.client.book.data.BookData;
@@ -62,6 +63,7 @@ public class EnergisticsBookItem extends TooltipItem
 			book.addTransformer(new MaterialSectionTransformer());
 			book.addTransformer(new ToolSectionTransformer());
 			book.addTransformer(new ModifierSectionTransformer());
+		    book.addTransformer(new EnergisticsMaterialSectionTransformer());
 			book.addTransformer(BookTransformer.indexTranformer());
 			}
 			

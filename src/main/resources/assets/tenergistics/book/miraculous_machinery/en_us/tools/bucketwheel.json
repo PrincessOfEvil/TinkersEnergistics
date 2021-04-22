@@ -1,0 +1,18 @@
+{
+  "tool": "tenergistics:bucketwheel",
+  "text": [
+    {
+      "text": "A highly efficient design, the Bucketwheel Dredge excels in its purpose of removing soil from entire planes."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "Its buckets are a little too delicate to use it as a weapon. Its §cHeart§r will shield it from desecration, however."
+    }
+  ],
+  "properties": [
+    "Harvests a column of 3 blocks at once",
+    "Increased knockback"
+  ]
+}

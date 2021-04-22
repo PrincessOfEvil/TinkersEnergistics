@@ -30,7 +30,7 @@
     }
   },
   {
-    "name": "materials",
+    "name": "energistics_materials",
     "data": "sections/materials.json",
     "icon": {
       "item": {

@@ -1,0 +1,25 @@
+{
+  "loader": "tconstruct:tool",
+  "parent": "forge:item/default-tool",
+  "textures": {
+    "head":        "tenergistics:item/tool/multipart/bucketwheel_wheel",
+    "broken_head": "tenergistics:item/tool/multipart/bucketwheel_wheel_broken",
+    "handle":      "tenergistics:item/tool/multipart/handle",
+    "casing":      "tenergistics:item/tool/tool_casing",
+    "gearbox":     "tenergistics:item/tool/multipart/gearbox",
+
+    "large_head":        "tenergistics:item/tool/multipart/large/bucketwheel_wheel",
+    "large_broken_head": "tenergistics:item/tool/multipart/large/bucketwheel_wheel_broken",
+    "large_handle":      "tenergistics:item/tool/multipart/large/handle",
+    "large_casing":      "tenergistics:item/tool/multipart/large/tool_casing",
+    "large_gearbox":     "tenergistics:item/tool/multipart/large/gearbox"
+  },
+  "large": true,
+  "parts": [
+    { "name": "handle",  "index": 1 },
+    { "name": "head",    "index": 0, "broken": "broken_head" },
+    { "name": "casing",  "index": 2 },
+    { "name": "gearbox", "index": 3 }
+  ],
+  "offset": [0, -8]
+}

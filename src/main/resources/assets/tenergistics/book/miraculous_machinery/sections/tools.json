@@ -5,8 +5,16 @@
     "data": "tools/jackhammer.json"
   },
   {
+    "name": "bucketwheel",
+    "type": "tool",
+    "data": "tools/bucketwheel.json"
+  },
+  {
     "name": "buzzsaw",
     "type": "tool",
     "data": "tools/buzzsaw.json"
+  },
+  {
+    "type": "blank"
   }
 ]

@@ -63,23 +63,23 @@ public class TagProvider extends BlockTagsProvider
 			{
 			this.getOrCreateBuilder(TinkerTags.Items.TOOL_PARTS)
 					.add(TEnergistics.toolCasing.get(), TEnergistics.gearbox.get(), TEnergistics.jackhammerRod
-							.get(), TEnergistics.buzzsawDisc.get());
+							.get(), TEnergistics.bucketwheelWheel.get(), TEnergistics.buzzsawDisc.get());
 			}
 			
 		private void addTools()
 			{
 			this.getOrCreateBuilder(TinkerTags.Items.MULTIPART_TOOL)
-					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+					.add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			this.getOrCreateBuilder(TinkerTags.Items.AOE)
-					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+					.add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			this.getOrCreateBuilder(TinkerTags.Items.HARVEST)
-					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+					.add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			this.getOrCreateBuilder(TinkerTags.Items.MELEE)
-					.add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+					.add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			
 			this.getOrCreateBuilder(TinkerTags.Items.STONE_HARVEST).add(TEnergistics.jackhammer.get());
 			
-			this.getOrCreateBuilder(POWERED).add(TEnergistics.jackhammer.get(), TEnergistics.buzzsaw.get());
+			this.getOrCreateBuilder(POWERED).add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			}
 			
 		private void addSmeltery()
@@ -97,6 +97,7 @@ public class TagProvider extends BlockTagsProvider
 			addCast.accept(TEnergistics.toolCasingCast);
 			addCast.accept(TEnergistics.gearboxCast);
 			addCast.accept(TEnergistics.jackhammerRodCast);
+			addCast.accept(TEnergistics.bucketwheelWheelCast);
 			addCast.accept(TEnergistics.buzzsawDiscCast);
 			}
 		}

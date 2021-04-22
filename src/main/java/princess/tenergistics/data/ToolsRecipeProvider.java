@@ -69,6 +69,7 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 		addPartRecipe(consumer, TEnergistics.gearbox, 4, TEnergistics.gearboxCast);
 		
 		addPartRecipe(consumer, TEnergistics.jackhammerRod, 4, TEnergistics.jackhammerRodCast);
+		addPartRecipe(consumer, TEnergistics.bucketwheelWheel, 4, TEnergistics.bucketwheelWheelCast);
 		addPartRecipe(consumer, TEnergistics.buzzsawDisc, 4, TEnergistics.buzzsawDiscCast);
 		
 		}
@@ -80,7 +81,7 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 		String powerGroup = "tenergistics:power_modifiers";
 		
 		addBuildingRecipe(consumer, TEnergistics.jackhammer);
-		
+		addBuildingRecipe(consumer, TEnergistics.bucketwheel);
 		addBuildingRecipe(consumer, TEnergistics.buzzsaw);
 		
 		ShapedRecipeBuilder.shapedRecipe(TEnergistics.firebox)

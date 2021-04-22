@@ -27,7 +27,7 @@ apply plugin: "io.freefair.lombok"
 apply plugin: 'org.spongepowered.mixin'
 
 version = mod_version
-group = 'princess.tenergistics
+group = 'princess.tenergistics'
 archivesBaseName = 'TinkersEnergistics'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
