@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.util.Direction;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import princess.tenergistics.TEnergistics;
 import princess.tenergistics.tools.PoweredTool;
@@ -93,7 +94,7 @@ public class PowerSourceModifier extends SingleUseModifier
 		}
 		
 	@Override
-	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, boolean isEffective, float miningSpeedModifier)
+	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) 
 		{
 		if (isEffective && isPowered(tool, true))
 			{

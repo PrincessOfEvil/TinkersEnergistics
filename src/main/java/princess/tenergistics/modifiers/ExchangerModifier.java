@@ -5,6 +5,7 @@ import java.util.HashMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -80,7 +81,7 @@ public class ExchangerModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, boolean isEffective, float miningSpeedModifier)
+	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) 
 		{
 		if (isEffective && isPowered(tool, true))
 			{

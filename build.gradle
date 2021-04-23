@@ -132,6 +132,9 @@ repositories {
         url = "https://www.cursemaven.com/"
     }
 }
+mixin {
+   disableAnnotationProcessorCheck()
+}
 
 ext.artifact_version = 'NFG'
 if (System.getenv().ARTIFACT_VERSION == null) {

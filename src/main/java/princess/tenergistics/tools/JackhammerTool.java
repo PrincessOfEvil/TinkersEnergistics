@@ -1,12 +1,19 @@
 package princess.tenergistics.tools;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
+import net.minecraft.block.material.Material;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
-import slimeknights.tconstruct.library.tools.helper.AOEToolHarvestLogic;
-import slimeknights.tconstruct.tools.harvest.PickaxeTool;
+import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
+import slimeknights.tconstruct.tools.harvest.HarvestTool.MaterialHarvestLogic;
 
 public class JackhammerTool extends PoweredTool
 	{
-	public static final AOEToolHarvestLogic HARVEST_LOGIC = PickaxeTool.HARVEST_LOGIC;
+	protected static final Set<Material>		EXTRA_MATERIALS	= Sets
+			.newHashSet(Material.ROCK, Material.IRON, Material.ANVIL);
+	public static final MaterialHarvestLogic	HARVEST_LOGIC	= new MaterialHarvestLogic(EXTRA_MATERIALS, 0, 0, 0);
 	
 	public JackhammerTool(Properties properties, ToolDefinition toolDefinition)
 		{
@@ -14,7 +21,7 @@ public class JackhammerTool extends PoweredTool
 		}
 		
 	@Override
-	public AOEToolHarvestLogic getToolHarvestLogic()
+	public ToolHarvestLogic getToolHarvestLogic()
 		{
 		return HARVEST_LOGIC;
 		}

@@ -20,7 +20,7 @@
     "item.tenergistics.bucketwheel": "Bucketwheel Dredge",
     "item.tenergistics.bucketwheel.description":"The Bucketwheel Dredge is a powered digging tool. It rapidly digs up soil and snow.\n*powered shovel noises*",
     "item.tenergistics.buzzsaw": "Buzzaxe",
-    "item.tenergistics.buzzsaw.description":"The Buzzaxe is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a 1x9x1 column, centered.\nBzzz!",
+    "item.tenergistics.buzzsaw.description":"The Buzzaxe is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a veining pattern.\nBzzz!",
 
     "item.tenergistics.tool_casing": "Tool Casing",
     "item.tenergistics.gearbox": "Gearbox",
