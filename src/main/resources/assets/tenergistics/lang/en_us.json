@@ -14,6 +14,7 @@
     "tenergistics.attribute.name.generic.fake_harvest_speed": "Mining Speed",
     
     "material.tenergistics.malachite": "Malachite",
+    "material.tenergistics.glaucodot": "Glaucodot",
     
     "item.tenergistics.jackhammer": "Jackhammer",
     "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
@@ -66,13 +67,25 @@
     "modifier.tenergistics.capacity.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
     "recipe.tenergistics.modifier.capacity_requirements": "Augmented Receptacle requires a power source modifier",
     "modifier.tenergistics.capacity_trait": "Capacity",
-    "modifier.tenergistics.capacity_trait.flavor": "Almost spatially stable!",
+    "modifier.tenergistics.capacity_trait.flavor": "Almost chemically stable!",
     "modifier.tenergistics.capacity_trait.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
 
     "modifier.tenergistics.rtg": "Retroinfernal Thermopile Generator",
     "modifier.tenergistics.rtg.flavor": "Infinite Power!",
     "modifier.tenergistics.rtg.description": "Slowly refuels the Effervescent Coil. Forever. Until the end of time.",
     "recipe.tenergistics.modifier.coil_only": "Retroinfernal Thermopile Generator requires an Effervescent Coil!",
+
+    "modifier.tenergistics.overclock": "Asynchronous Amplifier",
+    "modifier.tenergistics.overclock.flavor": "Explosive Overclocking!",
+    "modifier.tenergistics.overclock.description": "Increases the machine stats, but causes it to use exponentially more power.",
+    
+    "modifier.tenergistics.overclock_trait": "Overclock",
+    "modifier.tenergistics.overclock_trait.flavor": "More speed! More damage! MOOOORE!",
+    "modifier.tenergistics.overclock_trait.description": "Increases the tool stats, but causes it to take exponentially more damage.",
+    
+    "modifier.tenergistics.wide_chisel": "Wide Chisel",
+    "modifier.tenergistics.wide_chisel.flavor": "Spinet Fantasia!",
+    "modifier.tenergistics.wide_chisel.description": "Expands the Jackhammer, at the cost of some mining speed.",
 
 
     "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",

@@ -1,9 +1,9 @@
 {
   "type": "tconstruct:material",
   "ingredient": {
-    "tag": "forge:ores/copper"
+    "tag": "forge:ores/cobalt"
   },
   "value": 2,
   "needed": 1,
-  "material": "tenergistics:malachite"
+  "material": "tenergistics:glaucodot"
 }

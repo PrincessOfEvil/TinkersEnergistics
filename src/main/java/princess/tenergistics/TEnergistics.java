@@ -56,10 +56,12 @@ import princess.tenergistics.modifiers.EnergyCoilModifier;
 import princess.tenergistics.modifiers.ExchangerModifier;
 import princess.tenergistics.modifiers.FireboxModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier;
+import princess.tenergistics.modifiers.OverclockModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceEnergyCoilModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceExchangerModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceFireboxModifier;
 import princess.tenergistics.modifiers.RTGModifier;
+import princess.tenergistics.modifiers.WidePrincessModifier;
 import princess.tenergistics.recipes.RefuelFireboxRecipe;
 import princess.tenergistics.tools.BucketwheelTool;
 import princess.tenergistics.tools.BuzzsawTool;
@@ -178,7 +180,7 @@ public class TEnergistics
 	public static final ItemObject<JackhammerTool>										jackhammer								= ITEMS
 			.register("jackhammer", () -> new JackhammerTool(TOOL.get()
 					.addToolType(ToolType.PICKAXE, 0), ToolDefinitions.JACKHAMMER));
-
+	
 	public static final ItemObject<BucketwheelTool>										bucketwheel								= ITEMS
 			.register("bucketwheel", () -> new BucketwheelTool(TOOL.get()
 					.addToolType(ToolType.SHOVEL, 0), ToolDefinitions.BUCKETWHEEL));
@@ -198,8 +200,14 @@ public class TEnergistics
 			.register("capacity", () -> new CapacityModifier(0x6bdbdb));
 	public static final RegistryObject<CapacityModifier>								capacityTrait							= MODIFIERS
 			.register("capacity_trait", () -> new CapacityModifier(0x3ce186));
+	public static final RegistryObject<OverclockModifier>								overclockModifier						= MODIFIERS
+			.register("overclock", () -> new OverclockModifier(0x50e0ff));
+	public static final RegistryObject<OverclockModifier>								overclockTrait							= MODIFIERS
+			.register("overclock_trait", () -> new OverclockModifier(0xe8806c));
 	public static final RegistryObject<RTGModifier>										rtgModifier								= MODIFIERS
 			.register("rtg", RTGModifier::new);
+	public static final RegistryObject<WidePrincessModifier>							wideChiselModifier						= MODIFIERS
+			.register("wide_chisel", WidePrincessModifier::new);
 	
 	public static final RegistryObject<ForceFieldModifier>								forceFieldModifier						= MODIFIERS
 			.register("force_field", ForceFieldModifier::new);

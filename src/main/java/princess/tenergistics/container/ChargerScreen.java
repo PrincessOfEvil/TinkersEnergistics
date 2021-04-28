@@ -52,7 +52,7 @@ public class ChargerScreen extends ContainerScreen<ChargerContainer>
 			
 			matrixStack.scale(SCALE, SCALE, SCALE);
 			fontRenderer.drawStringWithShadow(matrixStack, energyOut.get()
-					.toString(), this.width / 5, this.height / 5 - 11, 0xee0e0e);
+					.toString(), this.width / 6, this.height / 5 - 11, 0xee0e0e);
 			
 			matrixStack.pop();
 			}

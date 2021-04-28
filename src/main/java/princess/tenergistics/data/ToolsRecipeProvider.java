@@ -32,6 +32,7 @@ import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuild
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.partbuilder.PartRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipeBuilder;
+import slimeknights.tconstruct.library.recipe.tinkerstation.modifier.IncrementalModifierRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.tinkerstation.modifier.ModifierMatch;
 import slimeknights.tconstruct.library.recipe.tinkerstation.modifier.ModifierRecipeBuilder;
 import slimeknights.tconstruct.library.tinkering.IMaterialItem;
@@ -140,8 +141,8 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.capacityModifier.get())
 				.addInput(TinkerMaterials.copper.getIngotTag())
-				.addInput(TinkerMaterials.copper.getIngotTag())
 				.addInput(ItemTags.LOGS)
+				.addInput(TinkerMaterials.copper.getIngotTag())
 				.addInput(Tags.Items.INGOTS_IRON)
 				.addInput(Tags.Items.INGOTS_IRON)
 				.setUpgradeSlots(1)
@@ -159,8 +160,8 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.build(consumer, prefixR(TEnergistics.capacityModifier, upgradeFolder));
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.rtgModifier.get())
-				.addInput(TinkerMaterials.roseGold.getIngotTag())
 				.addInput(TinkerFluids.moltenBlaze.asItem())
+				.addInput(TinkerMaterials.roseGold.getIngotTag())
 				.addInput(TinkerFluids.moltenBlaze.asItem())
 				.addInput(Items.BLUE_ICE)
 				.addInput(Items.BLUE_ICE)
@@ -174,8 +175,24 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.rtgModifier, upgradeFolder));
 		
-		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
-				.build(consumer, location(modifierFolder + "tinker_station_firebox_refuel").toString());
+		IncrementalModifierRecipeBuilder.modifier(TEnergistics.overclockModifier.get())
+				.setInput(Items.REDSTONE_LAMP, 1, 16)
+				.setUpgradeSlots(1)
+				.setMaxLevel(5)
+				.setTools(TagProvider.POWERED)
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.overclockModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.wideChiselModifier.get())
+				.addInput(TinkerMaterials.pigIron.getIngotTag())
+				.addInput(Items.PUFFERFISH)
+				.addInput(TinkerMaterials.pigIron.getIngotTag())
+				.addInput(Items.PISTON)
+				.addInput(Items.PISTON)
+				.setMaxLevel(1)
+				.setTools(Ingredient.fromItems(TEnergistics.jackhammer.get()))
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.wideChiselModifier, upgradeFolder));
 		}
 		
 	private void addForceFieldRecipes(Consumer<IFinishedRecipe> consumer)
@@ -184,8 +201,8 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 		String powerGroup = "tenergistics:force_modifiers";
 		// TODO: replace with durability tag when it arrives.
 		ModifierRecipeBuilder.modifier(TEnergistics.forceFieldModifier.get())
-				.addInput(Items.NETHER_STAR)
 				.addInput(Items.CHORUS_FLOWER)
+				.addInput(Items.NETHER_STAR)
 				.addInput(Items.CHORUS_FLOWER)
 				.addInput(TinkerMaterials.manyullyn.getBlockItemTag())
 				.addInput(TinkerMaterials.hepatizon.getBlockItemTag())
@@ -254,6 +271,9 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.patternLine("-C-")
 				.addCriterion("has_center", hasItem(TinkerSmeltery.blankCast.getMultiUseTag()))
 				.build(consumer, prefix(TEnergistics.charger, folder));
+		
+		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
+				.build(consumer, location(folder + "tinker_station_firebox_refuel").toString());
 		}
 		
 	private void addPartRecipe(Consumer<IFinishedRecipe> consumer, Supplier<? extends IMaterialItem> sup, int cost, CastItemObject cast)

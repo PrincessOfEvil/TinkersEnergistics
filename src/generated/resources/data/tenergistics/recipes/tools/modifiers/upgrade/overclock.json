@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:incremental_modifier",
+  "input": {
+    "item": "minecraft:redstone_lamp"
+  },
+  "amount_per_item": 1,
+  "needed_per_level": 16,
+  "tools": {
+    "tag": "tenergistics:modifiable/powered"
+  },
+  "result": {
+    "name": "tenergistics:overclock",
+    "level": 1
+  },
+  "max_level": 5,
+  "upgrade_slots": 1
+}

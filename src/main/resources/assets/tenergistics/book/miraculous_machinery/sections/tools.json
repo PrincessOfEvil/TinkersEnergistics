@@ -13,8 +13,5 @@
     "name": "buzzsaw",
     "type": "tool",
     "data": "tools/buzzsaw.json"
-  },
-  {
-    "type": "blank"
   }
 ]

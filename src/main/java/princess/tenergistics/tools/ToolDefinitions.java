@@ -16,7 +16,7 @@ public class ToolDefinitions
 	
 	public static final float					ATTACK_MULTIPLIER		= 2f;
 	public static final float					SPEED_MULTIPLIER		= 4f;
-	public static final float					BUCKET_SPEED_MULTIPLIER	= 0.6f;
+	public static final float					MEDIUM_SPEED_MULTIPLIER	= 0.6f;
 	public static final float					BUZZ_SPEED_MULTIPLIER	= 0.3f;
 	public static final float					DURABILITY_MULTIPLIER	= 0.5f;
 	
@@ -30,7 +30,7 @@ public class ToolDefinitions
 	
 	public static final ToolBaseStatDefinition	BUCKETWHEEL_STATS		= new ToolBaseStatDefinition.Builder()
 			.setDurabilityModifier(DURABILITY_MULTIPLIER)
-			.setMiningSpeedModifier(1.5f / SPEED_MULTIPLIER * BUCKET_SPEED_MULTIPLIER)
+			.setMiningSpeedModifier(1.5f / SPEED_MULTIPLIER * MEDIUM_SPEED_MULTIPLIER)
 			.setDamageBonus(1.5f)
 			.setDamageModifier(1.25f / ATTACK_MULTIPLIER)
 			.setAttackSpeed(0.7f / ATTACK_MULTIPLIER)
@@ -41,13 +41,13 @@ public class ToolDefinitions
 			.setDurabilityModifier(DURABILITY_MULTIPLIER)
 			.setMiningSpeedModifier(1.5f / SPEED_MULTIPLIER * BUZZ_SPEED_MULTIPLIER)
 			.setDamageBonus(3f)
-			.setDamageModifier(3f / ATTACK_MULTIPLIER)
-			.setAttackSpeed(0.5f / ATTACK_MULTIPLIER)
+			.setDamageModifier(2.25f / ATTACK_MULTIPLIER)
+			.setAttackSpeed(0.4f / ATTACK_MULTIPLIER)
 			.build();
 	
-	public static final ToolDefinition			JACKHAMMER				= new ToolDefinition(JACKHAMMER_STATS, requirements(TEnergistics.jackhammerRod, TinkerToolParts.toolHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
-	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toolHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
-	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toolHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
+	public static final ToolDefinition			JACKHAMMER				= new ToolDefinition(JACKHAMMER_STATS, requirements(TEnergistics.jackhammerRod, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
+	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
+	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
 	
 	private static Supplier<List<IToolPart>> requirements(Stream<Supplier<? extends IToolPart>> parts)
 		{

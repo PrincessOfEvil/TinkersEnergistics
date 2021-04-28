@@ -2,10 +2,10 @@
   "type": "tconstruct:modifier",
   "inputs": [
     {
-      "tag": "forge:ingots/rose_gold"
+      "item": "tconstruct:molten_blaze_bucket"
     },
     {
-      "item": "tconstruct:molten_blaze_bucket"
+      "tag": "forge:ingots/rose_gold"
     },
     {
       "item": "tconstruct:molten_blaze_bucket"

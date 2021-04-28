@@ -67,7 +67,7 @@ public class FireboxModifier extends PowerSourceModifier
 				{
 				data.putInt(PoweredTool.TICKER, (int) Math
 						.max(data.getInt(PoweredTool.TICKER) - TICKDOWN_PER_SECOND * Math
-								.round(Math.ceil(tool.getStats().getMiningSpeed())), 0));
+								.round(Math.ceil(tool.getStats().getMiningSpeed() * (tool.getVolatileData().getFloat(OverclockModifier.OVERCLOCK) + 1))), 0));
 				}
 				
 			if (data.getInt(PoweredTool.TICKER_LEFTOVER) == -1) data
