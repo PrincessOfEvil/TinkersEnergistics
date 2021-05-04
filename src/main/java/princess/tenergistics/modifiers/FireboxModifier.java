@@ -1,10 +1,15 @@
 package princess.tenergistics.modifiers;
 
+import java.util.List;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import princess.tenergistics.library.PowerSourceModifier;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
@@ -26,7 +31,7 @@ public class FireboxModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public boolean isPowered(IModifierToolStack tool, boolean dirty)
+	public boolean isPowered(IModifierToolStack tool, int level, boolean dirty)
 		{
 		ModDataNBT data = tool.getPersistentData();
 		if (data.getInt(PoweredTool.TICKER) > 0) return true;
@@ -67,7 +72,8 @@ public class FireboxModifier extends PowerSourceModifier
 				{
 				data.putInt(PoweredTool.TICKER, (int) Math
 						.max(data.getInt(PoweredTool.TICKER) - TICKDOWN_PER_SECOND * Math
-								.round(Math.ceil(tool.getStats().getMiningSpeed() * (tool.getVolatileData().getFloat(OverclockModifier.OVERCLOCK) + 1))), 0));
+								.round(Math.ceil(tool.getStats().getMiningSpeed() * (tool.getVolatileData()
+										.getFloat(OverclockModifier.OVERCLOCK) + 1))), 0));
 				}
 				
 			if (data.getInt(PoweredTool.TICKER_LEFTOVER) == -1) data
@@ -79,7 +85,7 @@ public class FireboxModifier extends PowerSourceModifier
 	public double getDamagePercentage(IModifierToolStack tool, int level)
 		{
 		ModDataNBT data = tool.getPersistentData();
-		if (isPowered(tool, false) && data.getInt(PoweredTool.TICKER) > 0)
+		if (isPowered(tool, level, false) && data.getInt(PoweredTool.TICKER) > 0)
 			{ return 1f - data.getInt(PoweredTool.TICKER) / (double) data.getInt(PoweredTool.TICKER_MAX); }
 		if (hasFuel(tool))
 			{
@@ -90,26 +96,25 @@ public class FireboxModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public ITextComponent getDisplayName(IModifierToolStack tool, int level)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
 		{
 		ItemStack fuel = PoweredTool.getItemStack(tool);
-		if (fuel.isEmpty()) return getDisplayName().deepCopy().appendString(" (EMPTY)");
-		return getDisplayName().deepCopy()
-				.appendString(": ")
-				.append(fuel.getDisplayName())
-				.appendString(String.format(" (%s / %s)", fuel.getCount(), maxFuel(tool, fuel)));
+		tooltip.add(fuel.getDisplayName()
+				.deepCopy()
+				.appendString(String.format(" (%s / %s)", fuel.getCount(), maxFuel(tool, fuel)))
+				.modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
 	@Override
 	public Boolean showDurabilityBar(IModifierToolStack tool, int level)
 		{
-		return isPowered(tool, false) || hasFuel(tool) ? true : null;
+		return isPowered(tool, level, false) || hasFuel(tool) ? true : null;
 		}
 		
 	@Override
 	public int getDurabilityRGB(IModifierToolStack tool, int level)
 		{
-		if (isPowered(tool, false) && tool.getPersistentData().getInt(PoweredTool.TICKER) > 0) return COLOR;
+		if (isPowered(tool, level, false) && tool.getPersistentData().getInt(PoweredTool.TICKER) > 0) return COLOR;
 		if (hasFuel(tool)) return getColor();
 		return -1;
 		}
@@ -119,8 +124,9 @@ public class FireboxModifier extends PowerSourceModifier
 		return ForgeHooks.getBurnTime(PoweredTool.getItemStack(tool)) != 0;
 		}
 		
-	private int maxFuel(IModifierToolStack tool, ItemStack stack)
+	public static int maxFuel(IModifierToolStack tool, ItemStack stack)
 		{
-		return Math.min(PoweredTool.getItemCapacity(tool), stack.getMaxStackSize());
+		int capacity = PoweredTool.getItemCapacity(tool);
+		return Math.min(capacity, stack.getMaxStackSize() * (((capacity - 1) / 64) + 1));
 		}
 	}

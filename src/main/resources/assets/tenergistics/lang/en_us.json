@@ -14,7 +14,9 @@
     "tenergistics.attribute.name.generic.fake_harvest_speed": "Mining Speed",
     
     "material.tenergistics.malachite": "Malachite",
+    "material.tenergistics.malachite.book": "It's too bad you can't see the patterns on a sprite this small",
     "material.tenergistics.glaucodot": "Glaucodot",
+    "material.tenergistics.glaucodot.book": "Pearly on cleavages",
     
     "item.tenergistics.jackhammer": "Jackhammer",
     "item.tenergistics.jackhammer.description":"The Jackhammer is a powered mining tool. It is effective on stone, ores and foes.\nDon't forget to charge it!",
@@ -30,7 +32,6 @@
     "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
     "item.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
 
-
     "item.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox.flavor": "Winners don't use coal!",
@@ -45,6 +46,7 @@
     "modifier.tenergistics.energy_coil": "Effervescent Coil",
     "modifier.tenergistics.energy_coil.flavor": "The most boring modifier in existence.",
     "modifier.tenergistics.energy_coil.description": "Allows you to power your machinery with Forge Units.\nZzzzz~t!",
+    "modifier.tenergistics.energy_coil.extra_tooltip": "%s / %s Forge Units",
     
     
     "modifier.tenergistics.force_field": "Sanctuary Substructure",
@@ -70,6 +72,16 @@
     "modifier.tenergistics.capacity_trait.flavor": "Almost chemically stable!",
     "modifier.tenergistics.capacity_trait.description": "Allows you to add more fuel to your machinery, regardless of fuel type.",
 
+    "modifier.tenergistics.passthrough": "Protean Cascade",
+    "modifier.tenergistics.passthrough.flavor": "United and Synchronized!",
+    "modifier.tenergistics.passthrough.description": "Drains fuel from the Melting modifier, or other similar internal tanks.",
+    "recipe.tenergistics.modifier.passthrough_requirements": "Protean Cascade requires a Calefacient Exchanger!",
+
+    "modifier.tenergistics.wide_funnel": "Hollow Funnel",
+    "modifier.tenergistics.wide_funnel.flavor": "Every tool needs a bucket in it!",
+    "modifier.tenergistics.wide_funnel.description": "Allows you to pick up fuel from the world.",
+    "recipe.tenergistics.modifier.wide_funnel_requirements": "Hollow Funnel requires a Calefacient Exchanger!",
+    
     "modifier.tenergistics.rtg": "Retroinfernal Thermopile Generator",
     "modifier.tenergistics.rtg.flavor": "Infinite Power!",
     "modifier.tenergistics.rtg.description": "Slowly refuels the Effervescent Coil. Forever. Until the end of time.",
@@ -78,15 +90,15 @@
     "modifier.tenergistics.overclock": "Asynchronous Amplifier",
     "modifier.tenergistics.overclock.flavor": "Explosive Overclocking!",
     "modifier.tenergistics.overclock.description": "Increases the machine stats, but causes it to use exponentially more power.",
-    
     "modifier.tenergistics.overclock_trait": "Overclock",
     "modifier.tenergistics.overclock_trait.flavor": "More speed! More damage! MOOOORE!",
     "modifier.tenergistics.overclock_trait.description": "Increases the tool stats, but causes it to take exponentially more damage.",
+    "modifier.tenergistics.overclock.extra_tooltip": "Boost: %sx / %sx Drain",
     
     "modifier.tenergistics.wide_chisel": "Wide Chisel",
     "modifier.tenergistics.wide_chisel.flavor": "Spinet Fantasia!",
     "modifier.tenergistics.wide_chisel.description": "Expands the Jackhammer, at the cost of some mining speed.",
-
+  
 
     "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",
     "item.tenergistics.tool_casing_sand_cast": "Tool Casing Sand Cast",
@@ -102,6 +114,10 @@
 
     "item.tenergistics.buzzsaw_disc_cast": "Buzzaxe Blade Gold Cast",
     "item.tenergistics.buzzsaw_disc_sand_cast": "Buzzaxe Blade Sand Cast",
-    "item.tenergistics.buzzsaw_disc_red_sand_cast": "Buzzaxe Blade Red Sand Cast"
+    "item.tenergistics.buzzsaw_disc_red_sand_cast": "Buzzaxe Blade Red Sand Cast",
+    
+    "item.tenergistics.bucketwheel_wheel_cast": "Dredge Bucket Wheel Gold Cast",
+    "item.tenergistics.bucketwheel_wheel_sand_cast": "Dredge Bucket Wheel Sand Cast",
+    "item.tenergistics.bucketwheel_wheel_red_sand_cast": "Dredge Bucket Wheel Red Sand Cast"
 
 }

@@ -1,18 +1,28 @@
 package princess.tenergistics.modifiers;
 
 import java.util.HashMap;
+import java.util.List;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.capabilities.ToolFuelCapability.PowerToolFluidTank;
+import princess.tenergistics.library.PowerSourceModifier;
 import princess.tenergistics.tools.PoweredTool;
 import princess.tenergistics.tools.ToolDefinitions;
+import slimeknights.tconstruct.library.modifiers.capability.ToolFluidCapability;
+import slimeknights.tconstruct.library.modifiers.capability.ToolFluidCapability.IFluidModifier;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
@@ -32,60 +42,78 @@ public class ExchangerModifier extends PowerSourceModifier
 	protected static final HashMap<ResourceLocation, AttributeModifier>	MINING_MODIFIER_MAP		= new HashMap<ResourceLocation, AttributeModifier>();
 	protected static final HashMap<ResourceLocation, AttributeModifier>	ATTACK_MODIFIER_MAP		= new HashMap<ResourceLocation, AttributeModifier>();
 	
+	public final PowerToolFluidTank										tank					= new PowerToolFluidTank();
+	
 	public ExchangerModifier()
 		{
 		super(COLOR);
 		}
 		
+	@SuppressWarnings("unchecked")
+	@Nullable
 	@Override
-	public boolean isPowered(IModifierToolStack tool, boolean dirty)
+	public <T> T getModule(Class<T> type)
 		{
-		FluidStack stack = PoweredTool.getFluidStack(tool);
+		if (type == IFluidModifier.class)
+			{ return (T) tank; }
+		return super.getModule(type);
+		}
+		
+	@Override
+	public boolean isPowered(IModifierToolStack tool, int level, boolean dirty)
+		{
+		FluidStack stack = tank.getFluidInTank(tool, level, 0);
 		
 		return stack.getAmount() >= getTicks(stack.getFluid());
 		}
 		
 	@Override
-	public void drainPower(IModifierToolStack tool)
+	public void drainPower(IModifierToolStack tool, int level)
 		{
-		FluidStack stack = PoweredTool.getFluidStack(tool);
+		FluidStack stack = tank.getFluidInTank(tool, level, 0);
 		
-		stack.shrink(getTicks(stack.getFluid()));
-		PoweredTool.setFluidStack(tool, stack);
+		stack.setAmount(getTicks(stack.getFluid()));
+		tank.drain(tool, level, stack, FluidAction.EXECUTE);
 		}
 		
-	public AttributeModifier getMiningModifier(IModifierToolStack tool)
+	@Override
+	public AttributeModifier getMiningModifier(IModifierToolStack tool, int level)
 		{
-		AttributeModifier out = MINING_MODIFIER_MAP.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
+		Fluid fluid = tank.getFluidInTank(tool, level, 0).getFluid();
+		ResourceLocation name = fluid.getRegistryName();
+		AttributeModifier out = MINING_MODIFIER_MAP.get(name);
 		if (out == null)
 			{
 			out = new AttributeModifier(TEnergistics.modID + ".powered_mining", ToolDefinitions.SPEED_MULTIPLIER * MeltingFuelLookup
-					.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+					.findFuel(fluid)
 					.getTemperature() / LAVA_TEMPERATURE - 1f, Operation.MULTIPLY_BASE);
-			MINING_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
-			}
-		return out;
-		}
-		
-	public AttributeModifier getAttackModifier(IModifierToolStack tool)
-		{
-		AttributeModifier out = ATTACK_MODIFIER_MAP.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
-		if (out == null)
-			{
-			out = new AttributeModifier(TEnergistics.modID + ".powered_attack", (ToolDefinitions.ATTACK_MULTIPLIER - 1f) * MeltingFuelLookup
-					.findFuel(PoweredTool.getFluidStack(tool).getFluid())
-					.getTemperature() / LAVA_TEMPERATURE, Operation.MULTIPLY_BASE);
-			ATTACK_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
+			MINING_MODIFIER_MAP.put(name, out);
 			}
 		return out;
 		}
 		
 	@Override
-	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) 
+	public AttributeModifier getAttackModifier(IModifierToolStack tool, int level)
 		{
-		if (isEffective && isPowered(tool, true))
+		Fluid fluid = tank.getFluidInTank(tool, level, 0).getFluid();
+		ResourceLocation name = fluid.getRegistryName();
+		AttributeModifier out = ATTACK_MODIFIER_MAP.get(name);
+		if (out == null)
 			{
-			float temperature = MeltingFuelLookup.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+			out = new AttributeModifier(TEnergistics.modID + ".powered_attack", (ToolDefinitions.ATTACK_MULTIPLIER - 1f) * MeltingFuelLookup
+					.findFuel(fluid)
+					.getTemperature() / LAVA_TEMPERATURE, Operation.MULTIPLY_BASE);
+			ATTACK_MODIFIER_MAP.put(name, out);
+			}
+		return out;
+		}
+		
+	@Override
+	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier)
+		{
+		if (isEffective && isPowered(tool, level, true))
+			{
+			float temperature = MeltingFuelLookup.findFuel(tank.getFluidInTank(tool, level, 0).getFluid())
 					.getTemperature() / LAVA_TEMPERATURE;
 			
 			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * MINING_BOOST * temperature);
@@ -95,10 +123,9 @@ public class ExchangerModifier extends PowerSourceModifier
 	@Override
 	public int getDurabilityRGB(IModifierToolStack tool, int level)
 		{
-		if (isPowered(tool, false))
+		if (isPowered(tool, level, false))
 			{
-			FluidStack fluid = PoweredTool.getFluidStack(tool);
-			switch (fluid.getDisplayName().getString())
+			switch (tank.getFluidInTank(tool, level, 0).getDisplayName().getString())
 				{
 				case "Lava":
 					return 0xff8000;
@@ -114,10 +141,10 @@ public class ExchangerModifier extends PowerSourceModifier
 	@Override
 	public double getDamagePercentage(IModifierToolStack tool, int level)
 		{
-		FluidStack fluid = PoweredTool.getFluidStack(tool);
+		FluidStack fluid = tank.getFluidInTank(tool, level, 0);
 		if (!fluid.isEmpty())
 			{
-			int cap = tool.getVolatileData().getInt(PoweredTool.FLUID_LOCATION);
+			int cap = tank.getTankCapacity(tool, level, 0);
 			int current = fluid.getAmount();
 			if (current > cap)
 				{ return 0; }
@@ -127,14 +154,12 @@ public class ExchangerModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public ITextComponent getDisplayName(IModifierToolStack tool, int level)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
 		{
-		FluidStack fluid = PoweredTool.getFluidStack(tool);
-		if (fluid.isEmpty()) return getDisplayName().deepCopy().appendString(" (EMPTY)");
-		return getDisplayName().deepCopy()
-				.appendString(": ")
-				.append(fluid.getDisplayName())
-				.appendString(String.format(" (%s / %s)", fluid.getAmount(), PoweredTool.getFluidCapacity(tool)));
+		FluidStack fluid = tank.getFluidInTank(tool, level, 0);
+		tooltip.add(fluid.getDisplayName()
+				.deepCopy()
+				.appendString(String.format(" (%s / %s)", fluid.getAmount(), tank.getTankCapacity(tool, level, 0))).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
 	@Override
@@ -142,6 +167,7 @@ public class ExchangerModifier extends PowerSourceModifier
 		{
 		super.addVolatileData(toolDefinition, baseStats, persistentData, level, volatileData);
 		volatileData.putInt(PoweredTool.FLUID_LOCATION, CAPACITY);
+		ToolFluidCapability.addTanks(volatileData, tank);
 		}
 		
 	private int getTicks(Fluid fluid)

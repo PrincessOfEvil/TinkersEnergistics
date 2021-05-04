@@ -43,12 +43,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import princess.tenergistics.blocks.ChargerBlock;
+import princess.tenergistics.blocks.PlacedToolBlock;
 import princess.tenergistics.blocks.tileentity.ChargerTileEntity;
+import princess.tenergistics.blocks.tileentity.PlacedToolTileEntity;
 import princess.tenergistics.container.ChargerContainer;
 import princess.tenergistics.container.ChargerScreen;
 import princess.tenergistics.data.EnergisticsLootTableProvider;
 import princess.tenergistics.data.TagProvider;
-import princess.tenergistics.data.ToolsRecipeProvider;
+import princess.tenergistics.data.EnergisticsRecipeProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
 import princess.tenergistics.items.EnergisticsBookItem.EnergisticsBookType;
 import princess.tenergistics.modifiers.CapacityModifier;
@@ -57,10 +59,13 @@ import princess.tenergistics.modifiers.ExchangerModifier;
 import princess.tenergistics.modifiers.FireboxModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier;
 import princess.tenergistics.modifiers.OverclockModifier;
+import princess.tenergistics.modifiers.PassthroughModifier;
+import princess.tenergistics.modifiers.PlaceToolModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceEnergyCoilModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceExchangerModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceFireboxModifier;
 import princess.tenergistics.modifiers.RTGModifier;
+import princess.tenergistics.modifiers.WideFunnelModifier;
 import princess.tenergistics.modifiers.WidePrincessModifier;
 import princess.tenergistics.recipes.RefuelFireboxRecipe;
 import princess.tenergistics.tools.BucketwheelTool;
@@ -119,6 +124,8 @@ public class TEnergistics
 	private static final Block.Properties												STONE									= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
 			.setRequiresTool()
 			.hardnessAndResistance(3.0F, 9.0F);
+	private static final Block.Properties												TOOL_PROPERTIES							= builder(Material.ANVIL, null, SoundType.METAL)
+			.hardnessAndResistance(1.0F, 9.0F);
 	private static final Supplier<Item.Properties>										TOOL									= () -> new Item.Properties()
 			.group(TinkerTools.TAB_TOOLS);
 	private static final Item.Properties												GENERAL_PROPS							= new Item.Properties()
@@ -137,12 +144,15 @@ public class TEnergistics
 	
 	public static final ItemObject<ChargerBlock>										charger									= BLOCKS
 			.register("charger", () -> new ChargerBlock(STONE), GADGET_BLOCK_ITEM);
-	
 	public static final RegistryObject<TileEntityType<ChargerTileEntity>>				chargerTile								= TILE_ENTITIES
 			.register("charger", ChargerTileEntity::new, charger);
-	
 	public static final RegistryObject<ContainerType<ChargerContainer>>					chargerContainer						= CONTAINERS
 			.register("charger", ChargerContainer::new);
+	
+	public static final RegistryObject<PlacedToolBlock>									placedToolBlock							= BLOCKS
+			.registerNoItem("placed_tool", () -> new PlacedToolBlock(TOOL_PROPERTIES));
+	public static final RegistryObject<TileEntityType<PlacedToolTileEntity>>			placedToolTile							= TILE_ENTITIES
+			.register("placed_tool", PlacedToolTileEntity::new, placedToolBlock);
 	
 	public static final ItemObject<EnergisticsBookItem>									miraculousMachinery						= ITEMS
 			.register("miraculous_machinery", () -> new EnergisticsBookItem(BOOK, EnergisticsBookType.MIRACULOUS_MACHINERY));
@@ -204,6 +214,10 @@ public class TEnergistics
 			.register("overclock", () -> new OverclockModifier(0x50e0ff));
 	public static final RegistryObject<OverclockModifier>								overclockTrait							= MODIFIERS
 			.register("overclock_trait", () -> new OverclockModifier(0xe8806c));
+	public static final RegistryObject<WideFunnelModifier>								wideFunnelModifier						= MODIFIERS
+			.register("wide_funnel", WideFunnelModifier::new);
+	public static final RegistryObject<PassthroughModifier>								passthroughModifier						= MODIFIERS
+			.register("passthrough", PassthroughModifier::new);
 	public static final RegistryObject<RTGModifier>										rtgModifier								= MODIFIERS
 			.register("rtg", RTGModifier::new);
 	public static final RegistryObject<WidePrincessModifier>							wideChiselModifier						= MODIFIERS
@@ -217,6 +231,9 @@ public class TEnergistics
 			.register("force_exchanger", ForceExchangerModifier::new);
 	public static final RegistryObject<ForceEnergyCoilModifier>							forceEnergyCoilModifier					= MODIFIERS
 			.register("force_energy_coil", ForceEnergyCoilModifier::new);
+	
+	public static final RegistryObject<PlaceToolModifier>								placeToolModifier						= MODIFIERS
+			.register("place_tool", PlaceToolModifier::new);
 	
 	public static final RegistryObject<Attribute>										FAKE_HARVEST_SPEED						= ATTRIBUTES
 			.register("generic.fake_harvest_speed", () -> new RangedAttribute(modID + ".attribute.name.generic.fake_harvest_speed", 1.0D, 0.0D, 2048.0D));
@@ -260,7 +277,7 @@ public class TEnergistics
 			datagenerator
 					.addProvider(new TagProvider.ItemTag(datagenerator, blockTagProvider, modID, existingFileHelper));
 //			datagenerator.addProvider(new TagProvider.FluidTag(datagenerator, modID, existingFileHelper));
-			datagenerator.addProvider(new ToolsRecipeProvider(datagenerator));
+			datagenerator.addProvider(new EnergisticsRecipeProvider(datagenerator));
 			datagenerator.addProvider(new EnergisticsLootTableProvider(datagenerator));
 			}
 		}

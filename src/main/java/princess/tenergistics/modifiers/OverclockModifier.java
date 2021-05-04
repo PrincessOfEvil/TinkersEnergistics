@@ -1,6 +1,12 @@
 package princess.tenergistics.modifiers;
 
+import java.util.List;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import princess.tenergistics.TEnergistics;
 import slimeknights.tconstruct.library.modifiers.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.ModifierStatsBuilder;
@@ -13,6 +19,7 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 public class OverclockModifier extends IncrementalModifier
 	{
 	public static final ResourceLocation OVERCLOCK = new ResourceLocation(TEnergistics.modID, "overclock");
+	private static final String TOOLTIP_KEY = "modifier.tenergistics.overclock.extra_tooltip";
 	
 	public OverclockModifier(int color)
 		{
@@ -24,18 +31,27 @@ public class OverclockModifier extends IncrementalModifier
 		{
 		return 13666;
 		}
-	  @Override
-	  public void addToolStats(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, IModDataReadOnly volatileData, int level, ModifierStatsBuilder builder) {
-	    float scaledLevel = getScaledLevel(persistentData, level);
-	    
-	    builder.multiplyMiningSpeed((float) Math.pow(1.2, scaledLevel));
-	    builder.multiplyAttackDamage((float) Math.pow(1.2, scaledLevel));
-	  }
 	
+	@Override
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
+		{
+		float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
+		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, Math.pow(1.2, scaledLevel), Math.pow(2, scaledLevel)).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
+		}
+		
+	@Override
+	public void addToolStats(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, IModDataReadOnly volatileData, int level, ModifierStatsBuilder builder)
+		{
+		float scaledLevel = getScaledLevel(persistentData, level);
+		
+		builder.multiplyMiningSpeed((float) Math.pow(1.2, scaledLevel));
+		builder.multiplyAttackDamage((float) Math.pow(1.2, scaledLevel));
+		}
+		
 	@Override
 	public int onDamageTool(IModifierToolStack tool, int level, int amount)
 		{
-	    float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
+		float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
 		return (int) (amount * Math.pow(2, scaledLevel));
 		}
 		
@@ -43,8 +59,9 @@ public class OverclockModifier extends IncrementalModifier
 	public void addVolatileData(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, int level, ModDataNBT volatileData)
 		{
 		super.addVolatileData(toolDefinition, baseStats, persistentData, level, volatileData);
-
-	    float scaledLevel = getScaledLevel(persistentData, level);
-		volatileData.putFloat(OVERCLOCK, (float) ((volatileData.getFloat(OVERCLOCK) + 1) * Math.pow(2, scaledLevel) - 1));
+		
+		float scaledLevel = getScaledLevel(persistentData, level);
+		volatileData
+				.putFloat(OVERCLOCK, (float) ((volatileData.getFloat(OVERCLOCK) + 1) * Math.pow(2, scaledLevel) - 1));
 		}
 	}

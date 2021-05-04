@@ -41,10 +41,10 @@ import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
-public class ToolsRecipeProvider extends RecipeProvider implements IConditionBuilder
+public class EnergisticsRecipeProvider extends RecipeProvider implements IConditionBuilder
 	{
 	//I swear to fuck, this has so much copypasta from TiC. I *wish* i could reuse their code, but i can't.
-	public ToolsRecipeProvider(DataGenerator generator)
+	public EnergisticsRecipeProvider(DataGenerator generator)
 		{
 		super(generator);
 		}
@@ -52,7 +52,7 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 	@Override
 	public String getName()
 		{
-		return "Tinkers' Energistics Tool Recipes";
+		return "Tinkers' Energistics Recipes";
 		}
 		
 	protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
@@ -148,16 +148,51 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setUpgradeSlots(1)
 				.setMaxLevel(3)
 				.setTools(TinkerTags.Items.MODIFIABLE)
-				.setRequirements(ModifierMatch
-						.list(1, ModifierMatch.entry(TEnergistics.fireboxModifier.get()), ModifierMatch
-								.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
-										.entry(TEnergistics.energyCoilModifier.get()), ModifierMatch
-												.entry(TEnergistics.forceFireboxModifier.get()), ModifierMatch
-														.entry(TEnergistics.forceExchangerModifier.get()), ModifierMatch
-																.entry(TEnergistics.forceEnergyCoilModifier.get())))
+				.setRequirements(ModifierMatch.list(1, ModifierMatch.entry(TEnergistics.fireboxModifier
+						.get()), ModifierMatch.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
+								.entry(TEnergistics.energyCoilModifier.get()), ModifierMatch.list(2, ModifierMatch
+										.entry(TEnergistics.forceFieldModifier.get()), ModifierMatch
+												.entry(TEnergistics.forceFireboxModifier.get())), ModifierMatch
+														.list(2, ModifierMatch.entry(TEnergistics.forceFieldModifier
+																.get()), ModifierMatch
+																		.entry(TEnergistics.forceExchangerModifier
+																				.get())), ModifierMatch
+																						.list(2, ModifierMatch
+																								.entry(TEnergistics.forceFieldModifier
+																										.get()), ModifierMatch
+																												.entry(TEnergistics.forceEnergyCoilModifier
+																														.get()))))
 				.setRequirementsError("recipe.tenergistics.modifier.capacity_requirements")
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.capacityModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.wideFunnelModifier.get())
+				.addInput(Items.BUCKET)
+				.addInput(Items.HOPPER)
+				.addInput(Items.BUCKET)
+				.setUpgradeSlots(1)
+				.setMaxLevel(1)
+				.setRequirements(ModifierMatch
+						.list(1, ModifierMatch.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
+								.list(2, ModifierMatch.entry(TEnergistics.forceFieldModifier.get()), ModifierMatch
+										.entry(TEnergistics.forceExchangerModifier.get()))))
+				.setRequirementsError("recipe.tenergistics.modifier.wide_funnel_requirements")
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.wideFunnelModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.passthroughModifier.get())
+				.addInput(TinkerSmeltery.searedFaucet)
+				.addInput(Tags.Items.GLASS)
+				.addInput(TinkerSmeltery.searedFaucet)
+				.setUpgradeSlots(1)
+				.setMaxLevel(1)
+				.setRequirements(ModifierMatch
+						.list(1, ModifierMatch.entry(TEnergistics.exchangerModifier.get()), ModifierMatch
+								.list(2, ModifierMatch.entry(TEnergistics.forceFieldModifier.get()), ModifierMatch
+										.entry(TEnergistics.forceExchangerModifier.get()))))
+				.setRequirementsError("recipe.tenergistics.modifier.passthrough_requirements")
+				.setGroup(powerGroup)
+				.build(consumer, prefixR(TEnergistics.passthroughModifier, upgradeFolder));
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.rtgModifier.get())
 				.addInput(TinkerFluids.moltenBlaze.asItem())
@@ -170,7 +205,8 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setTools(TinkerTags.Items.MODIFIABLE)
 				.setRequirements(ModifierMatch
 						.list(1, ModifierMatch.entry(TEnergistics.energyCoilModifier.get()), ModifierMatch
-								.entry(TEnergistics.forceEnergyCoilModifier.get())))
+								.list(2, ModifierMatch.entry(TEnergistics.forceFieldModifier.get()), ModifierMatch
+										.entry(TEnergistics.forceEnergyCoilModifier.get()))))
 				.setRequirementsError("recipe.tenergistics.modifier.coil_only")
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.rtgModifier, upgradeFolder));
@@ -193,6 +229,11 @@ public class ToolsRecipeProvider extends RecipeProvider implements IConditionBui
 				.setTools(Ingredient.fromItems(TEnergistics.jackhammer.get()))
 				.setGroup(powerGroup)
 				.build(consumer, prefixR(TEnergistics.wideChiselModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.placeToolModifier.get())
+				.addInput(Items.BEDROCK)
+				.setMaxLevel(1)
+				.build(consumer, prefixR(TEnergistics.placeToolModifier, upgradeFolder));
 		}
 		
 	private void addForceFieldRecipes(Consumer<IFinishedRecipe> consumer)

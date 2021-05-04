@@ -8,16 +8,14 @@ import slimeknights.mantle.block.InventoryBlock;
 
 public class ChargerBlock extends InventoryBlock
 	{
-
 	public ChargerBlock(Properties builder)
 		{
 		super(builder);
 		}
-
+		
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 		{
-	    return new ChargerTileEntity();
-		}
-	
+		return new ChargerTileEntity();
+		}		
 	}

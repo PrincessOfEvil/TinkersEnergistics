@@ -25,6 +25,14 @@
   },
   {
     "type": "modifier",
+    "data": "modifiers/wide_funnel.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/passthrough.json"
+  },
+  {
+    "type": "modifier",
     "data": "modifiers/rtg.json"
   },
   {

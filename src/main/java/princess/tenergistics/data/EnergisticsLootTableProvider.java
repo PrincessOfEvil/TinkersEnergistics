@@ -77,6 +77,7 @@ public class EnergisticsLootTableProvider extends LootTableProvider
 		private void addCommon()
 			{
 			this.registerDropSelfLootTable(TEnergistics.charger.get());
+			this.registerLootTable(TEnergistics.placedToolBlock.get(), BlockLootTables.blockNoDrop());
 			}
 		}
 	}

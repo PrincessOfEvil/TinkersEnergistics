@@ -1,6 +1,12 @@
 package princess.tenergistics.modifiers;
 
+import java.util.List;
+
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import princess.tenergistics.library.PowerSourceModifier;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
@@ -15,19 +21,21 @@ public class EnergyCoilModifier extends PowerSourceModifier
 	
 	private static final int	COLOR					= 0xf02f2f;
 	
+	private static final String	TOOLTIP_KEY				= "modifier.tenergistics.energy_coil.extra_tooltip";
+	
 	public EnergyCoilModifier()
 		{
 		super(COLOR);
 		}
 		
 	@Override
-	public boolean isPowered(IModifierToolStack tool, boolean dirty)
+	public boolean isPowered(IModifierToolStack tool, int level, boolean dirty)
 		{
 		return PoweredTool.getEnergy(tool) > ENERGY_PER_OPERATION;
 		}
 		
 	@Override
-	public void drainPower(IModifierToolStack tool)
+	public void drainPower(IModifierToolStack tool, int level)
 		{
 		PoweredTool.setEnergy(tool, PoweredTool.getEnergy(tool) - ENERGY_PER_OPERATION);
 		}
@@ -41,11 +49,10 @@ public class EnergyCoilModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public ITextComponent getDisplayName(IModifierToolStack tool, int level)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
 		{
-		return getDisplayName().deepCopy()
-				.appendString(String
-						.format(": %s / %s Forge Units", PoweredTool.getEnergy(tool), PoweredTool.getMaxEnergy(tool)));
+		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, PoweredTool.getEnergy(tool), PoweredTool
+				.getMaxEnergy(tool)).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
 	@Override

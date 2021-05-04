@@ -10,3 +10,6 @@ tool.properties=Conclusion:
 
 material.craft_partbuilder=Can be crafted in the Part Builder
 material.craft_casting=Can be cast from %s
+
+material.tenergistics.malachite.book=It's too bad you can't see the patterns on a picture this small
+material.tenergistics.glaucodot.book=Pearly on cleavages

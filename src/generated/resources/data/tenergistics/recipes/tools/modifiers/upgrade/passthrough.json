@@ -2,19 +2,13 @@
   "type": "tconstruct:modifier",
   "inputs": [
     {
-      "item": "tconstruct:molten_blaze_bucket"
+      "item": "tconstruct:faucet"
     },
     {
-      "tag": "forge:ingots/rose_gold"
+      "tag": "forge:glass"
     },
     {
-      "item": "tconstruct:molten_blaze_bucket"
-    },
-    {
-      "item": "minecraft:blue_ice"
-    },
-    {
-      "item": "minecraft:blue_ice"
+      "item": "tconstruct:faucet"
     }
   ],
   "tools": {
@@ -23,7 +17,7 @@
   "requirements": {
     "options": [
       {
-        "name": "tenergistics:energy_coil",
+        "name": "tenergistics:exchanger",
         "level": 1
       },
       {
@@ -33,7 +27,7 @@
             "level": 1
           },
           {
-            "name": "tenergistics:force_energy_coil",
+            "name": "tenergistics:force_exchanger",
             "level": 1
           }
         ],
@@ -41,12 +35,12 @@
       }
     ],
     "matches_needed": 1,
-    "error": "recipe.tenergistics.modifier.coil_only"
+    "error": "recipe.tenergistics.modifier.passthrough_requirements"
   },
   "result": {
-    "name": "tenergistics:rtg",
+    "name": "tenergistics:passthrough",
     "level": 1
   },
-  "max_level": 5,
+  "max_level": 1,
   "upgrade_slots": 1
 }

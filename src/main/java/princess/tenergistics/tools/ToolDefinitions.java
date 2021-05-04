@@ -5,10 +5,14 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableList;
+
 import princess.tenergistics.TEnergistics;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.IToolPart;
 import slimeknights.tconstruct.library.tools.ToolBaseStatDefinition;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
+import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 
 public class ToolDefinitions
@@ -46,8 +50,8 @@ public class ToolDefinitions
 			.build();
 	
 	public static final ToolDefinition			JACKHAMMER				= new ToolDefinition(JACKHAMMER_STATS, requirements(TEnergistics.jackhammerRod, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
-	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
-	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
+	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList.of(new ModifierEntry(TinkerModifiers.shovelTransformHidden.get(), 1)));
+	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList.of(new ModifierEntry(TinkerModifiers.axeTransformHidden.get(), 1)));
 	
 	private static Supplier<List<IToolPart>> requirements(Stream<Supplier<? extends IToolPart>> parts)
 		{

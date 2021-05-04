@@ -35,16 +35,43 @@
         "level": 1
       },
       {
-        "name": "tenergistics:force_firebox",
-        "level": 1
+        "options": [
+          {
+            "name": "tenergistics:force_field",
+            "level": 1
+          },
+          {
+            "name": "tenergistics:force_firebox",
+            "level": 1
+          }
+        ],
+        "matches_needed": 2
       },
       {
-        "name": "tenergistics:force_exchanger",
-        "level": 1
+        "options": [
+          {
+            "name": "tenergistics:force_field",
+            "level": 1
+          },
+          {
+            "name": "tenergistics:force_exchanger",
+            "level": 1
+          }
+        ],
+        "matches_needed": 2
       },
       {
-        "name": "tenergistics:force_energy_coil",
-        "level": 1
+        "options": [
+          {
+            "name": "tenergistics:force_field",
+            "level": 1
+          },
+          {
+            "name": "tenergistics:force_energy_coil",
+            "level": 1
+          }
+        ],
+        "matches_needed": 2
       }
     ],
     "matches_needed": 1,

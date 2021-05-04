@@ -2,18 +2,20 @@ package princess.tenergistics.tools;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import princess.tenergistics.TEnergistics;
-import princess.tenergistics.capabilities.ToolFuelTank;
+import princess.tenergistics.capabilities.ToolFuelCapability;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.item.ToolCore;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
@@ -31,15 +33,29 @@ public class PoweredTool extends ToolCore
 		super(properties, toolDefinition);
 		}
 		
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt)
+	@EventBusSubscriber
+	public static class PowerCapabilityHandler
 		{
-		return new ToolFuelTank(stack);
+		public static final ResourceLocation POWER_CAPABILITY = new ResourceLocation(TEnergistics.modID, "power_capability");
+		
+		@SubscribeEvent
+		public static void attachCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
+			{
+			ItemStack stack = event.getObject();
+			if (stack.getItem() instanceof ToolCore)
+				{
+				if (!stack.getCapability(CapabilityEnergy.ENERGY).isPresent())
+					{
+					event.addCapability(POWER_CAPABILITY, new ToolFuelCapability(stack));
+					}
+				}
+			}
 		}
 		
-	public void getTooltip(ItemStack stack, List<ITextComponent> tooltips, TooltipType tooltipType)
+	@Override
+	public void getTooltip(ItemStack stack, List<ITextComponent> tooltips, TooltipType tooltipType, ITooltipFlag flagIn)
 		{
-		super.getTooltip(stack, tooltips, tooltipType);
+		super.getTooltip(stack, tooltips, tooltipType, flagIn);
 		switch (tooltipType)
 			{
 			case NORMAL:

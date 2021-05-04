@@ -1,4 +1,4 @@
-package princess.tenergistics.modifiers;
+package princess.tenergistics.library;
 
 import java.util.function.BiConsumer;
 
@@ -39,12 +39,12 @@ public class PowerSourceModifier extends SingleUseModifier
 	/**
 	* @param dirty   If true, allows to make changes to the tool.
 	 * */
-	public boolean isPowered(IModifierToolStack tool, boolean dirty)
+	public boolean isPowered(IModifierToolStack tool, int level, boolean dirty)
 		{
 		return true;
 		}
 		
-	public void drainPower(IModifierToolStack tool)
+	public void drainPower(IModifierToolStack tool, int level)
 		{}
 		
 	@Override
@@ -62,13 +62,13 @@ public class PowerSourceModifier extends SingleUseModifier
 	@Override
 	public Boolean showDurabilityBar(IModifierToolStack tool, int level)
 		{
-		return isPowered(tool, false) ? true : null;
+		return isPowered(tool, level, false) ? true : null;
 		}
 		
 	@Override
 	public int getDurabilityRGB(IModifierToolStack tool, int level)
 		{
-		if (isPowered(tool, false))
+		if (isPowered(tool, level, false))
 			{ return getColor(); }
 		return -1;
 		}
@@ -77,28 +77,28 @@ public class PowerSourceModifier extends SingleUseModifier
 	public int onDamageTool(IModifierToolStack tool, int level, int amount)
 		{
 		int left = amount;
-		for (; isPowered(tool, true) && left > 0; left--)
-			drainPower(tool);
+		for (; isPowered(tool, level, true) && left > 0; left--)
+			drainPower(tool, level);
 		return left;
 		}
 		
 	@Override
 	public void addAttributes(IModifierToolStack tool, int level, BiConsumer<Attribute, AttributeModifier> consumer)
 		{
-		if (isPowered(tool, false))
+		if (isPowered(tool, level, false))
 			{
-			consumer.accept(TEnergistics.FAKE_HARVEST_SPEED.get(), getMiningModifier(tool));
-			consumer.accept(Attributes.ATTACK_DAMAGE, getAttackModifier(tool));
-			consumer.accept(Attributes.ATTACK_SPEED, getAttackModifier(tool));
+			consumer.accept(TEnergistics.FAKE_HARVEST_SPEED.get(), getMiningModifier(tool, level));
+			consumer.accept(Attributes.ATTACK_DAMAGE, getAttackModifier(tool, level));
+			consumer.accept(Attributes.ATTACK_SPEED, getAttackModifier(tool, level));
 			}
 		}
 		
 	@Override
 	public void onBreakSpeed(IModifierToolStack tool, int level, BreakSpeed event, Direction sideHit, boolean isEffective, float miningSpeedModifier) 
 		{
-		if (isEffective && isPowered(tool, true))
+		if (isEffective && isPowered(tool, level, true))
 			{
-			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * getMiningBoost(tool));
+			event.setNewSpeed(event.getNewSpeed() * ToolDefinitions.SPEED_MULTIPLIER * getMiningBoost(tool, level));
 			}
 		}
 		
@@ -116,17 +116,17 @@ public class PowerSourceModifier extends SingleUseModifier
 				: ValidatedResult.PASS;
 		}
 		
-	public AttributeModifier getMiningModifier(IModifierToolStack tool)
+	public AttributeModifier getMiningModifier(IModifierToolStack tool, int level)
 		{
 		return MINING_MODIFIER;
 		}
 		
-	public AttributeModifier getAttackModifier(IModifierToolStack tool)
+	public AttributeModifier getAttackModifier(IModifierToolStack tool, int level)
 		{
 		return ATTACK_MODIFIER;
 		}
 		
-	public float getMiningBoost(IModifierToolStack tool)
+	public float getMiningBoost(IModifierToolStack tool, int level)
 		{
 		return MINING_BOOST;
 		}

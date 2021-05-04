@@ -41,6 +41,8 @@ minecraft {
             
             property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP,CORE'
             property 'forge.logging.console.level', 'debug'
+            
+            property 'username', 'PrincessOfSalt'
 
             mods {
                 tenergistics {

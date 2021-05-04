@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import princess.tenergistics.modifiers.WidePrincessModifier;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
-import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.harvest.HarvestTool.MaterialHarvestLogic;
 
@@ -26,7 +26,7 @@ public class JackhammerTool extends PoweredTool
 	public static final MaterialHarvestLogic	HARVEST_LOGIC	= new MaterialHarvestLogic(EXTRA_MATERIALS, 0, 0, 0)
 																	{
 																	@Override
-																	public Iterable<BlockPos> getAOEBlocks(ToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType)
+																	public Iterable<BlockPos> getAOEBlocks(IModifierToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType)
 																		{
 																		if (!canAOE(tool, stack, state, matchType))
 																			{ return Collections.emptyList(); }

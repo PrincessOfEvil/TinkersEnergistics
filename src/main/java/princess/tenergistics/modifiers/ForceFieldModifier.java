@@ -4,24 +4,17 @@ import java.util.HashMap;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.item.ItemStack;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import princess.tenergistics.TEnergistics;
-import princess.tenergistics.capabilities.ToolFuelTank;
 import princess.tenergistics.tools.PoweredTool;
 import princess.tenergistics.tools.ToolDefinitions;
 import slimeknights.tconstruct.library.modifiers.SingleUseModifier;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
-import slimeknights.tconstruct.library.tools.item.ToolCore;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
@@ -77,26 +70,6 @@ public class ForceFieldModifier extends SingleUseModifier
 						.getInt(PoweredTool.ENERGY_LOCATION) / INVERSE_FORCE_CAPACITY_MULTIPLIER);
 		}
 		
-	@EventBusSubscriber
-	public static class CapabilityHandler
-		{
-		public static final ResourceLocation POWER_CAPABILITY = new ResourceLocation(TEnergistics.modID, "power_capability");
-		
-		@SubscribeEvent
-		public static void attachCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
-			{
-			ItemStack stack = event.getObject();
-			if (stack.getItem() instanceof ToolCore && !(stack.getItem() instanceof PoweredTool))
-				{
-				if (!stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
-						&& !stack.getCapability(CapabilityEnergy.ENERGY).isPresent())
-					{
-					event.addCapability(POWER_CAPABILITY, new ToolFuelTank(stack));
-					}
-				}
-			}
-		}
-		
 	public static final AttributeModifier	MINING_MODIFIER	= new AttributeModifier(TEnergistics.modID + ".powered_mining", ForceFieldModifier.FORCE_SPEED_MULTIPLIER - 1f, Operation.MULTIPLY_BASE);
 	public static final AttributeModifier	ATTACK_MODIFIER	= new AttributeModifier(TEnergistics.modID + ".powered_attack", ForceFieldModifier.FORCE_ATTACK_MULTIPLIER - 1f, Operation.MULTIPLY_BASE);
 	
@@ -104,17 +77,20 @@ public class ForceFieldModifier extends SingleUseModifier
 	
 	public static class ForceFireboxModifier extends FireboxModifier
 		{
-		public AttributeModifier getMiningModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getMiningModifier(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.MINING_MODIFIER;
 			}
 			
-		public AttributeModifier getAttackModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getAttackModifier(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.ATTACK_MODIFIER;
 			}
 			
-		public float getMiningBoost(IModifierToolStack tool)
+		@Override
+		public float getMiningBoost(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.MINING_BOOST;
 			}
@@ -125,55 +101,63 @@ public class ForceFieldModifier extends SingleUseModifier
 		protected static final HashMap<ResourceLocation, AttributeModifier>	FORCE_MINING_MODIFIER_MAP	= new HashMap<ResourceLocation, AttributeModifier>();
 		protected static final HashMap<ResourceLocation, AttributeModifier>	FORCE_ATTACK_MODIFIER_MAP	= new HashMap<ResourceLocation, AttributeModifier>();
 		
-		public AttributeModifier getMiningModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getMiningModifier(IModifierToolStack tool, int level)
 			{
-			AttributeModifier out = FORCE_MINING_MODIFIER_MAP
-					.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
+			Fluid fluid = tank.getFluidInTank(tool, level, 0).getFluid();
+			ResourceLocation name = fluid.getRegistryName();
+			AttributeModifier out = FORCE_MINING_MODIFIER_MAP.get(name);
 			if (out == null)
 				{
 				out = new AttributeModifier(TEnergistics.modID + ".powered_mining", ForceFieldModifier.FORCE_SPEED_MULTIPLIER * (MeltingFuelLookup
-						.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+						.findFuel(fluid)
 						.getTemperature() / LAVA_TEMPERATURE) - 1f, Operation.MULTIPLY_BASE);
-				FORCE_MINING_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
+				FORCE_MINING_MODIFIER_MAP.put(name, out);
 				}
 			return out;
 			}
 			
-		public AttributeModifier getAttackModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getAttackModifier(IModifierToolStack tool, int level)
 			{
-			AttributeModifier out = FORCE_ATTACK_MODIFIER_MAP
-					.get(PoweredTool.getFluidStack(tool).getFluid().getRegistryName());
+			Fluid fluid = tank.getFluidInTank(tool, level, 0).getFluid();
+			ResourceLocation name = fluid.getRegistryName();
+			AttributeModifier out = FORCE_ATTACK_MODIFIER_MAP.get(name);
 			if (out == null)
 				{
 				out = new AttributeModifier(TEnergistics.modID + ".powered_attack", ForceFieldModifier.FORCE_ATTACK_MULTIPLIER + (MeltingFuelLookup
-						.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+						.findFuel(fluid)
 						.getTemperature() / LAVA_TEMPERATURE) - 2f, Operation.MULTIPLY_BASE);
-				FORCE_ATTACK_MODIFIER_MAP.put(PoweredTool.getFluidStack(tool).getFluid().getRegistryName(), out);
+				FORCE_ATTACK_MODIFIER_MAP.put(name, out);
 				}
 			return out;
 			}
 			
-		public float getMiningBoost(IModifierToolStack tool)
+		@Override
+		public float getMiningBoost(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.MINING_BOOST * (MeltingFuelLookup
-					.findFuel(PoweredTool.getFluidStack(tool).getFluid())
+					.findFuel(tank.getFluidInTank(tool, level, 0).getFluid())
 					.getTemperature() / LAVA_TEMPERATURE);
 			}
 		}
 		
 	public static class ForceEnergyCoilModifier extends EnergyCoilModifier
 		{
-		public AttributeModifier getMiningModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getMiningModifier(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.MINING_MODIFIER;
 			}
 			
-		public AttributeModifier getAttackModifier(IModifierToolStack tool)
+		@Override
+		public AttributeModifier getAttackModifier(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.ATTACK_MODIFIER;
 			}
 			
-		public float getMiningBoost(IModifierToolStack tool)
+		@Override
+		public float getMiningBoost(IModifierToolStack tool, int level)
 			{
 			return ForceFieldModifier.MINING_BOOST;
 			}

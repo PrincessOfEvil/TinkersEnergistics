@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.modifiers.FireboxModifier;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.recipe.tinkerstation.IMutableTinkerStationInventory;
@@ -57,7 +58,7 @@ public class RefuelFireboxRecipe implements ITinkerStationRecipe
 		if (tool.getDefinition() == ToolDefinition.EMPTY) return ValidatedResult.PASS;
 		ItemStack fuelIn = PoweredTool.getItemStack(tool);
 		
-		int fuelNeeded = Math.min(fuelIn.getMaxStackSize(), tool.getVolatileData()
+		int fuelNeeded = Math.min(FireboxModifier.maxFuel(tool, fuelIn), tool.getVolatileData()
 				.getInt(PoweredTool.ITEM_LOCATION)) - fuelIn.getCount();
 		
 		ItemStack out = ItemStack.EMPTY;
