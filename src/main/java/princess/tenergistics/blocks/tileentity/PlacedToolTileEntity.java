@@ -31,6 +31,20 @@ public class PlacedToolTileEntity extends TileEntity
 		return tool;
 		}
 		
+	public boolean bitesIn()
+		{
+		return true;
+		}
+		
+	/*
+	@Override
+	@Nonnull
+	public IModelData getModelData()
+		{
+		return new SinglePropertyData(null, tool);
+		}
+	*/
+	
 	@Override
 	public void read(BlockState blockState, CompoundNBT tags)
 		{

@@ -17,7 +17,7 @@ import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.helper.ToolHarvestLogic;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.tools.TinkerModifiers;
-import slimeknights.tconstruct.tools.harvest.HarvestTool.MaterialHarvestLogic;
+import slimeknights.tconstruct.tools.item.small.HarvestTool.MaterialHarvestLogic;
 
 public class JackhammerTool extends PoweredTool
 	{

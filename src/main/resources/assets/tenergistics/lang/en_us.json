@@ -98,7 +98,12 @@
     "modifier.tenergistics.wide_chisel": "Wide Chisel",
     "modifier.tenergistics.wide_chisel.flavor": "Spinet Fantasia!",
     "modifier.tenergistics.wide_chisel.description": "Expands the Jackhammer, at the cost of some mining speed.",
-  
+  	
+  	
+    "modifier.tenergistics.place_tool": "Place Tool",
+    "modifier.tenergistics.place_tool.flavor": "Do not forget to unlock breathing while you're at it!",
+    "modifier.tenergistics.place_tool.description": "Allows you to place the tool in the world by shift-right clicking.",
+
 
     "item.tenergistics.tool_casing_cast": "Tool Casing Gold Cast",
     "item.tenergistics.tool_casing_sand_cast": "Tool Casing Sand Cast",

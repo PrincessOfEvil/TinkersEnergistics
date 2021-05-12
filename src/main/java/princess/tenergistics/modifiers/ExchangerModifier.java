@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.fluid.Fluid;
@@ -154,12 +153,13 @@ public class ExchangerModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, boolean isAdvanced, boolean detailed)
 		{
 		FluidStack fluid = tank.getFluidInTank(tool, level, 0);
 		tooltip.add(fluid.getDisplayName()
 				.deepCopy()
-				.appendString(String.format(" (%s / %s)", fluid.getAmount(), tank.getTankCapacity(tool, level, 0))).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
+				.appendString(String.format(" (%s / %s)", fluid.getAmount(), tank.getTankCapacity(tool, level, 0)))
+				.modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
 	@Override

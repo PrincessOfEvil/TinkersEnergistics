@@ -2,7 +2,6 @@ package princess.tenergistics.modifiers;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
@@ -18,8 +17,8 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 
 public class OverclockModifier extends IncrementalModifier
 	{
-	public static final ResourceLocation OVERCLOCK = new ResourceLocation(TEnergistics.modID, "overclock");
-	private static final String TOOLTIP_KEY = "modifier.tenergistics.overclock.extra_tooltip";
+	public static final ResourceLocation	OVERCLOCK	= new ResourceLocation(TEnergistics.modID, "overclock");
+	private static final String				TOOLTIP_KEY	= "modifier.tenergistics.overclock.extra_tooltip";
 	
 	public OverclockModifier(int color)
 		{
@@ -31,12 +30,13 @@ public class OverclockModifier extends IncrementalModifier
 		{
 		return 13666;
 		}
-	
+		
 	@Override
-	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, boolean isAdvanced, boolean detailed)
 		{
 		float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
-		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, Math.pow(1.2, scaledLevel), Math.pow(2, scaledLevel)).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
+		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, Math.pow(1.2, scaledLevel), Math.pow(2, scaledLevel))
+				.modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
 	@Override

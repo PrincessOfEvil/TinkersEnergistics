@@ -26,10 +26,9 @@ public class PassthroughModifier extends SingleUseModifier
 		FluidStack stack = TinkerModifiers.tank.get().getFluid(tool).copy();
 		if (!stack.isEmpty())
 			{
-			int drained = TEnergistics.exchangerModifier.get().tank
-					.fill(tool, level, stack.copy(), FluidAction.EXECUTE);
-			stack.shrink(drained);
-			TinkerModifiers.tank.get().setFluid(tool, stack);
+			TinkerModifiers.tank.get()
+					.drain(tool, stack, TEnergistics.exchangerModifier.get().tank
+							.fill(tool, level, stack.copy(), FluidAction.EXECUTE));
 			}
 		return amount;
 		}

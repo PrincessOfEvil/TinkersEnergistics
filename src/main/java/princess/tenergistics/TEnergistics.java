@@ -34,6 +34,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -46,6 +47,7 @@ import princess.tenergistics.blocks.ChargerBlock;
 import princess.tenergistics.blocks.PlacedToolBlock;
 import princess.tenergistics.blocks.tileentity.ChargerTileEntity;
 import princess.tenergistics.blocks.tileentity.PlacedToolTileEntity;
+import princess.tenergistics.client.ToolTileEntityRenderer;
 import princess.tenergistics.container.ChargerContainer;
 import princess.tenergistics.container.ChargerScreen;
 import princess.tenergistics.data.EnergisticsLootTableProvider;
@@ -53,6 +55,7 @@ import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.data.EnergisticsRecipeProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
 import princess.tenergistics.items.EnergisticsBookItem.EnergisticsBookType;
+import princess.tenergistics.modifiers.BlockingModifier;
 import princess.tenergistics.modifiers.CapacityModifier;
 import princess.tenergistics.modifiers.EnergyCoilModifier;
 import princess.tenergistics.modifiers.ExchangerModifier;
@@ -124,8 +127,9 @@ public class TEnergistics
 	private static final Block.Properties												STONE									= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
 			.setRequiresTool()
 			.hardnessAndResistance(3.0F, 9.0F);
-	private static final Block.Properties												TOOL_PROPERTIES							= builder(Material.ANVIL, null, SoundType.METAL)
-			.hardnessAndResistance(1.0F, 9.0F);
+	private static final Block.Properties												TOOL_PROPERTIES							= builder(Material.ANVIL, null, SoundType.WOOD)
+			.hardnessAndResistance(0.0F, 9.0F)
+			.doesNotBlockMovement();
 	private static final Supplier<Item.Properties>										TOOL									= () -> new Item.Properties()
 			.group(TinkerTools.TAB_TOOLS);
 	private static final Item.Properties												GENERAL_PROPS							= new Item.Properties()
@@ -235,6 +239,9 @@ public class TEnergistics
 	public static final RegistryObject<PlaceToolModifier>								placeToolModifier						= MODIFIERS
 			.register("place_tool", PlaceToolModifier::new);
 	
+	public static final RegistryObject<BlockingModifier>								blockingModifier						= MODIFIERS
+			.register("blocking", BlockingModifier::new);
+	
 	public static final RegistryObject<Attribute>										FAKE_HARVEST_SPEED						= ATTRIBUTES
 			.register("generic.fake_harvest_speed", () -> new RangedAttribute(modID + ".attribute.name.generic.fake_harvest_speed", 1.0D, 0.0D, 2048.0D));
 	
@@ -298,6 +305,8 @@ public class TEnergistics
 			EnergisticsBookItem.EnergisticsBook.MIRACULOUS_MACHINERY.fontRenderer = unicode;
 			
 			ScreenManager.registerFactory(TEnergistics.chargerContainer.get(), ChargerScreen::new);
+			
+			ClientRegistry.bindTileEntityRenderer(TEnergistics.placedToolTile.get(), ToolTileEntityRenderer::new);
 			}
 			
 		public static void onConstruct()

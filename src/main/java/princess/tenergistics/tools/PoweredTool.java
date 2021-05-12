@@ -2,7 +2,6 @@ package princess.tenergistics.tools;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -53,7 +52,7 @@ public class PoweredTool extends ToolCore
 		}
 		
 	@Override
-	public void getTooltip(ItemStack stack, List<ITextComponent> tooltips, TooltipType tooltipType, ITooltipFlag flagIn)
+	public void getTooltip(ItemStack stack, List<ITextComponent> tooltips, TooltipType tooltipType, boolean flagIn)
 		{
 		super.getTooltip(stack, tooltips, tooltipType, flagIn);
 		switch (tooltipType)

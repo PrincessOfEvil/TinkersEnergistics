@@ -2,7 +2,6 @@ package princess.tenergistics.modifiers;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -49,7 +48,7 @@ public class EnergyCoilModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, boolean isAdvanced, boolean detailed)
 		{
 		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, PoweredTool.getEnergy(tool), PoweredTool
 				.getMaxEnergy(tool)).modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));

@@ -22,7 +22,7 @@ import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerTools;
-import slimeknights.tconstruct.tools.harvest.HarvestTool.MaterialHarvestLogic;
+import slimeknights.tconstruct.tools.item.small.HarvestTool.MaterialHarvestLogic;
 
 public class BuzzsawTool extends PoweredTool
 	{

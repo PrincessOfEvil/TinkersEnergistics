@@ -2,14 +2,14 @@
   "type": "tconstruct:modifier",
   "inputs": [
     {
-      "item": "minecraft:armor_stand"
+      "item": "minecraft:bedrock"
     }
   ],
   "tools": {
     "tag": "tconstruct:modifiable"
   },
   "result": {
-    "name": "tenergistics:place_tool",
+    "name": "tenergistics:blocking",
     "level": 1
   },
   "max_level": 1

@@ -38,5 +38,9 @@
   {
     "type": "modifier",
     "data": "modifiers/force_field.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/place_tool.json"
   }
 ]

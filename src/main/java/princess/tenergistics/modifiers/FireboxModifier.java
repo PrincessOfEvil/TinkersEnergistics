@@ -2,7 +2,6 @@ package princess.tenergistics.modifiers;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.Color;
@@ -96,7 +95,7 @@ public class FireboxModifier extends PowerSourceModifier
 		}
 		
 	@Override
-	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, ITooltipFlag flag, boolean detailed)
+	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, boolean isAdvanced, boolean detailed)
 		{
 		ItemStack fuel = PoweredTool.getItemStack(tool);
 		tooltip.add(fuel.getDisplayName()

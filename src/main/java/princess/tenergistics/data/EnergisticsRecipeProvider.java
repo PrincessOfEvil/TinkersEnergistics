@@ -231,9 +231,14 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 				.build(consumer, prefixR(TEnergistics.wideChiselModifier, upgradeFolder));
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.placeToolModifier.get())
-				.addInput(Items.BEDROCK)
+				.addInput(Items.ARMOR_STAND)
 				.setMaxLevel(1)
 				.build(consumer, prefixR(TEnergistics.placeToolModifier, upgradeFolder));
+		
+		ModifierRecipeBuilder.modifier(TEnergistics.blockingModifier.get())
+				.addInput(Items.BEDROCK)
+				.setMaxLevel(1)
+				.build(consumer, prefixR(TEnergistics.blockingModifier, upgradeFolder));
 		}
 		
 	private void addForceFieldRecipes(Consumer<IFinishedRecipe> consumer)

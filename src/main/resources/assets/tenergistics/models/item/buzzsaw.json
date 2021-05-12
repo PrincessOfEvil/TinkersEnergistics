@@ -23,6 +23,11 @@
   ],
   "large_offset": [-20, 0],
   "display": {
+    "fixed": {
+      "rotation": [ 180, 0, 90 ],
+      "translation": [ 4.0, -4.0, 0 ],
+      "scale": [ 1, 1, 1 ]
+    },
     "thirdperson_righthand": {
       "rotation": [ 110, -90, 55 ],
       "translation": [ 0, 4.0, 0.5 ],
