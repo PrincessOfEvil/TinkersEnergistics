@@ -27,6 +27,7 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.materials.MaterialValues;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingRecipeBuilder;
+import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelBuilder;
 import slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipeBuilder;
@@ -292,9 +293,13 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		}
 		
 	private void addSmelteryRecipes(Consumer<IFinishedRecipe> consumer)
-		{/*
-			String folder = "smeltery/casting/";
-			ContainerFillingRecipeBuilder.tableRecipe(TEnergistics.jackhammer, FluidAttributes.BUCKET_VOLUME).build(consumer, location(folder + "filling/jackhammer"));*/
+		{
+		String folder = "smeltery/melting/";
+		/*
+		String folder = "smeltery/casting/";
+		ContainerFillingRecipeBuilder.tableRecipe(TEnergistics.jackhammer, FluidAttributes.BUCKET_VOLUME).build(consumer, location(folder + "filling/jackhammer"));*/
+		MeltingFuelBuilder.fuel(new FluidStack(TEnergistics.moltenEnergy.get(), 400), 10)
+				.build(consumer, location(folder + "fuel/energy"));
 		}
 		
 	private void addMiscRecipes(Consumer<IFinishedRecipe> consumer)
@@ -308,15 +313,14 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 				.addCriterion("has_center", hasItem(TinkerCommons.mightySmelting))
 				.build(consumer, prefix(TEnergistics.miraculousMachinery, folder));
 		
-		ShapedRecipeBuilder.shapedRecipe(TEnergistics.charger)
-				.key('-', Items.REDSTONE)
-				.key('C', Items.COBBLESTONE)
-				.key('o', TinkerSmeltery.blankCast.getMultiUseTag())
-				.patternLine("-C-")
-				.patternLine("CoC")
-				.patternLine("-C-")
-				.addCriterion("has_center", hasItem(TinkerSmeltery.blankCast.getMultiUseTag()))
-				.build(consumer, prefix(TEnergistics.charger, folder));
+		ShapedRecipeBuilder.shapedRecipe(TEnergistics.searedCoilBlock)
+				.key('C', TinkerSmeltery.searedBrick)
+				.key('i', TinkerMaterials.copper.getIngotTag())
+				.patternLine("C C")
+				.patternLine("iii")
+				.patternLine("C C")
+				.addCriterion("has_center", hasItem(TinkerSmeltery.searedBrick))
+				.build(consumer, prefix(TEnergistics.searedCoilBlock, folder));
 		
 		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
 				.build(consumer, location(folder + "tinker_station_firebox_refuel").toString());

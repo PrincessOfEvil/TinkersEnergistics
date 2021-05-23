@@ -88,6 +88,7 @@ sourceSets {
             srcDirs "src/generated/resources"
             //But exclude the cache of the generated data from what gets built
             exclude '.cache'
+            exclude '**/*.psd' 
         }
     }
 }

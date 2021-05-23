@@ -19,7 +19,6 @@ import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
-import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 public class PowerSourceModifier extends SingleUseModifier
 	{
@@ -110,7 +109,7 @@ public class PowerSourceModifier extends SingleUseModifier
 		}
 		
 	@Override
-	public ValidatedResult validate(ToolStack tool, int level)
+	public ValidatedResult validate(IModifierToolStack tool, int level)
 		{
 		return tool.getVolatileData().getInt(PoweredTool.POWERED) > 1 ? ValidatedResult.failure(KEY_INVALID)
 				: ValidatedResult.PASS;

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,20 @@ import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.loot.ConstantRange;
+import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootParameterSet;
 import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTableManager;
 import net.minecraft.loot.ValidationTracker;
+import net.minecraft.loot.functions.CopyName;
+import net.minecraft.loot.functions.CopyNbt;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.blocks.tileentity.SearedCoilTileEntity;
 
 public class EnergisticsLootTableProvider extends LootTableProvider
 	{
@@ -76,8 +83,21 @@ public class EnergisticsLootTableProvider extends LootTableProvider
 			
 		private void addCommon()
 			{
-			this.registerDropSelfLootTable(TEnergistics.charger.get());
+			this.registerLootTable(TEnergistics.searedCoilBlock
+					.get(), (block) -> droppingWithFunctions(block, (builder) -> {
+					return builder.acceptFunction(CopyName.builder(CopyName.Source.BLOCK_ENTITY))
+							.acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+									.replaceOperation(SearedCoilTileEntity.TAG_ENERGY, SearedCoilTileEntity.TAG_ENERGY));
+					}));
 			this.registerLootTable(TEnergistics.placedToolBlock.get(), BlockLootTables.blockNoDrop());
+			}
+			
+		private static LootTable.Builder droppingWithFunctions(Block block, Function<ItemLootEntry.Builder<?>, ItemLootEntry.Builder<?>> mapping)
+			{
+			return LootTable.builder()
+					.addLootPool(withSurvivesExplosion(block, LootPool.builder()
+							.rolls(ConstantRange.of(1))
+							.addEntry(mapping.apply(ItemLootEntry.builder(block)))));
 			}
 		}
 	}

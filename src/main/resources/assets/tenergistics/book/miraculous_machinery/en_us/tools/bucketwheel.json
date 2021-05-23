@@ -8,7 +8,14 @@
       "text": "\n"
     },
     {
-      "text": "Its buckets are a little too delicate to use it as a weapon. Its §cHeart§r will shield it from desecration, however."
+      "text": "Its buckets are a little too delicate to use it as a weapon. Its "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": " will shield it from desecration, however."
     }
   ],
   "properties": [

@@ -2,7 +2,14 @@
   "modifier_id": "tenergistics:capacity",
   "text": [
     {
-      "text": "A deceptively simple modification capable of expanding energy capacity of any §cHeart§r."
+      "text": "A deceptively simple modification capable of expanding energy capacity of any "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": "."
     }
   ],
   "effects": [

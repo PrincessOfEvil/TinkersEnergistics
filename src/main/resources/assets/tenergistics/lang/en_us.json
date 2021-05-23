@@ -2,6 +2,11 @@
     "block.tenergistics.charger": "Forged Charger",
     "gui.tenergistics.charger": "Forged Charger",
     
+    "block.tenergistics.seared_coil": "Seared Energy Heater",
+    "block.tenergistics.energy.drained": "Drained %s Forge Units",
+    "block.tenergistics.energy.filled": "Filled %s Forge Units",
+    "fluid.tenergistics.molten_energy": "Forge Units",
+    
     "item.tenergistics.miraculous_machinery": "Miraculous Machinery",
     "item.tenergistics.miraculous_machinery.tooltip": "Arcane Machinery Grimoire\nby Malama Na'ghftpadgh, the princess of darkness",
     
@@ -31,6 +36,8 @@
     "item.tenergistics.jackhammer_rod": "Jackhammer Head",
     "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
     "item.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
+    
+    "modifier.tenergistics.powered.extra_tooltip": "Efficiency: %.5f%%",
 
     "item.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox": "Flogiston Extractor",
@@ -93,7 +100,7 @@
     "modifier.tenergistics.overclock_trait": "Overclock",
     "modifier.tenergistics.overclock_trait.flavor": "More speed! More damage! MOOOORE!",
     "modifier.tenergistics.overclock_trait.description": "Increases the tool stats, but causes it to take exponentially more damage.",
-    "modifier.tenergistics.overclock.extra_tooltip": "Boost: %sx / %sx Drain",
+    "modifier.tenergistics.overclock.extra_tooltip": "Boost: %sx",
     
     "modifier.tenergistics.wide_chisel": "Wide Chisel",
     "modifier.tenergistics.wide_chisel.flavor": "Spinet Fantasia!",

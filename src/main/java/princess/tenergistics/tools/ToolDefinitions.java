@@ -49,9 +49,18 @@ public class ToolDefinitions
 			.setAttackSpeed(0.4f / ATTACK_MULTIPLIER)
 			.build();
 	
-	public static final ToolDefinition			JACKHAMMER				= new ToolDefinition(JACKHAMMER_STATS, requirements(TEnergistics.jackhammerRod, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox));
-	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList.of(new ModifierEntry(TinkerModifiers.shovelTransformHidden.get(), 1)));
-	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList.of(new ModifierEntry(TinkerModifiers.axeTransformHidden.get(), 1)));
+	public static final ToolBaseStatDefinition	MACHINE_STATS			= new ToolBaseStatDefinition.Builder().build();
+	
+	public static final ToolDefinition			JACKHAMMER				= new ToolDefinition(JACKHAMMER_STATS, requirements(TEnergistics.jackhammerRod, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList
+			.of(new ModifierEntry(TEnergistics.poweredToolModifier.get(), 1)));
+	public static final ToolDefinition			BUCKETWHEEL				= new ToolDefinition(BUCKETWHEEL_STATS, requirements(TEnergistics.bucketwheelWheel, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList
+			.of(new ModifierEntry(TEnergistics.poweredToolModifier
+					.get(), 1), new ModifierEntry(TinkerModifiers.shovelTransformHidden.get(), 1)));
+	public static final ToolDefinition			BUZZSAW					= new ToolDefinition(BUZZSAW_STATS, requirements(TEnergistics.buzzsawDisc, TinkerToolParts.toughHandle, TEnergistics.toolCasing, TEnergistics.gearbox), () -> ImmutableList
+			.of(new ModifierEntry(TEnergistics.poweredToolModifier
+					.get(), 1), new ModifierEntry(TinkerModifiers.axeTransformHidden.get(), 1)));
+	
+	public static final ToolDefinition			CONVERTER				= new ToolDefinition(MACHINE_STATS, requirements(Stream.of(TEnergistics.machineCasing, TEnergistics.gearbox)));
 	
 	private static Supplier<List<IToolPart>> requirements(Stream<Supplier<? extends IToolPart>> parts)
 		{

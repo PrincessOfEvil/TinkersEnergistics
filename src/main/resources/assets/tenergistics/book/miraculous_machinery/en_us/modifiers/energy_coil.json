@@ -2,7 +2,14 @@
   "modifier_id": "tenergistics:energy_coil",
   "text": [
     {
-      "text": "A cold, calculating, efficient §cHeart§r. It was created to make use of the purest forms of energy available."
+      "text": "A cold, calculating, efficient "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": ". It was created to make use of the purest forms of energy available."
     }
   ],
   "effects": [

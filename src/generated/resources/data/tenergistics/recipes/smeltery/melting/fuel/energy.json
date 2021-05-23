@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:melting_fuel",
+  "fluid": {
+    "name": "tenergistics:molten_energy",
+    "amount": 400
+  },
+  "duration": 10,
+  "temperature": 800
+}

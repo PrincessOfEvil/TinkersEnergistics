@@ -2,7 +2,14 @@
   "modifier_id": "tenergistics:exchanger",
   "text": [
     {
-      "text": "A pulsing §cHeart§r of infernal order, capable of harnessing flowing, hellish energies much like the void-dark constructs of my mentor of old."
+      "text": "A pulsing "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": " of infernal order, capable of harnessing flowing, hellish energies much like the void-dark constructs of my mentor of old."
     }
   ],
   "effects": [

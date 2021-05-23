@@ -2,12 +2,19 @@
   "modifier_id": "tenergistics:force_field",
   "text": [
     {
-      "text": "An intricate technomagical framework that attaches to any Tinker tool and shields it from harm, at the cost of energy from a §cHeart§r."
+      "text": "An intricate technomagical framework that attaches to any Tinker tool and shields it from harm, at the cost of energy from a "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": "."
     }
   ],
   "effects": [
-    "Allows attachment of §cHearts§r",
+    "Allows attachment of [Hearts]",
     "Weakens the tool",
-    "Drastically lowers base capacity of the §cHeart§r"
+    "Drastically lowers base capacity of the [Heart]"
   ]
 }

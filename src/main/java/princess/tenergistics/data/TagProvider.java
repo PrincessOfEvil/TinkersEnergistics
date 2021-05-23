@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.FluidTagsProvider;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import princess.tenergistics.TEnergistics;
+import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 
@@ -34,7 +36,8 @@ public class TagProvider extends BlockTagsProvider
 	@Override
 	protected void registerTags()
 		{
-		
+		this.getOrCreateBuilder(TinkerTags.Blocks.SMELTERY_TANKS).add(TEnergistics.searedCoilBlock.get());
+		this.getOrCreateBuilder(TinkerTags.Blocks.MELTER_TANKS).add(TEnergistics.searedCoilBlock.get());
 		}
 		
 	public static class ItemTag extends ItemTagsProvider
@@ -79,7 +82,8 @@ public class TagProvider extends BlockTagsProvider
 			
 			this.getOrCreateBuilder(TinkerTags.Items.STONE_HARVEST).add(TEnergistics.jackhammer.get());
 			
-			this.getOrCreateBuilder(POWERED).add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
+			this.getOrCreateBuilder(POWERED)
+					.add(TEnergistics.jackhammer.get(), TEnergistics.bucketwheel.get(), TEnergistics.buzzsaw.get());
 			}
 			
 		private void addSmeltery()
@@ -102,28 +106,38 @@ public class TagProvider extends BlockTagsProvider
 			}
 		}
 		
-	/*
 	public static class FluidTag extends FluidTagsProvider
-	{
-	public static final IOptionalNamedTag<Fluid> SMELTERY_FUELS = tag("smeltery/fuels");
-	
-	public FluidTag(DataGenerator generatorIn, String modId, ExistingFileHelper existingFileHelper)
 		{
-		super(generatorIn, modId, existingFileHelper);
+		public FluidTag(DataGenerator generatorIn, String modId, ExistingFileHelper existingFileHelper)
+			{
+			super(generatorIn, modId, existingFileHelper);
+			}
+			
+		@Override
+		public void registerTags()
+			{
+			tagLocal(TEnergistics.moltenEnergy);
+			}
+			
+		@Override
+		public String getName()
+			{
+			return "Tinkers' Energistics Fluid Tags";
+			}
+			
+		private void tagLocal(FluidObject<?> fluid)
+			{
+			getOrCreateBuilder(fluid.getLocalTag()).add(fluid.getStill(), fluid.getFlowing());
+			}
+			
+		@SuppressWarnings("unused")
+		private void tagAll(FluidObject<?> fluid)
+			{
+			tagLocal(fluid);
+			getOrCreateBuilder(fluid.getForgeTag()).addTag(fluid.getLocalTag());
+			}
 		}
 		
-	@Override
-	public void registerTags()
-		{
-		this.getOrCreateBuilder(SMELTERY_FUELS).add(Fluids.LAVA).add(TinkerFluids.moltenBlaze.get());
-		}
-		
-	private static IOptionalNamedTag<Fluid> tag(String name)
-		{
-		return FluidTags.createOptional(new ResourceLocation("tconstruct", name));
-		}
-	}
-	*/
 	private static IOptionalNamedTag<Item> tag(String name)
 		{
 		return ItemTags.createOptional(new ResourceLocation(TEnergistics.modID, name));

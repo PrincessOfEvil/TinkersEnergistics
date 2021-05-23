@@ -8,7 +8,14 @@
       "text": "\n"
     },
     {
-      "text": "This simplified fluid pump replenishes the Calefacient Exchanger §cHeart§r with any fuels that find themselves stranded in auxiliary reservoirs."
+      "text": "This simplified fluid pump replenishes the Calefacient Exchanger "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": " with any fuels that find themselves stranded in auxiliary reservoirs."
     }
   ],
   "effects": [

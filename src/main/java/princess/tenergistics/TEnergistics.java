@@ -13,25 +13,29 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.event.RegistryEvent.MissingMappings;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -39,34 +43,34 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import princess.tenergistics.blocks.ChargerBlock;
 import princess.tenergistics.blocks.PlacedToolBlock;
-import princess.tenergistics.blocks.tileentity.ChargerTileEntity;
+import princess.tenergistics.blocks.SearedCoilBlock;
 import princess.tenergistics.blocks.tileentity.PlacedToolTileEntity;
+import princess.tenergistics.blocks.tileentity.SearedCoilTileEntity;
 import princess.tenergistics.client.ToolTileEntityRenderer;
-import princess.tenergistics.container.ChargerContainer;
-import princess.tenergistics.container.ChargerScreen;
 import princess.tenergistics.data.EnergisticsLootTableProvider;
-import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.data.EnergisticsRecipeProvider;
+import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
 import princess.tenergistics.items.EnergisticsBookItem.EnergisticsBookType;
+import princess.tenergistics.library.PoweredToolModifier;
 import princess.tenergistics.modifiers.BlockingModifier;
 import princess.tenergistics.modifiers.CapacityModifier;
 import princess.tenergistics.modifiers.EnergyCoilModifier;
 import princess.tenergistics.modifiers.ExchangerModifier;
 import princess.tenergistics.modifiers.FireboxModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier;
-import princess.tenergistics.modifiers.OverclockModifier;
-import princess.tenergistics.modifiers.PassthroughModifier;
-import princess.tenergistics.modifiers.PlaceToolModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceEnergyCoilModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceExchangerModifier;
 import princess.tenergistics.modifiers.ForceFieldModifier.ForceFireboxModifier;
+import princess.tenergistics.modifiers.OverclockModifier;
+import princess.tenergistics.modifiers.PassthroughModifier;
+import princess.tenergistics.modifiers.PlaceToolModifier;
 import princess.tenergistics.modifiers.RTGModifier;
 import princess.tenergistics.modifiers.WideFunnelModifier;
 import princess.tenergistics.modifiers.WidePrincessModifier;
@@ -75,14 +79,19 @@ import princess.tenergistics.tools.BucketwheelTool;
 import princess.tenergistics.tools.BuzzsawTool;
 import princess.tenergistics.tools.JackhammerTool;
 import princess.tenergistics.tools.ToolDefinitions;
+import princess.tenergistics.tools.stats.GearboxMaterialStats;
+import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
+import slimeknights.mantle.registration.deferred.FluidDeferredRegister;
 import slimeknights.mantle.registration.deferred.TileEntityTypeDeferredRegister;
+import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.common.registration.ItemDeferredRegisterExtension;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
+import slimeknights.tconstruct.library.MaterialRegistry;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.materials.IMaterial;
@@ -95,6 +104,7 @@ import slimeknights.tconstruct.library.tools.item.ToolPartItem;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.shared.CommonsClientEvents;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.component.SearedBlock;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
@@ -117,6 +127,7 @@ public class TEnergistics
 	protected static final ItemDeferredRegisterExtension								ITEMS									= new ItemDeferredRegisterExtension(TEnergistics.modID);
 	protected static final TileEntityTypeDeferredRegister								TILE_ENTITIES							= new TileEntityTypeDeferredRegister(TEnergistics.modID);
 	protected static final ContainerTypeDeferredRegister								CONTAINERS								= new ContainerTypeDeferredRegister(TEnergistics.modID);
+	protected static final FluidDeferredRegister										FLUIDS									= new FluidDeferredRegister(TEnergistics.modID);
 	protected static final DeferredRegister<Modifier>									MODIFIERS								= DeferredRegister
 			.create(Modifier.class, TEnergistics.modID);
 	protected static final DeferredRegister<Attribute>									ATTRIBUTES								= DeferredRegister
@@ -124,9 +135,15 @@ public class TEnergistics
 	protected static final DeferredRegister<IRecipeSerializer<?>>						RECIPE_SERIALIZERS						= DeferredRegister
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, TEnergistics.modID);
 	
+	@SuppressWarnings("unused")
 	private static final Block.Properties												STONE									= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
 			.setRequiresTool()
 			.hardnessAndResistance(3.0F, 9.0F);
+	private static final Block.Properties												SMELTERY								= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
+			.setRequiresTool()
+			.hardnessAndResistance(3.0F, 9.0F)
+			.setAllowsSpawn((s, r, p, e) -> !s.hasProperty(SearedBlock.IN_STRUCTURE)
+					|| !s.get(SearedBlock.IN_STRUCTURE));
 	private static final Block.Properties												TOOL_PROPERTIES							= builder(Material.ANVIL, null, SoundType.WOOD)
 			.hardnessAndResistance(0.0F, 9.0F)
 			.doesNotBlockMovement();
@@ -138,20 +155,25 @@ public class TEnergistics
 			.group(TinkerToolParts.TAB_TOOL_PARTS);
 	private static final Item.Properties												SMELTERY_PROPS							= new Item.Properties()
 			.group(TinkerSmeltery.TAB_SMELTERY);
+	@SuppressWarnings("unused")
 	private static final Item.Properties												GADGET_PROPS							= new Item.Properties()
 			.group(TinkerGadgets.TAB_GADGETS);
 	private static final Item.Properties												BOOK									= new Item.Properties()
 			.group(TinkerModule.TAB_GENERAL)
 			.maxStackSize(1);
 	
-	protected static final Function<Block, ? extends BlockItem>							GADGET_BLOCK_ITEM						= (b) -> new BlockItem(b, GADGET_PROPS);
+	public static final ResourceLocation												ENERGY_STILL							= texture("energy", false);
+	public static final ResourceLocation												ENERGY_FLOWING							= texture("energy", true);
 	
-	public static final ItemObject<ChargerBlock>										charger									= BLOCKS
-			.register("charger", () -> new ChargerBlock(STONE), GADGET_BLOCK_ITEM);
-	public static final RegistryObject<TileEntityType<ChargerTileEntity>>				chargerTile								= TILE_ENTITIES
-			.register("charger", ChargerTileEntity::new, charger);
-	public static final RegistryObject<ContainerType<ChargerContainer>>					chargerContainer						= CONTAINERS
-			.register("charger", ChargerContainer::new);
+	protected static final Function<Block, ? extends BlockItem>							SMELTERY_BLOCK_ITEM						= (b) -> new BlockItem(b, SMELTERY_PROPS);
+	
+	public static final ItemObject<SearedCoilBlock>										searedCoilBlock							= BLOCKS
+			.register("seared_coil", () -> new SearedCoilBlock(SMELTERY), SMELTERY_BLOCK_ITEM);
+	public static final RegistryObject<TileEntityType<SearedCoilTileEntity>>			searedCoilTile							= TILE_ENTITIES
+			.register("seared_coil", SearedCoilTileEntity::new, searedCoilBlock);
+	public static final FluidObject<ForgeFlowingFluid>									moltenEnergy							= FLUIDS
+			.register("molten_energy", hotBuilder(ENERGY_STILL, ENERGY_FLOWING).temperature(1100)
+					.density(3500), Material.LAVA, 14);
 	
 	public static final RegistryObject<PlacedToolBlock>									placedToolBlock							= BLOCKS
 			.registerNoItem("placed_tool", () -> new PlacedToolBlock(TOOL_PROPERTIES));
@@ -161,17 +183,12 @@ public class TEnergistics
 	public static final ItemObject<EnergisticsBookItem>									miraculousMachinery						= ITEMS
 			.register("miraculous_machinery", () -> new EnergisticsBookItem(BOOK, EnergisticsBookType.MIRACULOUS_MACHINERY));
 	
+	public static final ItemObject<ToolPartItem>										machineCasing							= ITEMS
+			.register("machine_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										toolCasing								= ITEMS
 			.register("tool_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										gearbox									= ITEMS
 			.register("gearbox", () -> new ToolPartItem(PARTS_PROPS, HandleMaterialStats.ID));
-	
-	public static final ItemObject<Item>												firebox									= ITEMS
-			.register("firebox", GENERAL_PROPS);
-	public static final ItemObject<Item>												exchanger								= ITEMS
-			.register("exchanger", GENERAL_PROPS);
-	public static final ItemObject<Item>												energyCoil								= ITEMS
-			.register("energy_coil", GENERAL_PROPS);
 	
 	public static final ItemObject<ToolPartItem>										jackhammerRod							= ITEMS
 			.register("jackhammer_rod", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
@@ -180,6 +197,8 @@ public class TEnergistics
 	public static final ItemObject<ToolPartItem>										buzzsawDisc								= ITEMS
 			.register("buzzsaw_disc", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
 	
+	public static final CastItemObject													machineCasingCast						= ITEMS
+			.registerCast("machine_casing", SMELTERY_PROPS);
 	public static final CastItemObject													toolCasingCast							= ITEMS
 			.registerCast("tool_casing", SMELTERY_PROPS);
 	public static final CastItemObject													gearboxCast								= ITEMS
@@ -190,6 +209,13 @@ public class TEnergistics
 			.registerCast("bucketwheel_wheel", SMELTERY_PROPS);
 	public static final CastItemObject													buzzsawDiscCast							= ITEMS
 			.registerCast("buzzsaw_disc", SMELTERY_PROPS);
+	
+	public static final ItemObject<Item>												firebox									= ITEMS
+			.register("firebox", GENERAL_PROPS);
+	public static final ItemObject<Item>												exchanger								= ITEMS
+			.register("exchanger", GENERAL_PROPS);
+	public static final ItemObject<Item>												energyCoil								= ITEMS
+			.register("energy_coil", GENERAL_PROPS);
 	
 	public static final ItemObject<JackhammerTool>										jackhammer								= ITEMS
 			.register("jackhammer", () -> new JackhammerTool(TOOL.get()
@@ -202,6 +228,9 @@ public class TEnergistics
 	public static final ItemObject<BuzzsawTool>											buzzsaw									= ITEMS
 			.register("buzzsaw", () -> new BuzzsawTool(TOOL.get()
 					.addToolType(ToolType.AXE, 0), ToolDefinitions.BUZZSAW));
+	
+	public static final RegistryObject<PoweredToolModifier>								poweredToolModifier						= MODIFIERS
+			.register("powered_internal", PoweredToolModifier::new);
 	
 	public static final RegistryObject<FireboxModifier>									fireboxModifier							= MODIFIERS
 			.register("firebox", FireboxModifier::new);
@@ -266,9 +295,50 @@ public class TEnergistics
 		ITEMS.register(bus);
 		TILE_ENTITIES.register(bus);
 		CONTAINERS.register(bus);
+		FLUIDS.register(bus);
 		MODIFIERS.register(bus);
 		ATTRIBUTES.register(bus);
 		RECIPE_SERIALIZERS.register(bus);
+		}
+		
+	@SubscribeEvent
+	static void commonSetup(final FMLCommonSetupEvent event)
+		{
+		event.enqueueWork(() -> {
+		if (MaterialRegistry.initialized())
+			{
+			MaterialRegistry.getInstance().registerStatType(GearboxMaterialStats.DEFAULT, GearboxMaterialStats.class);
+			}
+		});
+		}
+		
+	@Nullable
+	private static Block missingBlock(String name)
+		{
+		switch (name)
+			{
+			case "charger":
+				return searedCoilBlock.get();
+			}
+		return null;
+		}
+		
+	@SubscribeEvent
+	void missingBlocks(final MissingMappings<Block> event)
+		{
+		RegistrationHelper.handleMissingMappings(event, modID, TEnergistics::missingBlock);
+		}
+		
+	@SubscribeEvent
+	void missingItems(final MissingMappings<Item> event)
+		{
+		RegistrationHelper.handleMissingMappings(event, modID, name -> {
+		switch (name)
+			{
+			}
+		IItemProvider block = missingBlock(name);
+		return block == null ? null : block.asItem();
+		});
 		}
 		
 	@SubscribeEvent
@@ -283,7 +353,7 @@ public class TEnergistics
 			datagenerator.addProvider(blockTagProvider);
 			datagenerator
 					.addProvider(new TagProvider.ItemTag(datagenerator, blockTagProvider, modID, existingFileHelper));
-//			datagenerator.addProvider(new TagProvider.FluidTag(datagenerator, modID, existingFileHelper));
+			datagenerator.addProvider(new TagProvider.FluidTag(datagenerator, modID, existingFileHelper));
 			datagenerator.addProvider(new EnergisticsRecipeProvider(datagenerator));
 			datagenerator.addProvider(new EnergisticsLootTableProvider(datagenerator));
 			}
@@ -295,6 +365,20 @@ public class TEnergistics
 		return Block.Properties.create(material).harvestTool(toolType).sound(soundType);
 		}
 		
+	private static FluidAttributes.Builder hotBuilder(ResourceLocation stillTexture, ResourceLocation flowingTexture)
+		{
+		return FluidAttributes.builder(stillTexture, flowingTexture)
+				.density(2000)
+				.viscosity(10000)
+				.temperature(1000)
+				.sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA);
+		}
+		
+	private static ResourceLocation texture(String name, boolean flowing)
+		{
+		return new ResourceLocation(TEnergistics.modID, ("block/fluid/" + name + (flowing ? "_flowing" : "_still")));
+		}
+		
 	@EventBusSubscriber(modid = modID, value = Dist.CLIENT, bus = Bus.MOD)
 	public static class EnergisticsClient
 		{
@@ -303,8 +387,6 @@ public class TEnergistics
 			{
 			FontRenderer unicode = CommonsClientEvents.unicodeFontRender();
 			EnergisticsBookItem.EnergisticsBook.MIRACULOUS_MACHINERY.fontRenderer = unicode;
-			
-			ScreenManager.registerFactory(TEnergistics.chargerContainer.get(), ChargerScreen::new);
 			
 			ClientRegistry.bindTileEntityRenderer(TEnergistics.placedToolTile.get(), ToolTileEntityRenderer::new);
 			}

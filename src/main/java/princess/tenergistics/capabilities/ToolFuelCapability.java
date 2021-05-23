@@ -22,7 +22,7 @@ public class ToolFuelCapability implements ICapabilityProvider, IEnergyStorage
 	{
 	private final LazyOptional<IEnergyStorage>	energyHolder		= LazyOptional.of(() -> this);
 	
-	private static final int					MAX_ENERGY_TRANSFER	= 500;
+	private static final int					MAX_ENERGY_TRANSFER	= 2000;
 	
 	@Nonnull
 	private final ItemStack						container;

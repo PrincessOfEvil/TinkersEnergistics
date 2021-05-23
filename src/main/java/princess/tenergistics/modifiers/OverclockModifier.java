@@ -2,11 +2,11 @@ package princess.tenergistics.modifiers;
 
 import java.util.List;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.library.PoweredToolModifier;
 import slimeknights.tconstruct.library.modifiers.IncrementalModifier;
 import slimeknights.tconstruct.library.tools.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
@@ -17,8 +17,7 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 
 public class OverclockModifier extends IncrementalModifier
 	{
-	public static final ResourceLocation	OVERCLOCK	= new ResourceLocation(TEnergistics.modID, "overclock");
-	private static final String				TOOLTIP_KEY	= "modifier.tenergistics.overclock.extra_tooltip";
+	private static final String TOOLTIP_KEY = "modifier.tenergistics.overclock.extra_tooltip";
 	
 	public OverclockModifier(int color)
 		{
@@ -34,8 +33,16 @@ public class OverclockModifier extends IncrementalModifier
 	@Override
 	public void addInformation(IModifierToolStack tool, int level, List<ITextComponent> tooltip, boolean isAdvanced, boolean detailed)
 		{
+		if (tool.getModifierLevel(TEnergistics.poweredToolModifier.get()) == 0)
+			{
+			tooltip.add(new TranslationTextComponent(PoweredToolModifier.TOOLTIP_KEY, tool.getVolatileData()
+					.getFloat(PoweredToolModifier.EFFICIENCY) * 100)
+							.modifyStyle(style -> style
+									.setColor(Color.fromInt(TEnergistics.poweredToolModifier.get().getColor()))));
+			}
+			
 		float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
-		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, Math.pow(1.2, scaledLevel), Math.pow(2, scaledLevel))
+		tooltip.add(new TranslationTextComponent(TOOLTIP_KEY, Math.pow(1.2, scaledLevel))
 				.modifyStyle(style -> style.setColor(Color.fromInt(getColor()))));
 		}
 		
@@ -51,17 +58,22 @@ public class OverclockModifier extends IncrementalModifier
 	@Override
 	public int onDamageTool(IModifierToolStack tool, int level, int amount)
 		{
-		float scaledLevel = getScaledLevel(tool.getPersistentData(), level);
-		return (int) (amount * Math.pow(2, scaledLevel));
+		if (tool.getModifierLevel(TEnergistics.poweredToolModifier.get()) == 0)
+			{ return (int) (amount / tool.getVolatileData().getFloat(PoweredToolModifier.EFFICIENCY)); }
+		return amount;
 		}
 		
 	@Override
 	public void addVolatileData(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, int level, ModDataNBT volatileData)
 		{
-		super.addVolatileData(toolDefinition, baseStats, persistentData, level, volatileData);
-		
 		float scaledLevel = getScaledLevel(persistentData, level);
-		volatileData
-				.putFloat(OVERCLOCK, (float) ((volatileData.getFloat(OVERCLOCK) + 1) * Math.pow(2, scaledLevel) - 1));
+		float eff = volatileData.getFloat(PoweredToolModifier.EFFICIENCY);
+		
+		if (eff == 0)
+			{
+			eff = 1f;
+			}
+			
+		volatileData.putFloat(PoweredToolModifier.EFFICIENCY, (float) (eff / Math.pow(2, scaledLevel)));
 		}
 	}

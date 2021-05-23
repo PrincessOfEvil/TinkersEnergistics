@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "tenergistics:molten_energy",
+    "tenergistics:flowing_molten_energy"
+  ]
+}

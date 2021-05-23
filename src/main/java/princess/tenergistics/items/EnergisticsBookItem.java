@@ -1,5 +1,6 @@
 package princess.tenergistics.items;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -9,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import princess.tenergistics.TEnergistics;
 import princess.tenergistics.book.EnergisticsMaterialSectionTransformer;
+import princess.tenergistics.book.HeresyBookScreen;
 import slimeknights.mantle.client.book.BookLoader;
 import slimeknights.mantle.client.book.BookTransformer;
 import slimeknights.mantle.client.book.data.BookData;
@@ -29,19 +31,26 @@ public class EnergisticsBookItem extends TooltipItem
 		this.bookType = bookType;
 		}
 		
+	@SuppressWarnings("resource")
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
 		{
 		ItemStack itemStack = playerIn.getHeldItem(handIn);
 		if (worldIn.isRemote)
 			{
-			EnergisticsBook.getBook(bookType).openGui(getDisplayName(itemStack), itemStack);
+			BookData book = EnergisticsBook.getBook(bookType);
+			//Thankfully the call has its own check.
+			book.load();
+			if (Minecraft.getInstance().player != null)
+				{
+				Minecraft.getInstance().displayGuiScreen(new HeresyBookScreen(getDisplayName(itemStack), book, itemStack));
+				}
 			}
 		return new ActionResult<>(ActionResultType.SUCCESS, itemStack);
 		}
 		
 	public enum EnergisticsBookType
 		{
-	MIRACULOUS_MACHINERY
+		MIRACULOUS_MACHINERY
 		}
 		
 	public static class EnergisticsBook extends BookData
@@ -63,7 +72,7 @@ public class EnergisticsBookItem extends TooltipItem
 			book.addTransformer(new MaterialSectionTransformer());
 			book.addTransformer(new ToolSectionTransformer());
 			book.addTransformer(new ModifierSectionTransformer());
-		    book.addTransformer(new EnergisticsMaterialSectionTransformer());
+			book.addTransformer(new EnergisticsMaterialSectionTransformer());
 			book.addTransformer(BookTransformer.indexTranformer());
 			}
 			

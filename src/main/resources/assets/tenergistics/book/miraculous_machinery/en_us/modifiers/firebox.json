@@ -2,7 +2,14 @@
   "modifier_id": "tenergistics:firebox",
   "text": [
     {
-      "text": "A bright, carefree §cHeart§r. It is designed to tame the fierce condensed light of Y'fhalma, whether produced by trees or recovered from deposits. "
+      "text": "A bright, carefree "
+    },
+    {
+      "text": "Heart",
+      "color": "dark_red"
+    },
+    {
+      "text": ". It is designed to tame the fierce condensed light of Y'fhalma, whether produced by trees or recovered from deposits. "
     },
     {
       "text": "Care must be taken when the machine is handled, as the heart will bleed life regardless of utilization."

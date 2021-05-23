@@ -9,6 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import princess.tenergistics.library.PowerSourceModifier;
+import princess.tenergistics.library.PoweredToolModifier;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
@@ -71,8 +72,8 @@ public class FireboxModifier extends PowerSourceModifier
 				{
 				data.putInt(PoweredTool.TICKER, (int) Math
 						.max(data.getInt(PoweredTool.TICKER) - TICKDOWN_PER_SECOND * Math
-								.round(Math.ceil(tool.getStats().getMiningSpeed() * (tool.getVolatileData()
-										.getFloat(OverclockModifier.OVERCLOCK) + 1))), 0));
+								.round(Math.ceil(tool.getStats().getMiningSpeed() / (tool.getVolatileData()
+										.getFloat(PoweredToolModifier.EFFICIENCY)))), 0));
 				}
 				
 			if (data.getInt(PoweredTool.TICKER_LEFTOVER) == -1) data
