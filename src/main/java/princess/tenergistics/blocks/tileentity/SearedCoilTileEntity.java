@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import princess.tenergistics.TEnergistics;
-import princess.tenergistics.capabilities.SearedCoilFuelCapability;
+import princess.tenergistics.capabilities.CoilFuelCapability;
 import slimeknights.tconstruct.library.fluid.IFluidTankUpdater;
 import slimeknights.tconstruct.library.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket;
@@ -43,7 +43,7 @@ public class SearedCoilTileEntity extends SmelteryComponentTileEntity implements
 		energy = new EnergyStorage(CAPACITY);
 		energyCap = LazyOptional.of(() -> energy);
 		
-		tank = new SearedCoilFuelCapability<SearedCoilTileEntity>(CAPACITY, this);
+		tank = new CoilFuelCapability<SearedCoilTileEntity>(CAPACITY, this);
 		tankCap = LazyOptional.of(() -> tank);
 		}
 		
@@ -123,7 +123,8 @@ public class SearedCoilTileEntity extends SmelteryComponentTileEntity implements
 		if (!world.isRemote)
 			{
 			TinkerNetwork.getInstance()
-					.sendToClientsAround(new FluidUpdatePacket(getPos(), tank.getFluidInTank(0)), (ServerWorld) world, getPos());
+					.sendToClientsAround(new FluidUpdatePacket(getPos(), tank
+							.getFluidInTank(0)), (ServerWorld) world, getPos());
 			}
 		}
 	}

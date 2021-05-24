@@ -1,8 +1,6 @@
 {
-    "block.tenergistics.charger": "Forged Charger",
-    "gui.tenergistics.charger": "Forged Charger",
-    
-    "block.tenergistics.seared_coil": "Seared Energy Heater",
+    "block.tenergistics.seared_coil": "Seared Element",
+    "block.tenergistics.scorched_coil": "Scorched Element",
     "block.tenergistics.energy.drained": "Drained %s Forge Units",
     "block.tenergistics.energy.filled": "Filled %s Forge Units",
     "fluid.tenergistics.molten_energy": "Forge Units",

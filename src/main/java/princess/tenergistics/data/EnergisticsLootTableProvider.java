@@ -89,6 +89,12 @@ public class EnergisticsLootTableProvider extends LootTableProvider
 							.acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
 									.replaceOperation(SearedCoilTileEntity.TAG_ENERGY, SearedCoilTileEntity.TAG_ENERGY));
 					}));
+			this.registerLootTable(TEnergistics.scorchedCoilBlock
+					.get(), (block) -> droppingWithFunctions(block, (builder) -> {
+					return builder.acceptFunction(CopyName.builder(CopyName.Source.BLOCK_ENTITY))
+							.acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+									.replaceOperation(SearedCoilTileEntity.TAG_ENERGY, SearedCoilTileEntity.TAG_ENERGY));
+					}));
 			this.registerLootTable(TEnergistics.placedToolBlock.get(), BlockLootTables.blockNoDrop());
 			}
 			

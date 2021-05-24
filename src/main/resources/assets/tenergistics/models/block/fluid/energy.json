@@ -1,0 +1,7 @@
+{
+  "loader": "mantle:fluid_texture",
+  "textures": {
+    "still": "tenergistics:block/fluid/energy_still",
+    "flowing": "tenergistics:block/fluid/energy_flowing"
+  }
+}

@@ -20,6 +20,7 @@ import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import princess.tenergistics.TEnergistics;
+import slimeknights.mantle.recipe.SizedIngredient;
 import slimeknights.mantle.recipe.ingredient.IngredientWithout;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.CastItemObject;
@@ -182,9 +183,9 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 				.build(consumer, prefixR(TEnergistics.wideFunnelModifier, upgradeFolder));
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.passthroughModifier.get())
-				.addInput(TinkerSmeltery.searedFaucet)
+				.addInput(SizedIngredient.fromItems(TinkerSmeltery.searedFaucet, TinkerSmeltery.scorchedFaucet))
 				.addInput(Tags.Items.GLASS)
-				.addInput(TinkerSmeltery.searedFaucet)
+				.addInput(SizedIngredient.fromItems(TinkerSmeltery.searedFaucet, TinkerSmeltery.scorchedFaucet))
 				.setUpgradeSlots(1)
 				.setMaxLevel(1)
 				.setRequirements(ModifierMatch
@@ -320,7 +321,16 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 				.patternLine("iii")
 				.patternLine("C C")
 				.addCriterion("has_center", hasItem(TinkerSmeltery.searedBrick))
-				.build(consumer, prefix(TEnergistics.searedCoilBlock, folder));
+				.build(consumer, prefix(TEnergistics.searedCoilBlock, folder));;
+		
+		ShapedRecipeBuilder.shapedRecipe(TEnergistics.scorchedCoilBlock)
+				.key('C', TinkerSmeltery.scorchedBrick)
+				.key('i', TinkerMaterials.copper.getIngotTag())
+				.patternLine("C C")
+				.patternLine("iii")
+				.patternLine("C C")
+				.addCriterion("has_center", hasItem(TinkerSmeltery.scorchedBrick))
+				.build(consumer, prefix(TEnergistics.scorchedCoilBlock, folder));
 		
 		CustomRecipeBuilder.customRecipe(TEnergistics.tinkerStationFireboxRefuelSerializer.get())
 				.build(consumer, location(folder + "tinker_station_firebox_refuel").toString());

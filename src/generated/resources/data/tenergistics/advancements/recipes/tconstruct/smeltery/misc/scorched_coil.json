@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "tenergistics:misc/charger"
+      "tenergistics:misc/scorched_coil"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "tconstruct:casts/multi_use/blank"
+            "item": "tconstruct:scorched_brick"
           }
         ]
       }
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "tenergistics:misc/charger"
+        "recipe": "tenergistics:misc/scorched_coil"
       }
     }
   },

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "tenergistics:misc/seared_coil"
+    ]
+  },
+  "criteria": {
+    "has_center": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "tconstruct:seared_brick"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "tenergistics:misc/seared_coil"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_center",
+      "has_the_recipe"
+    ]
+  ]
+}

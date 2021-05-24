@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C C",
+    "iii",
+    "C C"
+  ],
+  "key": {
+    "C": {
+      "item": "tconstruct:seared_brick"
+    },
+    "i": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "tenergistics:seared_coil"
+  }
+}

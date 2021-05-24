@@ -1,6 +1,5 @@
 package princess.tenergistics.tools;
 
-import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -28,9 +27,6 @@ public class JackhammerTool extends PoweredTool
 																	@Override
 																	public Iterable<BlockPos> getAOEBlocks(IModifierToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType)
 																		{
-																		if (!canAOE(tool, stack, state, matchType))
-																			{ return Collections.emptyList(); }
-																		// expanded gives an extra width every odd level, and an extra height every even level
 																		int expanded = tool
 																				.getModifierLevel(TinkerModifiers.expanded
 																						.get()) + tool.getVolatileData()

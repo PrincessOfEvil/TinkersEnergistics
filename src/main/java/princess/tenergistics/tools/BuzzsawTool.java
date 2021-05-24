@@ -1,6 +1,5 @@
 package princess.tenergistics.tools;
 
-import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -33,9 +32,6 @@ public class BuzzsawTool extends PoweredTool
 																	@Override
 																	public Iterable<BlockPos> getAOEBlocks(IModifierToolStack tool, ItemStack stack, PlayerEntity player, BlockState state, World world, BlockPos origin, Direction sideHit, AOEMatchType matchType)
 																		{
-																		if (!canAOE(tool, stack, state, matchType))
-																			{ return Collections.emptyList(); }
-																		// veining block breaking
 																		return VeiningAOEHarvestLogic
 																				.calculate(state, world, origin, tool
 																						.getModifierLevel(TinkerModifiers.expanded

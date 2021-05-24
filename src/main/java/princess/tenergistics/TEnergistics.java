@@ -82,7 +82,6 @@ import princess.tenergistics.tools.ToolDefinitions;
 import princess.tenergistics.tools.stats.GearboxMaterialStats;
 import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
-import slimeknights.mantle.registration.deferred.FluidDeferredRegister;
 import slimeknights.mantle.registration.deferred.TileEntityTypeDeferredRegister;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.ItemObject;
@@ -127,7 +126,7 @@ public class TEnergistics
 	protected static final ItemDeferredRegisterExtension								ITEMS									= new ItemDeferredRegisterExtension(TEnergistics.modID);
 	protected static final TileEntityTypeDeferredRegister								TILE_ENTITIES							= new TileEntityTypeDeferredRegister(TEnergistics.modID);
 	protected static final ContainerTypeDeferredRegister								CONTAINERS								= new ContainerTypeDeferredRegister(TEnergistics.modID);
-	protected static final FluidDeferredRegister										FLUIDS									= new FluidDeferredRegister(TEnergistics.modID);
+	protected static final EnergisticsFluidDeferredRegister								FLUIDS									= new EnergisticsFluidDeferredRegister(TEnergistics.modID);
 	protected static final DeferredRegister<Modifier>									MODIFIERS								= DeferredRegister
 			.create(Modifier.class, TEnergistics.modID);
 	protected static final DeferredRegister<Attribute>									ATTRIBUTES								= DeferredRegister
@@ -169,10 +168,16 @@ public class TEnergistics
 	
 	public static final ItemObject<SearedCoilBlock>										searedCoilBlock							= BLOCKS
 			.register("seared_coil", () -> new SearedCoilBlock(SMELTERY), SMELTERY_BLOCK_ITEM);
+	public static final ItemObject<SearedCoilBlock>										scorchedCoilBlock						= BLOCKS
+			.register("scorched_coil", () -> new SearedCoilBlock(SMELTERY), SMELTERY_BLOCK_ITEM);
 	public static final RegistryObject<TileEntityType<SearedCoilTileEntity>>			searedCoilTile							= TILE_ENTITIES
-			.register("seared_coil", SearedCoilTileEntity::new, searedCoilBlock);
+			.register("seared_coil", SearedCoilTileEntity::new, set -> {
+																																		set.add(searedCoilBlock
+																																				.get(), scorchedCoilBlock
+																																						.get());
+																																		});
 	public static final FluidObject<ForgeFlowingFluid>									moltenEnergy							= FLUIDS
-			.register("molten_energy", hotBuilder(ENERGY_STILL, ENERGY_FLOWING).temperature(1100)
+			.registerNoBucket("molten_energy", hotBuilder(ENERGY_STILL, ENERGY_FLOWING).temperature(1100)
 					.density(3500), Material.LAVA, 14);
 	
 	public static final RegistryObject<PlacedToolBlock>									placedToolBlock							= BLOCKS
@@ -328,7 +333,7 @@ public class TEnergistics
 		{
 		RegistrationHelper.handleMissingMappings(event, modID, TEnergistics::missingBlock);
 		}
-		
+	
 	@SubscribeEvent
 	void missingItems(final MissingMappings<Item> event)
 		{

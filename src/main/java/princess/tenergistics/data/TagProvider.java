@@ -36,8 +36,10 @@ public class TagProvider extends BlockTagsProvider
 	@Override
 	protected void registerTags()
 		{
+		this.getOrCreateBuilder(TinkerTags.Blocks.FUEL_TANKS)
+				.add(TEnergistics.searedCoilBlock.get(), TEnergistics.scorchedCoilBlock.get());
 		this.getOrCreateBuilder(TinkerTags.Blocks.SMELTERY_TANKS).add(TEnergistics.searedCoilBlock.get());
-		this.getOrCreateBuilder(TinkerTags.Blocks.MELTER_TANKS).add(TEnergistics.searedCoilBlock.get());
+		this.getOrCreateBuilder(TinkerTags.Blocks.FOUNDRY_TANKS).add(TEnergistics.scorchedCoilBlock.get());
 		}
 		
 	public static class ItemTag extends ItemTagsProvider

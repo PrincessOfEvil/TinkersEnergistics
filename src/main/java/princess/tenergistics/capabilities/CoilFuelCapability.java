@@ -6,11 +6,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import princess.tenergistics.TEnergistics;
 import princess.tenergistics.blocks.tileentity.SearedCoilTileEntity;
 
-public class SearedCoilFuelCapability<T extends SearedCoilTileEntity> implements IFluidHandler
+public class CoilFuelCapability<T extends SearedCoilTileEntity> implements IFluidHandler
 	{
 	protected T parent;
 	
-	public SearedCoilFuelCapability(int capacity, T parent)
+	public CoilFuelCapability(int capacity, T parent)
 		{
 		this.parent = parent;
 		}
