@@ -4,6 +4,8 @@ lost_pages=Eternal Knowledge
 tools=Mystical Apparatus
 modifiers=Vigorous Hearts
 energistics_materials=Arcane Materials
+misc=Auxiliary Hardware
+coil=Seared Element
 
 modifier.effect=Attendum:
 tool.properties=Conclusion:

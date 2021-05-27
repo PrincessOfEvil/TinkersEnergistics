@@ -1,0 +1,24 @@
+{
+  "title":"Seared Element",
+    "image": {
+     "file": "tenergistics:book/images/coil.png",
+	 "width": 170,
+    "height": 72
+  },
+  "text": [
+	    {
+	      "text": "This mechanism is capable of firing any Tinkers metalworks, as well as invigorating the Effervescent Coil "
+	    },
+	    {
+	      "text": "Heart",
+	      "color": "red"
+	    },
+	    {
+	      "text": "."
+	    },
+	    {
+	      "text": "Do note that it is incapable of reaching the conditions required to liquefy any metal worth its time, as a result of inherent issues of the framework.",
+	      "paragraph": true
+	    }
+	]
+}

@@ -60,8 +60,10 @@ public class ToolDefinitions
 			.of(new ModifierEntry(TEnergistics.poweredToolModifier
 					.get(), 1), new ModifierEntry(TinkerModifiers.axeTransformHidden.get(), 1)));
 	
+	/*
 	public static final ToolDefinition			CONVERTER				= new ToolDefinition(MACHINE_STATS, requirements(Stream
 			.of(TEnergistics.machineCasing, TEnergistics.gearbox)));
+	*/
 	
 	private static Supplier<List<IToolPart>> requirements(Stream<Supplier<? extends IToolPart>> parts)
 		{

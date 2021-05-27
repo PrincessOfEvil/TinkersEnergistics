@@ -1,0 +1,16 @@
+[
+  {
+    "name": "misc",
+    "type": "text",
+    "data": "misc/misc.json"
+  },
+  {
+    "name": "coil",
+    "type": "imageText2",
+    "data": "misc/coil.json"
+  },
+  {
+    "type": "text",
+    "data": "misc/coil2.json"
+  }
+]

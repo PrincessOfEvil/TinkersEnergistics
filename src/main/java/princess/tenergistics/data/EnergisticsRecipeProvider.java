@@ -10,6 +10,7 @@ import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
@@ -17,6 +18,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import princess.tenergistics.TEnergistics;
@@ -25,11 +27,14 @@ import slimeknights.mantle.recipe.ingredient.IngredientWithout;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.fluids.TinkerFluids;
+import slimeknights.tconstruct.library.materials.MaterialId;
 import slimeknights.tconstruct.library.materials.MaterialValues;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
+import slimeknights.tconstruct.library.recipe.casting.material.CompositeCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelBuilder;
 import slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient;
+import slimeknights.tconstruct.library.recipe.material.MaterialRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.partbuilder.PartRecipeBuilder;
@@ -42,6 +47,7 @@ import slimeknights.tconstruct.library.tools.item.ToolCore;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.tools.data.MaterialIds;
 
 public class EnergisticsRecipeProvider extends RecipeProvider implements IConditionBuilder
 	{
@@ -59,11 +65,29 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		
 	protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
 		{
+		addMaterialRecipes(consumer);
 		addPartRecipes(consumer);
 		addTinkerStationRecipes(consumer);
 		addForceFieldRecipes(consumer);
 		addSmelteryRecipes(consumer);
 		addMiscRecipes(consumer);
+		}
+		
+	private void addMaterialRecipes(Consumer<IFinishedRecipe> consumer)
+		{
+		String compositeFolder = "tools/parts/composite/";
+		registerMaterial(consumer, EnergisticsMaterialProvider.malachite, Ingredient
+				.fromTag(ItemTags.makeWrapperTag("forge:ores/copper")), 2, 1, "malachite");
+		registerMaterial(consumer, EnergisticsMaterialProvider.glaucodot, Ingredient
+				.fromTag(ItemTags.makeWrapperTag("forge:ores/cobalt")), 2, 1, "glaucodot");
+		
+		CompositeCastingRecipeBuilder.table(MaterialIds.copper, EnergisticsMaterialProvider.malachite)
+				.setFluid(new FluidStack(Fluids.WATER, FluidAttributes.BUCKET_VOLUME))
+				.setTemperature(100)
+				.build(consumer, location(compositeFolder + "malachite"));
+		CompositeCastingRecipeBuilder.table(MaterialIds.stone, EnergisticsMaterialProvider.glaucodot)
+				.setFluid(new FluidStack(TinkerFluids.moltenCobalt.get(), MaterialValues.INGOT))
+				.build(consumer, location(compositeFolder + "glaucodot"));
 		}
 		
 	private void addPartRecipes(Consumer<IFinishedRecipe> consumer)
@@ -74,7 +98,6 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		addPartRecipe(consumer, TEnergistics.jackhammerRod, 4, TEnergistics.jackhammerRodCast);
 		addPartRecipe(consumer, TEnergistics.bucketwheelWheel, 4, TEnergistics.bucketwheelWheelCast);
 		addPartRecipe(consumer, TEnergistics.buzzsawDisc, 4, TEnergistics.buzzsawDiscCast);
-		
 		}
 		
 	private void addTinkerStationRecipes(Consumer<IFinishedRecipe> consumer)
@@ -381,6 +404,15 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		
 		// Part melting
 		MaterialMeltingRecipeBuilder.melting(part, cost).build(consumer, location(folder + "melting/" + part));
+		}
+		
+	private void registerMaterial(Consumer<IFinishedRecipe> consumer, MaterialId material, Ingredient input, int value, int needed, String saveName)
+		{
+		MaterialRecipeBuilder.materialRecipe(material)
+				.setIngredient(input)
+				.setValue(value)
+				.setNeeded(needed)
+				.build(consumer, location("tools/materials/" + saveName));
 		}
 		
 	private void addBuildingRecipe(Consumer<IFinishedRecipe> consumer, Supplier<? extends ToolCore> sup)

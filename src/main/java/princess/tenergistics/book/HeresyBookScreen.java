@@ -136,7 +136,12 @@ public class HeresyBookScreen extends BookScreen
 							if (text.text[j].useOldColor && text.text[j].color.equals("black"))
 								{
 								text.text[j].useOldColor = false;
-								text.text[j].rgbColor = 9236223;
+								text.text[j].rgbColor = 0x8CEEFF;
+								}
+							else if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
+								{
+								text.text[j].useOldColor = false;
+								text.text[j].rgbColor = 0xFFC926;
 								}
 							}
 						}
@@ -195,6 +200,11 @@ public class HeresyBookScreen extends BookScreen
 								{
 								text.text[j].useOldColor = false;
 								text.text[j].rgbColor = 9236223;
+								}
+							else if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
+								{
+								text.text[j].useOldColor = false;
+								text.text[j].rgbColor = 0xFFC926;
 								}
 							}
 						}

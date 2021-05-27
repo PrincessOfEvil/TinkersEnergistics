@@ -25,7 +25,7 @@ import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -54,6 +54,7 @@ import princess.tenergistics.blocks.tileentity.PlacedToolTileEntity;
 import princess.tenergistics.blocks.tileentity.SearedCoilTileEntity;
 import princess.tenergistics.client.ToolTileEntityRenderer;
 import princess.tenergistics.data.EnergisticsLootTableProvider;
+import princess.tenergistics.data.EnergisticsMaterialProvider;
 import princess.tenergistics.data.EnergisticsRecipeProvider;
 import princess.tenergistics.data.TagProvider;
 import princess.tenergistics.items.EnergisticsBookItem;
@@ -85,6 +86,7 @@ import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.TileEntityTypeDeferredRegister;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.mantle.registration.object.ItemObject;
+import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.registration.BlockDeferredRegisterExtension;
 import slimeknights.tconstruct.common.registration.CastItemObject;
@@ -133,6 +135,8 @@ public class TEnergistics
 			.create(ForgeRegistries.ATTRIBUTES, TEnergistics.modID);
 	protected static final DeferredRegister<IRecipeSerializer<?>>						RECIPE_SERIALIZERS						= DeferredRegister
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, TEnergistics.modID);
+	protected static final DeferredRegister<SoundEvent>									SOUND_EVENTS							= DeferredRegister
+			.create(ForgeRegistries.SOUND_EVENTS, TEnergistics.modID);
 	
 	@SuppressWarnings("unused")
 	private static final Block.Properties												STONE									= builder(Material.ROCK, ToolType.PICKAXE, SoundType.METAL)
@@ -161,8 +165,10 @@ public class TEnergistics
 			.group(TinkerModule.TAB_GENERAL)
 			.maxStackSize(1);
 	
-	public static final ResourceLocation												ENERGY_STILL							= texture("energy", false);
-	public static final ResourceLocation												ENERGY_FLOWING							= texture("energy", true);
+	public static final SoundEvent														electricEvent							= new SoundEvent(new ResourceLocation(modID, "electric"));
+	
+	public static final ResourceLocation												ENERGY_STILL							= fluidTexture("energy", false);
+	public static final ResourceLocation												ENERGY_FLOWING							= fluidTexture("energy", true);
 	
 	protected static final Function<Block, ? extends BlockItem>							SMELTERY_BLOCK_ITEM						= (b) -> new BlockItem(b, SMELTERY_PROPS);
 	
@@ -178,7 +184,8 @@ public class TEnergistics
 																																		});
 	public static final FluidObject<ForgeFlowingFluid>									moltenEnergy							= FLUIDS
 			.registerNoBucket("molten_energy", hotBuilder(ENERGY_STILL, ENERGY_FLOWING).temperature(1100)
-					.density(3500), Material.LAVA, 14);
+					.density(3500)
+					.sound(electricEvent, Sounds.DISCHARGE.getSound()), Material.LAVA, 14);
 	
 	public static final RegistryObject<PlacedToolBlock>									placedToolBlock							= BLOCKS
 			.registerNoItem("placed_tool", () -> new PlacedToolBlock(TOOL_PROPERTIES));
@@ -187,9 +194,9 @@ public class TEnergistics
 	
 	public static final ItemObject<EnergisticsBookItem>									miraculousMachinery						= ITEMS
 			.register("miraculous_machinery", () -> new EnergisticsBookItem(BOOK, EnergisticsBookType.MIRACULOUS_MACHINERY));
-	
+	/*
 	public static final ItemObject<ToolPartItem>										machineCasing							= ITEMS
-			.register("machine_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));
+			.register("machine_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));*/
 	public static final ItemObject<ToolPartItem>										toolCasing								= ITEMS
 			.register("tool_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										gearbox									= ITEMS
@@ -201,9 +208,9 @@ public class TEnergistics
 			.register("bucketwheel_wheel", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										buzzsawDisc								= ITEMS
 			.register("buzzsaw_disc", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
-	
+	/*
 	public static final CastItemObject													machineCasingCast						= ITEMS
-			.registerCast("machine_casing", SMELTERY_PROPS);
+			.registerCast("machine_casing", SMELTERY_PROPS);*/
 	public static final CastItemObject													toolCasingCast							= ITEMS
 			.registerCast("tool_casing", SMELTERY_PROPS);
 	public static final CastItemObject													gearboxCast								= ITEMS
@@ -282,6 +289,9 @@ public class TEnergistics
 	public static final RegistryObject<SpecialRecipeSerializer<RefuelFireboxRecipe>>	tinkerStationFireboxRefuelSerializer	= RECIPE_SERIALIZERS
 			.register("tinker_station_firebox_refuel", () -> new SpecialRecipeSerializer<>(RefuelFireboxRecipe::new));
 	
+	public static final RegistryObject<SoundEvent>										electric								= SOUND_EVENTS
+			.register("electric", () -> electricEvent);
+	
 	public TEnergistics()
 		{
 		instance = this;
@@ -304,6 +314,7 @@ public class TEnergistics
 		MODIFIERS.register(bus);
 		ATTRIBUTES.register(bus);
 		RECIPE_SERIALIZERS.register(bus);
+		SOUND_EVENTS.register(bus);
 		}
 		
 	@SubscribeEvent
@@ -333,7 +344,7 @@ public class TEnergistics
 		{
 		RegistrationHelper.handleMissingMappings(event, modID, TEnergistics::missingBlock);
 		}
-	
+		
 	@SubscribeEvent
 	void missingItems(final MissingMappings<Item> event)
 		{
@@ -351,16 +362,21 @@ public class TEnergistics
 		{
 		if (event.includeServer())
 			{
-			DataGenerator datagenerator = event.getGenerator();
+			DataGenerator generator = event.getGenerator();
 			ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 			
-			TagProvider blockTagProvider = new TagProvider(datagenerator, modID, existingFileHelper);
-			datagenerator.addProvider(blockTagProvider);
-			datagenerator
-					.addProvider(new TagProvider.ItemTag(datagenerator, blockTagProvider, modID, existingFileHelper));
-			datagenerator.addProvider(new TagProvider.FluidTag(datagenerator, modID, existingFileHelper));
-			datagenerator.addProvider(new EnergisticsRecipeProvider(datagenerator));
-			datagenerator.addProvider(new EnergisticsLootTableProvider(datagenerator));
+			TagProvider blockTagProvider = new TagProvider(generator, modID, existingFileHelper);
+			generator.addProvider(blockTagProvider);
+			generator.addProvider(new TagProvider.ItemTag(generator, blockTagProvider, modID, existingFileHelper));
+			generator.addProvider(new TagProvider.FluidTag(generator, modID, existingFileHelper));
+			
+			EnergisticsMaterialProvider materials = new EnergisticsMaterialProvider(generator);
+			generator.addProvider(materials);
+			generator.addProvider(new EnergisticsMaterialProvider.StatsProvider(generator, materials));
+			generator.addProvider(new EnergisticsMaterialProvider.TraitProvider(generator, materials));
+			
+			generator.addProvider(new EnergisticsRecipeProvider(generator));
+			generator.addProvider(new EnergisticsLootTableProvider(generator));
 			}
 		}
 		
@@ -372,14 +388,10 @@ public class TEnergistics
 		
 	private static FluidAttributes.Builder hotBuilder(ResourceLocation stillTexture, ResourceLocation flowingTexture)
 		{
-		return FluidAttributes.builder(stillTexture, flowingTexture)
-				.density(2000)
-				.viscosity(10000)
-				.temperature(1000)
-				.sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA);
+		return FluidAttributes.builder(stillTexture, flowingTexture).density(2000).viscosity(10000).temperature(1000);
 		}
 		
-	private static ResourceLocation texture(String name, boolean flowing)
+	private static ResourceLocation fluidTexture(String name, boolean flowing)
 		{
 		return new ResourceLocation(TEnergistics.modID, ("block/fluid/" + name + (flowing ? "_flowing" : "_still")));
 		}

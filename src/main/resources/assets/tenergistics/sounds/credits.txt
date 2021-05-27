@@ -1,0 +1,7 @@
+All sounds that were not in ogg format were transcoded to Ogg Vorbis.
+All sounds are licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/3.0/) or CC0.
+This header is from Tinkers Construct and is presumably licensed under MIT.
+
+electric:
+JacobsLadderSingle2 by Halleck
+https://freesound.org/people/Halleck/sounds/19487/

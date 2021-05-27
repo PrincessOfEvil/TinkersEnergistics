@@ -30,6 +30,15 @@
     }
   },
   {
+    "name": "misc",
+    "data": "sections/misc.json",
+    "icon": {
+      "item": {
+        "id": "tenergistics:seared_coil"
+      }
+    }
+  },
+  {
     "name": "energistics_materials",
     "data": "sections/materials.json",
     "icon": {

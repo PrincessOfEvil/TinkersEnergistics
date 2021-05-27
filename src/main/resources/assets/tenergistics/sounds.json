@@ -1,0 +1,8 @@
+{
+    "electric": {
+        "category": "player",
+        "sounds": [
+            "tenergistics:electric"
+        ]
+    }
+}
