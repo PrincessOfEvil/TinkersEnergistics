@@ -1,0 +1,14 @@
+[
+  {
+    "type": "energistics_modifier",
+    "data": "modifiers/firebox.json"
+  },
+  {
+    "type": "energistics_modifier",
+    "data": "modifiers/exchanger.json"
+  },
+  {
+    "type": "energistics_modifier",
+    "data": "modifiers/energy_coil.json"
+  }
+]

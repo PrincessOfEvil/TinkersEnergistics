@@ -9,12 +9,15 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import princess.tenergistics.TEnergistics;
 import slimeknights.mantle.client.book.data.BookData;
 import slimeknights.mantle.client.screen.book.BookScreen;
 import slimeknights.mantle.client.screen.book.element.BookElement;
 import slimeknights.mantle.client.screen.book.element.TextElement;
 
+@OnlyIn(Dist.CLIENT)
 public class HeresyBookScreen extends BookScreen
 	{
 	private static final int				FFAAAAAA_TEXT			= 0xFF5AC5FA;

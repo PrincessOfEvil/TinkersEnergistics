@@ -8,14 +8,15 @@ import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import princess.tenergistics.TEnergistics;
 import princess.tenergistics.library.PowerSourceModifier;
-import princess.tenergistics.library.PoweredToolModifier;
 import princess.tenergistics.tools.PoweredTool;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
 import slimeknights.tconstruct.library.tools.nbt.IModifierToolStack;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class FireboxModifier extends PowerSourceModifier
 	{
@@ -42,18 +43,24 @@ public class FireboxModifier extends PowerSourceModifier
 		
 		if (dirty)
 			{
-			time *= FIRETICKS_PER_FUEL;
-			fuel.split(1);
+			int ticks = 0;
+			long needed = fuelPerTick(tool);
+			
+			while (ticks < needed && !fuel.isEmpty())
+				{
+				ticks += time * FIRETICKS_PER_FUEL;
+				fuel.split(1);
+				}
 			
 			PoweredTool.setItemStack(tool, fuel);
-			data.putInt(PoweredTool.TICKER, time);
-			data.putInt(PoweredTool.TICKER_MAX, time);
+			data.putInt(PoweredTool.TICKER, ticks);
+			data.putInt(PoweredTool.TICKER_MAX, ticks);
 			data.putInt(PoweredTool.TICKER_LEFTOVER, -1);
 			}
 			
 		return true;
 		}
-		
+	
 	@Override
 	public void addVolatileData(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, int level, ModDataNBT volatileData)
 		{
@@ -70,10 +77,7 @@ public class FireboxModifier extends PowerSourceModifier
 			if (holder.ticksExisted % (20 / TICKDOWN_PER_SECOND) == data
 					.getInt(PoweredTool.TICKER_LEFTOVER) /* && holder.getActiveItemStack() != stack*/)
 				{
-				data.putInt(PoweredTool.TICKER, (int) Math
-						.max(data.getInt(PoweredTool.TICKER) - TICKDOWN_PER_SECOND * Math
-								.round(Math.ceil(tool.getStats().getMiningSpeed() / (tool.getVolatileData()
-										.getFloat(PoweredToolModifier.EFFICIENCY)))), 0));
+				data.putInt(PoweredTool.TICKER, (int) Math.max(data.getInt(PoweredTool.TICKER) - fuelPerTick(tool), 0));
 				}
 				
 			if (data.getInt(PoweredTool.TICKER_LEFTOVER) == -1) data
@@ -128,5 +132,11 @@ public class FireboxModifier extends PowerSourceModifier
 		{
 		int capacity = PoweredTool.getItemCapacity(tool);
 		return Math.min(capacity, stack.getMaxStackSize() * (((capacity - 1) / 64) + 1));
+		}
+		
+	protected static long fuelPerTick(IModifierToolStack tool)
+		{
+		return TICKDOWN_PER_SECOND * Math.round(Math.ceil(tool.getStats()
+				.getFloat(ToolStats.MINING_SPEED) / (tool.getStats().getFloat(TEnergistics.EFFICIENCY))));
 		}
 	}

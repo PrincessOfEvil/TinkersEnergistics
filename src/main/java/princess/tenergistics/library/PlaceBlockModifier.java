@@ -38,7 +38,7 @@ public abstract class PlaceBlockModifier extends SingleUseModifier
 		}
 		
 	@Override
-	public ActionResultType onBlockUse(IModifierToolStack tool, int level, ItemUseContext context)
+	public ActionResultType afterBlockUse(IModifierToolStack tool, int level, ItemUseContext context)
 		{
 		return tryPlace(new BlockItemUseContext(context));
 		}

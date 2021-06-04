@@ -2,10 +2,14 @@
 intro=Introduction
 lost_pages=Eternal Knowledge
 tools=Mystical Apparatus
-modifiers=Vigorous Hearts
+energistics_modifiers_hearts=Vigorous Hearts
+energistics_modifiers=Ancillary Alterants
 energistics_materials=Arcane Materials
+energistics_machine_materials=Machinery Medium
 misc=Auxiliary Hardware
 coil=Seared Element
+
+blank=
 
 modifier.effect=Attendum:
 tool.properties=Conclusion:

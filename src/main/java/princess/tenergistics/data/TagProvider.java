@@ -69,6 +69,7 @@ public class TagProvider extends BlockTagsProvider
 			this.getOrCreateBuilder(TinkerTags.Items.TOOL_PARTS)
 					.add(TEnergistics.toolCasing.get(), TEnergistics.gearbox.get(), TEnergistics.jackhammerRod
 							.get(), TEnergistics.bucketwheelWheel.get(), TEnergistics.buzzsawDisc.get());
+			this.getOrCreateBuilder(TinkerTags.Items.GUIDEBOOKS).add(TEnergistics.miraculousMachinery.get());
 			}
 			
 		private void addTools()

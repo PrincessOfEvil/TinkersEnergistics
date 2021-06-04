@@ -13,11 +13,13 @@ import lombok.ToString;
 import lombok.With;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import princess.tenergistics.TEnergistics;
 import slimeknights.tconstruct.library.materials.stats.BaseMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
+import slimeknights.tconstruct.library.tools.stat.IToolStat;
 
 @Getter
 @NoArgsConstructor
@@ -31,16 +33,22 @@ public class GearboxMaterialStats extends BaseMaterialStats
 	public static final GearboxMaterialStats	DEFAULT					= new GearboxMaterialStats(1f, 1f);
 	
 	private static final String					EFFICIENCY_PREFIX		= makeTooltipKey("gearbox.efficiency");
-	private static final String					SPEED_PREFIX			= makeTooltipKey("gearbox.speed");
+	private static final String					SPEED_PREFIX			= makeTooltipKey("gearbox.machine_speed");
 	
 	private static final ITextComponent			EFFICIENCY_DESCRIPTION	= makeTooltip("gearbox.efficiency.description");
-	private static final ITextComponent			SPEED_DESCRIPTION		= makeTooltip("gearbox.speed.description");
+	private static final ITextComponent			SPEED_DESCRIPTION		= makeTooltip("gearbox.machine_speed.description");
 	private static final List<ITextComponent>	DESCRIPTION				= ImmutableList
 			.of(EFFICIENCY_DESCRIPTION, SPEED_DESCRIPTION);
 	
 	private float								efficiency;
 	private float								speed;
 	
+	@Override
+	public IFormattableTextComponent getLocalizedName()
+		{
+		return new TranslationTextComponent(String.format("stat.%s.%s", this.getIdentifier().getNamespace(), this.getIdentifier().getPath()));
+		}
+		
 	@Override
 	public MaterialStatsId getIdentifier()
 		{
@@ -51,8 +59,8 @@ public class GearboxMaterialStats extends BaseMaterialStats
 	public List<ITextComponent> getLocalizedInfo()
 		{
 		List<ITextComponent> list = new ArrayList<>();
-		list.add(formatColoredMultiplier(EFFICIENCY_PREFIX, efficiency));
-		list.add(formatColoredMultiplier(SPEED_PREFIX, speed));
+		list.add(IToolStat.formatColoredMultiplier(EFFICIENCY_PREFIX, efficiency));
+		list.add(IToolStat.formatColoredMultiplier(SPEED_PREFIX, speed));
 		return list;
 		}
 		

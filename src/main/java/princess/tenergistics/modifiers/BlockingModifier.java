@@ -98,6 +98,7 @@ public class BlockingModifier extends SingleUseModifier
 	@SubscribeEvent
 	protected void renderThirdPerson(RenderPlayerEvent.Pre event)
 		{
+		//TODO: change to semi-raw access for cheapness reasons
 		ToolStack tool = ToolStack.from(event.getPlayer().getActiveItemStack());
 		
 		if (tool.getModifierLevel(this) > 0)

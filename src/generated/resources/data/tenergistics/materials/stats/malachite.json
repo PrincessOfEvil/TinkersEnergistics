@@ -12,6 +12,10 @@
       "miningSpeed": 6.0,
       "harvestLevel": 2,
       "attack": 1.5
+    },
+    "tenergistics:gearbox": {
+      "efficiency": 0.6,
+      "speed": 1.1
     }
   }
 }

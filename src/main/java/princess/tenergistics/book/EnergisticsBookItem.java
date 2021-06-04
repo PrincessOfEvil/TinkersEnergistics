@@ -1,4 +1,4 @@
-package princess.tenergistics.items;
+package princess.tenergistics.book;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,8 +9,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import princess.tenergistics.TEnergistics;
-import princess.tenergistics.book.EnergisticsMaterialSectionTransformer;
-import princess.tenergistics.book.HeresyBookScreen;
 import slimeknights.mantle.client.book.BookLoader;
 import slimeknights.mantle.client.book.BookTransformer;
 import slimeknights.mantle.client.book.data.BookData;
@@ -63,16 +61,20 @@ public class EnergisticsBookItem extends TooltipItem
 		
 		public static void initBook()
 			{
+		    BookLoader.registerPageType(EnergisticsContentModifier.ID, EnergisticsContentModifier.class);
 			addData(MIRACULOUS_MACHINERY, MIRACULOUS_MACHINERY_ID);
 			}
 			
 		private static void addData(BookData book, ResourceLocation id)
 			{
 			book.addRepository(new FileRepository(id.getNamespace() + ":book/" + id.getPath()));
-			book.addTransformer(new MaterialSectionTransformer());
 			book.addTransformer(new ToolSectionTransformer());
+			book.addTransformer(new MaterialSectionTransformer());
 			book.addTransformer(new ModifierSectionTransformer());
 			book.addTransformer(new EnergisticsMaterialSectionTransformer());
+			book.addTransformer(new EnergisticsModifierSectionTransformer());
+			book.addTransformer(new EnergisticsModifierSectionTransformer.HeartSectionTransformer());
+			book.addTransformer(new MachineMaterialSectionTransformer());
 			book.addTransformer(BookTransformer.indexTranformer());
 			}
 			

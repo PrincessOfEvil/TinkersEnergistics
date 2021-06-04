@@ -52,13 +52,13 @@ import princess.tenergistics.blocks.PlacedToolBlock;
 import princess.tenergistics.blocks.SearedCoilBlock;
 import princess.tenergistics.blocks.tileentity.PlacedToolTileEntity;
 import princess.tenergistics.blocks.tileentity.SearedCoilTileEntity;
+import princess.tenergistics.book.EnergisticsBookItem;
+import princess.tenergistics.book.EnergisticsBookItem.EnergisticsBookType;
 import princess.tenergistics.client.ToolTileEntityRenderer;
 import princess.tenergistics.data.EnergisticsLootTableProvider;
 import princess.tenergistics.data.EnergisticsMaterialProvider;
 import princess.tenergistics.data.EnergisticsRecipeProvider;
 import princess.tenergistics.data.TagProvider;
-import princess.tenergistics.items.EnergisticsBookItem;
-import princess.tenergistics.items.EnergisticsBookItem.EnergisticsBookType;
 import princess.tenergistics.library.PoweredToolModifier;
 import princess.tenergistics.modifiers.BlockingModifier;
 import princess.tenergistics.modifiers.CapacityModifier;
@@ -81,6 +81,7 @@ import princess.tenergistics.tools.BuzzsawTool;
 import princess.tenergistics.tools.JackhammerTool;
 import princess.tenergistics.tools.ToolDefinitions;
 import princess.tenergistics.tools.stats.GearboxMaterialStats;
+import princess.tenergistics.tools.stats.PercentageToolStat;
 import slimeknights.mantle.registration.RegistrationHelper;
 import slimeknights.mantle.registration.deferred.ContainerTypeDeferredRegister;
 import slimeknights.mantle.registration.deferred.TileEntityTypeDeferredRegister;
@@ -103,13 +104,15 @@ import slimeknights.tconstruct.library.tinkering.MaterialItem;
 import slimeknights.tconstruct.library.tools.item.ToolCore;
 import slimeknights.tconstruct.library.tools.item.ToolPartItem;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
+import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
+import slimeknights.tconstruct.library.tools.stat.ToolStatId;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.shared.CommonsClientEvents;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.component.SearedBlock;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
-import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 @Mod(TEnergistics.modID)
@@ -200,7 +203,7 @@ public class TEnergistics
 	public static final ItemObject<ToolPartItem>										toolCasing								= ITEMS
 			.register("tool_casing", () -> new ToolPartItem(PARTS_PROPS, ExtraMaterialStats.ID));
 	public static final ItemObject<ToolPartItem>										gearbox									= ITEMS
-			.register("gearbox", () -> new ToolPartItem(PARTS_PROPS, HandleMaterialStats.ID));
+			.register("gearbox", () -> new ToolPartItem(PARTS_PROPS, GearboxMaterialStats.ID));
 	
 	public static final ItemObject<ToolPartItem>										jackhammerRod							= ITEMS
 			.register("jackhammer_rod", () -> new ToolPartItem(PARTS_PROPS, HeadMaterialStats.ID));
@@ -291,6 +294,11 @@ public class TEnergistics
 	
 	public static final RegistryObject<SoundEvent>										electric								= SOUND_EVENTS
 			.register("electric", () -> electricEvent);
+	
+	public static final PercentageToolStat												EFFICIENCY								= ToolStats
+			.register(new PercentageToolStat(new ToolStatId(modID, "efficiency"), 0xff_21dffc, 1, 0, 1024f));
+	public static final FloatToolStat													MACHINE_SPEED							= ToolStats
+			.register(new FloatToolStat(new ToolStatId(modID, "machine_speed"), 0xff_fc3b21, 0, 0, 2048f));
 	
 	public TEnergistics()
 		{

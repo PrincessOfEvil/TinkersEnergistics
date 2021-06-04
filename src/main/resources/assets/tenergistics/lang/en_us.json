@@ -16,6 +16,14 @@
     
     "tenergistics.attribute.name.generic.fake_harvest_speed": "Mining Speed",
     
+    "stat.tenergistics.gearbox": "Gearbox",
+    "stat.tenergistics.gearbox.efficiency": "Efficiency: ",
+    "stat.tenergistics.gearbox.efficiency.description": "The total efficiency of the machine will be multiplied by this.",
+    "stat.tenergistics.gearbox.machine_speed": "Machine Speed: ",
+    "stat.tenergistics.gearbox.machine_speed.description": "The total machine speed of the machine will be multiplied by this.\nAffects mining speed and attack damage of power tools.",
+    "tool_stat.tenergistics.efficiency": "Efficiency: ",
+    "tool_stat.tenergistics.machine_speed": "Machine Speed: ",
+    
     "material.tenergistics.malachite": "Malachite",
     "material.tenergistics.malachite.book": "It's too bad you can't see the patterns on a sprite this small",
     "material.tenergistics.glaucodot": "Glaucodot",
@@ -34,8 +42,6 @@
     "item.tenergistics.jackhammer_rod": "Jackhammer Head",
     "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
     "item.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
-    
-    "modifier.tenergistics.powered.extra_tooltip": "Efficiency: %.5f%%",
 
     "item.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox": "Flogiston Extractor",
@@ -98,7 +104,6 @@
     "modifier.tenergistics.overclock_trait": "Overclock",
     "modifier.tenergistics.overclock_trait.flavor": "More speed! More damage! MOOOORE!",
     "modifier.tenergistics.overclock_trait.description": "Increases the tool stats, but causes it to take exponentially more damage.",
-    "modifier.tenergistics.overclock.extra_tooltip": "Boost: %sx",
     
     "modifier.tenergistics.wide_chisel": "Wide Chisel",
     "modifier.tenergistics.wide_chisel.flavor": "Spinet Fantasia!",

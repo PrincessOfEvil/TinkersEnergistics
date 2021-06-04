@@ -23,7 +23,7 @@ public class PlaceToolModifier extends PlaceBlockModifier
 		}
 		
 	@Override
-	public ActionResultType onBlockUse(IModifierToolStack tool, int level, ItemUseContext context)
+	public ActionResultType afterBlockUse(IModifierToolStack tool, int level, ItemUseContext context)
 		{
 		PlayerEntity player = context.getPlayer();
 		if (player == null || player.isSneaking())

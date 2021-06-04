@@ -4,11 +4,12 @@ import net.minecraft.util.ResourceLocation;
 import princess.tenergistics.TEnergistics;
 import princess.tenergistics.tools.ToolDefinitions;
 import slimeknights.tconstruct.library.modifiers.SingleUseModifier;
-import slimeknights.tconstruct.library.tools.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.ToolDefinition;
 import slimeknights.tconstruct.library.tools.nbt.IModDataReadOnly;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
+import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
+import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class WidePrincessModifier extends SingleUseModifier
 	{
@@ -22,7 +23,7 @@ public class WidePrincessModifier extends SingleUseModifier
 	@Override
 	public void addToolStats(ToolDefinition toolDefinition, StatsNBT baseStats, IModDataReadOnly persistentData, IModDataReadOnly volatileData, int level, ModifierStatsBuilder builder)
 		{		
-		builder.multiplyMiningSpeed(ToolDefinitions.MEDIUM_SPEED_MULTIPLIER);
+		ToolStats.MINING_SPEED.multiply(builder, ToolDefinitions.MEDIUM_SPEED_MULTIPLIER);
 		}
 		
 	@Override

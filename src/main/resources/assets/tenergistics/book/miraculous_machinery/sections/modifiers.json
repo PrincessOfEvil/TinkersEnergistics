@@ -1,46 +1,38 @@
 [
   {
-    "type": "modifier",
-    "data": "modifiers/firebox.json"
-  },
-  {
-    "type": "modifier",
-    "data": "modifiers/exchanger.json"
-  },
-  {
-    "type": "modifier",
-    "data": "modifiers/energy_coil.json"
-  },
-  {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/wide_chisel.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/overclock.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/capacity.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/wide_funnel.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/passthrough.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/rtg.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/force_field.json"
   },
   {
-    "type": "modifier",
+    "type": "energistics_modifier",
     "data": "modifiers/place_tool.json"
+  },
+  {
+    "type": "blank",
+    "name": "blank"
   }
 ]

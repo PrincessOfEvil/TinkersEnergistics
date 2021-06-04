@@ -21,11 +21,20 @@
     }
   },
   {
-    "name": "modifiers",
-    "data": "sections/modifiers.json",
+    "name": "energistics_modifiers_hearts",
+    "data": "sections/hearts.json",
     "icon": {
       "item": {
         "id": "minecraft:heart_of_the_sea"
+      }
+    }
+  },
+  {
+    "name": "energistics_modifiers",
+    "data": "sections/modifiers.json",
+    "icon": {
+      "item": {
+        "id": "minecraft:redstone_lamp"
       }
     }
   },
@@ -45,6 +54,16 @@
       "item": {
         "id": "tconstruct:pickaxe_head",
         "nbt": {"Material" : "tenergistics:malachite"}
+      }
+    }
+  },
+  {
+    "name": "energistics_machine_materials",
+    "data": "sections/machine_materials.json",
+    "icon": {
+      "item": {
+        "id": "tenergistics:gearbox",
+        "nbt": {"Material" : "tconstruct:rose_gold"}
       }
     }
   }
