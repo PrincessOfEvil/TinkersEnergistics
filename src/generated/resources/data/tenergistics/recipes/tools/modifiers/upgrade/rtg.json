@@ -2,13 +2,13 @@
   "type": "tconstruct:modifier",
   "inputs": [
     {
-      "item": "tconstruct:molten_blaze_bucket"
+      "item": "tconstruct:blazing_blood_bucket"
     },
     {
       "tag": "forge:ingots/rose_gold"
     },
     {
-      "item": "tconstruct:molten_blaze_bucket"
+      "item": "tconstruct:blazing_blood_bucket"
     },
     {
       "item": "minecraft:blue_ice"

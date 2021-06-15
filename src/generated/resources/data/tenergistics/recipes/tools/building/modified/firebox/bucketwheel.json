@@ -1,0 +1,13 @@
+{
+  "type": "tenergistics:modified_tool_building",
+  "inputs": [
+    {
+      "item": "tenergistics:firebox"
+    }
+  ],
+  "modifier": {
+    "name": "tenergistics:firebox",
+    "level": 1
+  },
+  "result": "tenergistics:bucketwheel"
+}

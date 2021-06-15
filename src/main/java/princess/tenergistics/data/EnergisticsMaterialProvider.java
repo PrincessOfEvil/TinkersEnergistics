@@ -17,8 +17,8 @@ import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 
 public class EnergisticsMaterialProvider extends AbstractMaterialDataProvider
 	{
-	public static final MaterialId	malachite	= id("malachite");
-	public static final MaterialId	glaucodot	= id("glaucodot");
+	public static final MaterialId	malachite		= id("malachite");
+	public static final MaterialId	glaucodot		= id("glaucodot");
 	
 	public EnergisticsMaterialProvider(DataGenerator gen)
 		{
@@ -98,7 +98,6 @@ public class EnergisticsMaterialProvider extends AbstractMaterialDataProvider
 			addMaterialStats(MaterialIds.steel, new GearboxMaterialStats(1.3f, 1.15f));
 			addMaterialStats(MaterialIds.constantan, new GearboxMaterialStats(0.8f, 1.25f));
 			
-
 			//T3.3
 			addMaterialStats(MaterialIds.cobalt, new GearboxMaterialStats(1f, 1.2f));
 			

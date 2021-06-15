@@ -1,12 +1,15 @@
 package princess.tenergistics.book;
 
+import java.util.function.Consumer;
+
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,13 +30,13 @@ public class HeresyBookScreen extends BookScreen
 	public static final ResourceLocation	TEX_BOOK_HERESY			= new ResourceLocation(TEnergistics.modID, "textures/gui/book/book.png");
 	public static final ResourceLocation	TEX_BOOKFRONT_HERESY	= new ResourceLocation(TEnergistics.modID, "textures/gui/book/bookfront.png");
 	
-	public HeresyBookScreen(ITextComponent title, BookData book, ItemStack item)
+	public HeresyBookScreen(ITextComponent title, BookData book, String page, @Nullable Consumer<String> pageUpdater)
 		{
-		super(title, book, item);
+		super(title, book, page, pageUpdater);
 		}
 		
+	@SuppressWarnings("deprecation")
 	@Override
-	@SuppressWarnings({ "deprecation" })
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 		{
 		initWidthsAndHeights();
@@ -141,11 +144,12 @@ public class HeresyBookScreen extends BookScreen
 								text.text[j].useOldColor = false;
 								text.text[j].rgbColor = 0x8CEEFF;
 								}
-							else if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
-								{
-								text.text[j].useOldColor = false;
-								text.text[j].rgbColor = 0xFFC926;
-								}
+							else
+								if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
+									{
+									text.text[j].useOldColor = false;
+									text.text[j].rgbColor = 0xFFC926;
+									}
 							}
 						}
 					element.draw(matrixStack, mX, mY, partialTicks, fontRenderer);
@@ -204,11 +208,12 @@ public class HeresyBookScreen extends BookScreen
 								text.text[j].useOldColor = false;
 								text.text[j].rgbColor = 9236223;
 								}
-							else if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
-								{
-								text.text[j].useOldColor = false;
-								text.text[j].rgbColor = 0xFFC926;
-								}
+							else
+								if (text.text[j].useOldColor && text.text[j].color.equals("dark red"))
+									{
+									text.text[j].useOldColor = false;
+									text.text[j].rgbColor = 0xFFC926;
+									}
 							}
 						}
 					RenderSystem.color4f(1F, 1F, 1F, 1F);

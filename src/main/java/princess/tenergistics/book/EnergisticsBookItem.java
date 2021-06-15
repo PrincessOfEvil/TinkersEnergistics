@@ -7,18 +7,20 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import princess.tenergistics.TEnergistics;
+import slimeknights.mantle.client.book.BookHelper;
 import slimeknights.mantle.client.book.BookLoader;
 import slimeknights.mantle.client.book.BookTransformer;
 import slimeknights.mantle.client.book.data.BookData;
 import slimeknights.mantle.client.book.repository.FileRepository;
-import slimeknights.mantle.item.TooltipItem;
+import slimeknights.mantle.item.LecternBookItem;
 import slimeknights.tconstruct.library.book.sectiontransformer.ModifierSectionTransformer;
 import slimeknights.tconstruct.library.book.sectiontransformer.ToolSectionTransformer;
 import slimeknights.tconstruct.library.book.sectiontransformer.materials.MaterialSectionTransformer;
 
-public class EnergisticsBookItem extends TooltipItem
+public class EnergisticsBookItem extends LecternBookItem
 	{
 	//C O P Y P A S T I N G
 	private final EnergisticsBookType bookType;
@@ -32,7 +34,7 @@ public class EnergisticsBookItem extends TooltipItem
 	@SuppressWarnings("resource")
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
 		{
-		ItemStack itemStack = playerIn.getHeldItem(handIn);
+		ItemStack stack = playerIn.getHeldItem(handIn);
 		if (worldIn.isRemote)
 			{
 			BookData book = EnergisticsBook.getBook(bookType);
@@ -40,10 +42,13 @@ public class EnergisticsBookItem extends TooltipItem
 			book.load();
 			if (Minecraft.getInstance().player != null)
 				{
-				Minecraft.getInstance().displayGuiScreen(new HeresyBookScreen(getDisplayName(itemStack), book, itemStack));
+				String page = BookHelper.getCurrentSavedPage(stack);
+				Minecraft.getInstance()
+						.displayGuiScreen(new HeresyBookScreen(getDisplayName(stack), book, page, newPage -> BookLoader
+								.updateSavedPage(Minecraft.getInstance().player, handIn, newPage)));
 				}
 			}
-		return new ActionResult<>(ActionResultType.SUCCESS, itemStack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
 		
 	public enum EnergisticsBookType
@@ -61,7 +66,7 @@ public class EnergisticsBookItem extends TooltipItem
 		
 		public static void initBook()
 			{
-		    BookLoader.registerPageType(EnergisticsContentModifier.ID, EnergisticsContentModifier.class);
+			BookLoader.registerPageType(EnergisticsContentModifier.ID, EnergisticsContentModifier.class);
 			addData(MIRACULOUS_MACHINERY, MIRACULOUS_MACHINERY_ID);
 			}
 			
@@ -82,5 +87,17 @@ public class EnergisticsBookItem extends TooltipItem
 			{
 			return MIRACULOUS_MACHINERY;
 			}
+		}
+		
+	@Override
+	public void openLecternScreenClient(BlockPos pos, ItemStack stack)
+		{
+		BookData book = EnergisticsBook.getBook(bookType);
+		book.load();
+		String page = BookHelper.getCurrentSavedPage(stack);
+		
+		Minecraft.getInstance()
+				.displayGuiScreen(new HeresyBookScreen(stack
+						.getDisplayName(), book, page, newPage -> BookLoader.updateSavedPage(pos, newPage)));
 		}
 	}

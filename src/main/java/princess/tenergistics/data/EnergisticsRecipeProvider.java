@@ -22,6 +22,7 @@ import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import princess.tenergistics.TEnergistics;
+import princess.tenergistics.recipes.ModifiedToolRecipeSerializer;
 import slimeknights.mantle.recipe.SizedIngredient;
 import slimeknights.mantle.recipe.ingredient.IngredientWithout;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -29,6 +30,7 @@ import slimeknights.tconstruct.common.registration.CastItemObject;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.materials.MaterialId;
 import slimeknights.tconstruct.library.materials.MaterialValues;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.casting.material.CompositeCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingRecipeBuilder;
@@ -106,9 +108,9 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		String upgradeFolder = modifierFolder + "upgrade/";
 		String powerGroup = "tenergistics:power_modifiers";
 		
-		addBuildingRecipe(consumer, TEnergistics.jackhammer);
-		addBuildingRecipe(consumer, TEnergistics.bucketwheel);
-		addBuildingRecipe(consumer, TEnergistics.buzzsaw);
+		addMachineBuildingRecipe(consumer, TEnergistics.jackhammer);
+		addMachineBuildingRecipe(consumer, TEnergistics.bucketwheel);
+		addMachineBuildingRecipe(consumer, TEnergistics.buzzsaw);
 		
 		ShapedRecipeBuilder.shapedRecipe(TEnergistics.firebox)
 				.key('-', TinkerSmeltery.searedBrick)
@@ -220,9 +222,9 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 				.build(consumer, prefixR(TEnergistics.passthroughModifier, upgradeFolder));
 		
 		ModifierRecipeBuilder.modifier(TEnergistics.rtgModifier.get())
-				.addInput(TinkerFluids.moltenBlaze.asItem())
+				.addInput(TinkerFluids.blazingBlood.asItem())
 				.addInput(TinkerMaterials.roseGold.getIngotTag())
-				.addInput(TinkerFluids.moltenBlaze.asItem())
+				.addInput(TinkerFluids.blazingBlood.asItem())
 				.addInput(Items.BLUE_ICE)
 				.addInput(Items.BLUE_ICE)
 				.setUpgradeSlots(1)
@@ -421,6 +423,25 @@ public class EnergisticsRecipeProvider extends RecipeProvider implements ICondit
 		String name = Objects.requireNonNull(toolCore.getRegistryName()).getPath();
 		
 		ToolBuildingRecipeBuilder.toolBuildingRecipe(toolCore).build(consumer, location("tools/building/" + name));
+		}
+		
+	private void addMachineBuildingRecipe(Consumer<IFinishedRecipe> consumer, Supplier<? extends ToolCore> sup)
+		{
+		addBuildingRecipe(consumer, sup);
+
+		ToolCore toolCore = sup.get();
+		ModifiedToolRecipeSerializer.Builder.modifiedToolBuildingRecipe(toolCore)
+				.setInputs(Ingredient.fromItems(TEnergistics.firebox))
+				.setModifier(new ModifierEntry(TEnergistics.fireboxModifier.get(), 1))
+				.build(consumer, prefix(toolCore, "tools/building/modified/firebox/"));
+		ModifiedToolRecipeSerializer.Builder.modifiedToolBuildingRecipe(toolCore)
+				.setInputs(Ingredient.fromItems(TEnergistics.exchanger))
+				.setModifier(new ModifierEntry(TEnergistics.exchangerModifier.get(), 1))
+				.build(consumer, prefix(toolCore, "tools/building/modified/exchanger/"));
+		ModifiedToolRecipeSerializer.Builder.modifiedToolBuildingRecipe(toolCore)
+				.setInputs(Ingredient.fromItems(TEnergistics.energyCoil))
+				.setModifier(new ModifierEntry(TEnergistics.energyCoilModifier.get(), 1))
+				.build(consumer, prefix(toolCore, "tools/building/modified/energy_coil/"));
 		}
 		
 	protected static ResourceLocation location(String id)

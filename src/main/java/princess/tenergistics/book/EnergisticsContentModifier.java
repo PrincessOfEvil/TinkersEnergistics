@@ -21,7 +21,7 @@ import slimeknights.mantle.client.screen.book.element.TextElement;
 import slimeknights.mantle.recipe.RecipeHelper;
 import slimeknights.tconstruct.library.TinkerRegistries;
 import slimeknights.tconstruct.library.book.content.ContentModifier;
-import slimeknights.tconstruct.library.client.screen.book.element.CycleRecipeElement;
+import slimeknights.tconstruct.library.book.elements.CycleRecipeElement;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.recipe.RecipeTypes;

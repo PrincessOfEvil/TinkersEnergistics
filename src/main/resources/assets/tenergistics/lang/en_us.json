@@ -1,6 +1,7 @@
 {
     "block.tenergistics.seared_coil": "Seared Element",
     "block.tenergistics.scorched_coil": "Scorched Element",
+    "block.tenergistics.energy": "%s Forge Units",
     "block.tenergistics.energy.drained": "Drained %s Forge Units",
     "block.tenergistics.energy.filled": "Filled %s Forge Units",
     "fluid.tenergistics.molten_energy": "Forge Units",
@@ -37,11 +38,16 @@
     "item.tenergistics.buzzsaw.description":"The Buzzaxe is a powered tree decimation tool, strong enough to harvest entire trees.\nBETA:Harvests a veining pattern.\nBzzz!",
 
     "item.tenergistics.tool_casing": "Tool Casing",
+    "pattern.tenergistics.tool_casing": "Tool Casing",
     "item.tenergistics.gearbox": "Gearbox",
+    "pattern.tenergistics.gearbox": "Gearbox",
 
     "item.tenergistics.jackhammer_rod": "Jackhammer Head",
+    "pattern.tenergistics.jackhammer_rod": "Jackhammer Head",
     "item.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
+    "pattern.tenergistics.buzzsaw_disc": "Buzzaxe Blade",
     "item.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
+    "pattern.tenergistics.bucketwheel_wheel": "Dredge Bucket Wheel",
 
     "item.tenergistics.firebox": "Flogiston Extractor",
     "modifier.tenergistics.firebox": "Flogiston Extractor",

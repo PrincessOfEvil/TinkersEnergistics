@@ -15,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -55,6 +56,18 @@ public class SearedCoilBlock extends SearedBlock
 			return ActionResultType.SUCCESS;
 			}
 		return super.onBlockActivated(state, world, pos, player, hand, hit);
+		}
+		
+	@Override
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
+		{
+		ItemStack stack = new ItemStack(this);
+		TileEntityHelper.getTile(SearedCoilTileEntity.class, world, pos).ifPresent(te -> {
+		CompoundNBT tag = new CompoundNBT();
+		tag.putInt(SearedCoilTileEntity.TAG_ENERGY, te.getEnergy());
+		stack.setTag(tag);
+		});
+		return stack;
 		}
 		
 	@Override
@@ -121,7 +134,7 @@ public class SearedCoilBlock extends SearedBlock
 						}
 					}
 				}
-		      return true;
+			return true;
 			}
 		return false;
 		}

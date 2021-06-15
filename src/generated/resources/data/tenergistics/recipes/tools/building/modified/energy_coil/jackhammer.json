@@ -1,0 +1,13 @@
+{
+  "type": "tenergistics:modified_tool_building",
+  "inputs": [
+    {
+      "item": "tenergistics:energy_coil"
+    }
+  ],
+  "modifier": {
+    "name": "tenergistics:energy_coil",
+    "level": 1
+  },
+  "result": "tenergistics:jackhammer"
+}

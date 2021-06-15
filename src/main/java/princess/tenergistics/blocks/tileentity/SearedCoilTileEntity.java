@@ -24,7 +24,7 @@ import slimeknights.tconstruct.smeltery.tileentity.SmelteryComponentTileEntity;
 
 public class SearedCoilTileEntity extends SmelteryComponentTileEntity implements FluidUpdatePacket.IFluidPacketReceiver
 	{
-	private static final int				CAPACITY	= 16000;
+	public static final int					CAPACITY	= 16000;
 	
 	public static final String				TAG_ENERGY	= "energy";
 	
@@ -81,14 +81,14 @@ public class SearedCoilTileEntity extends SmelteryComponentTileEntity implements
 	public void writeSynced(CompoundNBT tags)
 		{
 		super.writeSynced(tags);
-		tags.putInt(TAG_ENERGY, energy.getEnergyStored());
+		tags.putInt(TAG_ENERGY, getEnergy());
 		}
 		
 	@Override
 	public CompoundNBT write(CompoundNBT tags)
 		{
 		super.write(tags);
-		tags.putInt(TAG_ENERGY, energy.getEnergyStored());
+		tags.putInt(TAG_ENERGY, getEnergy());
 		return tags;
 		}
 		
@@ -98,9 +98,14 @@ public class SearedCoilTileEntity extends SmelteryComponentTileEntity implements
 		setEnergy(fluid.getAmount());
 		}
 		
+	public int getEnergy()
+		{
+		return energy.getEnergyStored();
+		}
+		
 	public void setEnergy(int energySet)
 		{
-		int energyIn = energySet - energy.getEnergyStored();
+		int energyIn = energySet - getEnergy();
 		if (energyIn >= 0)
 			{
 			energy.receiveEnergy(energyIn, false);

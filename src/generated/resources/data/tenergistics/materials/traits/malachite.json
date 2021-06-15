@@ -4,5 +4,13 @@
       "name": "tenergistics:capacity_trait",
       "level": 1
     }
-  ]
+  ],
+  "perStat": {
+    "tenergistics:gearbox": [
+      {
+        "name": "tenergistics:capacity_trait",
+        "level": 1
+      }
+    ]
+  }
 }
